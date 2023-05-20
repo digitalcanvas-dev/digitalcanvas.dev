@@ -5,7 +5,8 @@ node_modules
 preferences.arc
 sam.json
 sam.yaml
-.env
+.env*
+!.env.example
 
 /cypress/screenshots
 /cypress/videos
