@@ -15,7 +15,9 @@
     "typecheck": "tsc && tsc -p cypress",
     "validate": "run-p \"test -- --run\" lint typecheck test:e2e:run"
   },
-  "prettier": {},
+  "prettier": {
+    "singleQuote": false
+  },
   "eslintIgnore": [
     "/node_modules",
     "/server/index.js",
@@ -24,12 +26,16 @@
   "dependencies": {
     "@architect/architect": "^10.11.2",
     "@architect/functions": "^5.4.0",
+    "@emotion/react": "^11.11.0",
+    "@mantine/core": "^6.0.11",
+    "@mantine/hooks": "^6.0.11",
     "@paralleldrive/cuid2": "^2.2.0",
     "@remix-run/architect": "^1.16.1",
     "@remix-run/css-bundle": "^1.16.1",
     "@remix-run/node": "^1.16.1",
     "@remix-run/react": "^1.16.1",
     "@remix-run/server-runtime": "^1.16.1",
+    "@tabler/icons-react": "^2.20.0",
     "bcryptjs": "2.4.3",
     "isbot": "^3.6.8",
     "react": "^18.2.0",
@@ -64,9 +70,7 @@
     "msw": "^1.2.1",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.8.7",
-    "prettier-plugin-tailwindcss": "^0.2.7",
     "start-server-and-test": "^2.0.0",
-    "tailwindcss": "^3.3.1",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.4",
     "vite": "^4.2.1",
