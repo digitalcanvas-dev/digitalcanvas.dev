@@ -1,61 +1,32 @@
+import type { MouseEvent } from 'react';
 import {
-  createStyles,
-  Menu,
-  Center,
-  Header,
-  Container,
-  Group,
-  Button,
   Burger,
-  rem,
-} from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
-import { IconChevronDown } from "@tabler/icons-react";
-import { Link } from "@remix-run/react";
+  Button,
+  Container,
+  createStyles,
+  Group,
+  Header,
+  Title,
+} from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
 
 const useStyles = createStyles((theme) => ({
   inner: {
-    // height: HEADER_HEIGHT,
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
 
   links: {
-    [theme.fn.smallerThan("sm")]: {
-      display: "none",
+    [theme.fn.smallerThan('sm')]: {
+      display: 'none',
     },
   },
 
   burger: {
-    [theme.fn.largerThan("sm")]: {
-      display: "none",
+    [theme.fn.largerThan('sm')]: {
+      display: 'none',
     },
-  },
-
-  link: {
-    display: "block",
-    lineHeight: 1,
-    padding: `${rem(8)} ${rem(12)}`,
-    borderRadius: theme.radius.sm,
-    textDecoration: "none",
-    color:
-      theme.colorScheme === "dark"
-        ? theme.colors.dark[0]
-        : theme.colors.gray[7],
-    fontSize: theme.fontSizes.sm,
-    fontWeight: 500,
-
-    "&:hover": {
-      backgroundColor:
-        theme.colorScheme === "dark"
-          ? theme.colors.dark[6]
-          : theme.colors.gray[0],
-    },
-  },
-
-  linkLabel: {
-    marginRight: rem(5),
   },
 }));
 
@@ -63,7 +34,6 @@ interface SiteHeaderProps {
   links: {
     link: string;
     label: string;
-    links?: { link: string; label: string }[];
   }[];
   mainCta: {
     link: string;
@@ -71,6 +41,21 @@ interface SiteHeaderProps {
   };
   headerHeight: string;
 }
+
+const clickHandler = (evt: MouseEvent, to: string) => {
+  const target = document.getElementById(to);
+
+  if (!target) {
+    console.error(`missing target: ${to}`);
+    return;
+  }
+
+  const { top } = target.getBoundingClientRect();
+
+  console.log(top);
+
+  window.scrollBy({ top: top - 60, behavior: 'smooth' });
+};
 
 export const SiteHeader = ({
   headerHeight,
@@ -80,35 +65,20 @@ export const SiteHeader = ({
   const { classes } = useStyles();
   const [opened, { toggle }] = useDisclosure(false);
   const items = links.map((link) => {
-    const menuItems = link.links?.map((item) => (
-      <Menu.Item key={item.link}>{item.label}</Menu.Item>
-    ));
-
-    if (menuItems) {
-      return (
-        <Menu
-          key={link.label}
-          trigger="hover"
-          transitionProps={{ exitDuration: 0 }}
-          withinPortal
-        >
-          <Menu.Target>
-            <Link to={link.link} className={classes.link}>
-              <Center>
-                <span className={classes.linkLabel}>{link.label}</span>
-                <IconChevronDown size={rem(12)} stroke={1.5} />
-              </Center>
-            </Link>
-          </Menu.Target>
-          <Menu.Dropdown>{menuItems}</Menu.Dropdown>
-        </Menu>
-      );
-    }
-
     return (
-      <Link key={link.label} to={link.link} className={classes.link}>
+      <Button
+        variant="light"
+        key={link.label}
+        radius="xl"
+        color="brand"
+        sx={{
+          fontWeight: 'normal',
+        }}
+        h={44}
+        onClick={(evt) => clickHandler(evt, link.link)}
+      >
         {link.label}
-      </Link>
+      </Button>
     );
   });
 
@@ -117,7 +87,15 @@ export const SiteHeader = ({
   };
 
   return (
-    <Header height={headerHeight} sx={{ borderBottom: 0, position: "sticky" }}>
+    <Header
+      height={headerHeight}
+      sx={{
+        borderBottom: 0,
+        position: 'sticky',
+        border: '0px solid #fff',
+        borderBottomWidth: 1,
+      }}
+    >
       <Container className={classes.inner} style={innerStyle} fluid>
         <Group>
           <Burger
@@ -126,21 +104,25 @@ export const SiteHeader = ({
             className={classes.burger}
             size="sm"
           />
-          <span
+          <Title
+            order={1}
             onClick={() => {
-              window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+              window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
             }}
           >
-            Logo
-          </span>
+            Digital Canvas Development
+          </Title>
         </Group>
         <Group spacing={5} className={classes.links}>
           {items}
-          <Link to={mainCta.link}>
-            <Button radius="xl" h={30} color="orange">
-              {mainCta.label}
-            </Button>
-          </Link>
+          <Button
+            radius="xl"
+            h={44}
+            color="orange"
+            onClick={(evt) => clickHandler(evt, mainCta.link)}
+          >
+            {mainCta.label}
+          </Button>
         </Group>
       </Container>
     </Header>

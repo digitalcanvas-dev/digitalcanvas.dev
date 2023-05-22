@@ -16,7 +16,7 @@
     "validate": "run-p \"test -- --run\" lint typecheck test:e2e:run"
   },
   "prettier": {
-    "singleQuote": false
+    "singleQuote": true
   },
   "eslintIgnore": [
     "/node_modules",
@@ -27,8 +27,10 @@
     "@architect/architect": "^10.11.2",
     "@architect/functions": "^5.4.0",
     "@emotion/react": "^11.11.0",
+    "@emotion/server": "^11.11.0",
     "@mantine/core": "^6.0.11",
     "@mantine/hooks": "^6.0.11",
+    "@mantine/remix": "^6.0.11",
     "@paralleldrive/cuid2": "^2.2.0",
     "@remix-run/architect": "^1.16.1",
     "@remix-run/css-bundle": "^1.16.1",

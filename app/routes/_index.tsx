@@ -1,78 +1,60 @@
-import type { V2_MetaFunction } from "@remix-run/node";
-import { SiteHeader } from "~/components/SiteHeader";
-import { rem } from "@mantine/core";
-
-export const meta: V2_MetaFunction = () => [
-  { title: "Digital Canvas Development" },
-];
+import { SiteHeader } from '~/components/SiteHeader';
+import { rem } from '@mantine/core';
+import { About } from '~/components/index/About';
+import { Services } from '~/components/index/Services';
 
 const enum Section {
-  "about" = "about",
-  "services" = "services",
-  "testimonials" = "testimonials",
-  "contact" = "contact",
+  'about' = 'about',
+  'services' = 'services',
+  'testimonials' = 'testimonials',
+  'contact' = 'contact',
 }
 
 const HEADER_HEIGHT = rem(60);
 
 const links = [
   {
-    link: `#${Section.about}`,
-    label: "About",
+    link: `${Section.about}`,
+    label: 'About',
   },
   {
-    link: `#${Section.services}`,
-    label: "Services",
+    link: `${Section.services}`,
+    label: 'Services',
   },
   {
-    link: `#${Section.testimonials}`,
-    label: "Testimonials",
+    link: `${Section.testimonials}`,
+    label: 'Testimonials',
   },
 ];
 
 const mainCta = {
-  link: `#${Section.contact}`,
-  label: "Contact",
+  link: `${Section.contact}`,
+  label: 'Contact',
 };
 
-export default function Index() {
-  return (
-    <>
-      <SiteHeader
-        links={links}
-        headerHeight={HEADER_HEIGHT}
-        mainCta={mainCta}
-      />
-      <section
-        id={Section.about}
-        style={{ height: `calc(100vh - ${HEADER_HEIGHT})` }}
-      >
-        About
-      </section>
-      <section
-        id={Section.services}
-        style={{
-          height: "100vh",
-        }}
-      >
-        Services
-      </section>
-      <section
-        id={Section.testimonials}
-        style={{
-          height: "100vh",
-        }}
-      >
-        Testimonials
-      </section>
-      <section
-        id={Section.contact}
-        style={{
-          height: "100vh",
-        }}
-      >
-        Contact
-      </section>
-    </>
-  );
-}
+const sectionHeight = `calc(100vh - ${HEADER_HEIGHT})`;
+
+const Index = () => (
+  <>
+    <SiteHeader links={links} headerHeight={HEADER_HEIGHT} mainCta={mainCta} />
+    <About id={Section.about} height={sectionHeight} />
+    <Services id={Section.services} height={sectionHeight} />
+    <section
+      id={Section.testimonials}
+      style={{
+        height: sectionHeight,
+      }}
+    >
+      Testimonials
+    </section>
+    <section
+      id={Section.contact}
+      style={{
+        height: sectionHeight,
+      }}
+    >
+      Contact
+    </section>
+  </>
+);
+export default Index;

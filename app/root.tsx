@@ -1,5 +1,4 @@
-import { cssBundleHref } from '@remix-run/css-bundle';
-import type { LinksFunction } from '@remix-run/node';
+import type { V2_MetaFunction } from '@remix-run/node';
 import {
   Links,
   LiveReload,
@@ -8,35 +7,38 @@ import {
   Scripts,
   ScrollRestoration,
 } from '@remix-run/react';
-import { MantineProvider } from '@mantine/core';
+import { createEmotionCache, MantineProvider } from '@mantine/core';
+import { StylesPlaceholder } from '@mantine/remix';
 
-export const links: LinksFunction = () => [
-  ...(cssBundleHref ? [{ rel: 'stylesheet', href: cssBundleHref }] : []),
-  // NOTE: Architect deploys the public directory to /_static/
-  { rel: 'icon', href: '/_static/favicon.ico' },
+import { GlobalStyles, theme } from './theme';
+
+export const meta: V2_MetaFunction = () => [
+  { title: 'Digital Canvas Development' },
+  {
+    name: 'description',
+    content: 'Custom website development for small businesses and startups',
+  },
 ];
+
+createEmotionCache({ key: 'mantine' });
 
 export default function App() {
   return (
-    <html lang="en" className="h-full">
-      <head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width,initial-scale=1" />
-        <Meta />
-        <Links />
-      </head>
-      <MantineProvider
-        withGlobalStyles
-        withNormalizeCSS
-        theme={{ colorScheme: 'dark' }}
-      >
-        <body className="h-full">
+    <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
+      <html lang="en">
+        <GlobalStyles />
+        <head>
+          <StylesPlaceholder />
+          <Meta />
+          <Links />
+        </head>
+        <body>
           <Outlet />
           <ScrollRestoration />
           <Scripts />
           <LiveReload />
         </body>
-      </MantineProvider>
-    </html>
+      </html>
+    </MantineProvider>
   );
 }
