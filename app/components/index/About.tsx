@@ -1,6 +1,6 @@
 import { Button, createStyles, Loader, Title } from '@mantine/core';
 import { IndexSection } from '~/components/IndexSection';
-import { Link } from '@remix-run/react';
+import bg from '~/theme/main-bg-3.png';
 
 interface AboutProps {
   id: string;
@@ -12,10 +12,14 @@ const useStyles = createStyles((theme) => ({
     display: 'grid',
     gridTemplateAreas: '"text img"',
     alignItems: 'center',
-    justifyContent: 'space-around',
+    justifyItems: 'center',
+    gridTemplateColumns: '.5fr .5fr',
+    background: `url(${bg})`,
+    backgroundSize: 'cover',
   },
   text: {
     gridArea: 'text',
+    marginLeft: '10vw',
   },
   img: {
     gridArea: 'img',
@@ -28,12 +32,16 @@ export const About = ({ id, height }: AboutProps) => {
   return (
     <IndexSection id={id} height={height} className={classes.root}>
       <div className={classes.text}>
-        <Title order={2}>Expert Web Development</Title>
+        <Title order={1}>Specialised Software Development</Title>
         <p>
-          Digital Canvas Development provides website and application
-          development for your business or startup.
+          Specializing in the unique needs of small businesses and startups,
+          <b>Digital Canvas Development</b> provides tailored solutions in
+          custom development and software consulting.
         </p>
-        <p>Digital Canvas Development can help you a lot.</p>
+        <p>
+          We empower your growth and innovation by bridging technology gaps and
+          enhancing your digital presence.
+        </p>
         <Button
           h={30}
           color="orange"
@@ -55,7 +63,7 @@ export const About = ({ id, height }: AboutProps) => {
           Get in touch
         </Button>
       </div>
-      <Loader className={classes.img} />
+      <Loader className={classes.img} color="orange" />
     </IndexSection>
   );
 };
