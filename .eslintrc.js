@@ -25,4 +25,16 @@ module.exports = {
       { ignoreCase: true, ignoreDeclarationSort: true },
     ],
   },
+  overrides: [
+    {
+      files: ['bin/*.js', 'lib/*.js'],
+      excludedFiles: '*.test.js',
+      rules: {
+        'no-unused-vars': [
+          'error',
+          { vars: 'all', args: 'after-used', ignoreRestSiblings: false },
+        ],
+      },
+    },
+  ],
 };

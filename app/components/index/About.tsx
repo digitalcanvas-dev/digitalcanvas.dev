@@ -1,40 +1,53 @@
-import { Button, createStyles, Loader, Title } from '@mantine/core';
+import type { RefObject } from 'react';
+import { Box, Button, createStyles, px, Title } from '@mantine/core';
 import { IndexSection } from '~/components/IndexSection';
-import bg from '~/theme/main-bg-3.png';
+import aboutImg from '../../../public/aboutImg.png';
+import { useRefManagerContext } from '~/components/index/RefManagerContext';
 
 interface AboutProps {
   id: string;
-  height: string;
+  headerHeight: string;
 }
 
 const useStyles = createStyles((theme) => ({
   root: {
+    margin: '0 0 0 10rem',
+    minHeight: '500px',
     display: 'grid',
     gridTemplateAreas: '"text img"',
     alignItems: 'center',
     justifyItems: 'center',
-    gridTemplateColumns: '.5fr .5fr',
-    background: `url(${bg})`,
-    backgroundSize: 'cover',
+    gridTemplateColumns: '2fr 1fr',
   },
   text: {
     gridArea: 'text',
-    marginLeft: '10vw',
   },
+
   img: {
+    width: '100%',
     gridArea: 'img',
   },
 }));
 
-export const About = ({ id, height }: AboutProps) => {
+export const About = ({ id, headerHeight }: AboutProps) => {
   const { classes } = useStyles();
+  const sectionHeightStr = `calc(100vh - ${px(headerHeight)})`;
+  const { getHTMLHeadingElementRef } = useRefManagerContext();
+
+  const titleRef = getHTMLHeadingElementRef('title');
 
   return (
-    <IndexSection id={id} height={height} className={classes.root}>
-      <div className={classes.text}>
-        <Title order={1}>Specialised Software Development</Title>
+    <IndexSection
+      id={id}
+      className={classes.root}
+      style={{ height: sectionHeightStr }}
+    >
+      <Box className={classes.text}>
+        <Title order={1} color="orange" ref={titleRef}>
+          Digital Canvas Development
+        </Title>
         <p>
-          Specializing in the unique needs of small businesses and startups,
+          Specializing in the unique needs of businesses and startups,{' '}
           <b>Digital Canvas Development</b> provides tailored solutions in
           custom development and software consulting.
         </p>
@@ -55,15 +68,13 @@ export const About = ({ id, height }: AboutProps) => {
 
             const { top } = target.getBoundingClientRect();
 
-            console.log(top);
-
             window.scrollBy({ top: top - 60, behavior: 'smooth' });
           }}
         >
           Get in touch
         </Button>
-      </div>
-      <Loader className={classes.img} color="orange" />
+      </Box>
+      <img src={aboutImg} className={classes.img} />
     </IndexSection>
   );
 };

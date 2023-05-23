@@ -1,20 +1,22 @@
 import type { MouseEvent } from 'react';
 import {
-  Burger,
   Button,
   Container,
   createStyles,
   Group,
   Header,
+  px,
   Title,
 } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
+import { useEffect, useState } from 'react';
+import { useRefManagerContext } from '~/components/index/RefManagerContext';
 
 const useStyles = createStyles((theme) => ({
   inner: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
+    marginBottom: '20px',
   },
 
   links: {
@@ -42,7 +44,7 @@ interface SiteHeaderProps {
   headerHeight: string;
 }
 
-const clickHandler = (evt: MouseEvent, to: string) => {
+const clickHandler = (evt: MouseEvent, to: string, offsetPx: number) => {
   const target = document.getElementById(to);
 
   if (!target) {
@@ -52,22 +54,46 @@ const clickHandler = (evt: MouseEvent, to: string) => {
 
   const { top } = target.getBoundingClientRect();
 
-  console.log(top);
-
-  window.scrollBy({ top: top - 60, behavior: 'smooth' });
+  window.scrollBy({ top: top - offsetPx, behavior: 'smooth' });
 };
 
 export const SiteHeader = ({
-  headerHeight,
   links,
   mainCta,
+  headerHeight,
 }: SiteHeaderProps) => {
   const { classes } = useStyles();
-  const [opened, { toggle }] = useDisclosure(false);
+
+  const [scrolled, setScrolled] = useState(false);
+
+  const { getHTMLElementRef, getHTMLHeadingElementRef } =
+    useRefManagerContext();
+
+  const titleRef = getHTMLHeadingElementRef('title');
+  const headerRef = getHTMLElementRef('header');
+
+  useEffect(() => {
+    const handler = () => {
+      const top = titleRef?.current?.getBoundingClientRect().top ?? null;
+
+      if (top === null) {
+        return;
+      }
+
+      setScrolled(top < 0);
+    };
+
+    window.addEventListener('scroll', handler);
+
+    return () => {
+      window.removeEventListener('scroll', handler);
+    };
+  }, [titleRef]);
+
   const items = links.map((link) => {
     return (
       <Button
-        variant="light"
+        variant="subtle"
         key={link.label}
         radius="xl"
         color="brand"
@@ -75,36 +101,31 @@ export const SiteHeader = ({
           fontWeight: 'normal',
         }}
         h={44}
-        onClick={(evt) => clickHandler(evt, link.link)}
+        onClick={(evt) => clickHandler(evt, link.link, 0)}
       >
         {link.label}
       </Button>
     );
   });
 
-  const innerStyle = {
-    height: headerHeight,
-  };
-
   return (
     <Header
+      ref={headerRef}
       height={headerHeight}
-      sx={{
-        borderBottom: 0,
+      sx={(theme) => ({
+        transition: 'background-color 300ms ease-in-out',
+        backgroundColor: `${theme.colors.dark[9]}DD`,
         position: 'sticky',
-        border: '0px solid #fff',
-        borderBottomWidth: 1,
-      }}
+      })}
     >
-      <Container className={classes.inner} style={innerStyle} fluid>
+      <Container className={classes.inner} fluid>
         <Group>
-          <Burger
-            opened={opened}
-            onClick={toggle}
-            className={classes.burger}
-            size="sm"
-          />
           <Title
+            color="orange"
+            sx={{
+              transition: 'opacity 300ms ease-in-out',
+              opacity: scrolled ? 1 : 0,
+            }}
             order={1}
             onClick={() => {
               window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
@@ -115,11 +136,24 @@ export const SiteHeader = ({
         </Group>
         <Group spacing={5} className={classes.links}>
           {items}
+        </Group>
+        <Group
+          spacing={5}
+          sx={{
+            alignSelf: 'start',
+          }}
+        >
           <Button
-            radius="xl"
-            h={44}
+            radius="lg"
+            h="auto"
+            sx={{
+              fontSize: '1rem',
+              padding: '22px 75px',
+              borderTopLeftRadius: 0,
+              borderTopRightRadius: 0,
+            }}
             color="orange"
-            onClick={(evt) => clickHandler(evt, mainCta.link)}
+            onClick={(evt) => clickHandler(evt, mainCta.link, px(headerHeight))}
           >
             {mainCta.label}
           </Button>

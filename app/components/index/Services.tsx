@@ -1,14 +1,10 @@
 import type { PropsWithChildren } from 'react';
+import { IndexSection } from '~/components/IndexSection';
 
 interface ServicesProps {
   id: string;
-  height: string;
 }
 
-export const Services = ({ id, height }: PropsWithChildren<ServicesProps>) => {
-  return (
-    <section id={id} style={{ height }}>
-      Services
-    </section>
-  );
+export const Services = ({ id }: PropsWithChildren<ServicesProps>) => {
+  return <IndexSection id={id}>Services</IndexSection>;
 };

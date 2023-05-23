@@ -1,19 +1,21 @@
 import type { HTMLAttributes, PropsWithChildren } from 'react';
+import type { DefaultProps } from '@mantine/core';
+import { Box } from '@mantine/core';
 
-interface IndexSectionProps extends HTMLAttributes<HTMLDivElement> {
+interface IndexSectionProps
+  extends HTMLAttributes<HTMLDivElement>,
+    DefaultProps {
   id: string;
-  height: string;
 }
 
 export const IndexSection = ({
   id,
-  height,
   children,
   ...rest
 }: PropsWithChildren<IndexSectionProps>) => {
   return (
-    <section id={id} style={{ height }} {...rest}>
+    <Box id={id} {...rest}>
       {children}
-    </section>
+    </Box>
   );
 };
