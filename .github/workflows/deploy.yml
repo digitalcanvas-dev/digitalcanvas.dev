@@ -128,10 +128,11 @@ jobs:
 
       - name: 👀 Env
         run: |
-          echo "Event name: ${{ github.event_name }}"
-          echo "Git ref:    ${{ github.ref }}"
-          echo "GH actor:   ${{ github.actor }}"
-          echo "SHA:        ${{ github.sha }}"
+          echo "Event name:         ${{ github.event_name }}"
+          echo "Git ref:            ${{ github.ref }}"
+          echo "GH actor:           ${{ github.actor }}"
+          echo "SHA:                ${{ github.sha }}"
+          echo "CAPTCHA_SITE_KEY:   ${{ vars.CAPTCHA_SITE_KEY }}"
           VER=`node --version`; echo "Node ver:   $VER"
           VER=`npm --version`; echo "npm ver:    $VER"
 
@@ -143,7 +144,6 @@ jobs:
         env:
           CAPTCHA_SITE_KEY: ${{ vars.CAPTCHA_SITE_KEY }}
           CAPTCHA_SECRET: ${{ secrets.CAPTCHA_SECRET }}
-
 
       - name: 🛠 Install Arc
         run: npm i -g @architect/architect
