@@ -151,6 +151,8 @@ jobs:
           CI: true
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          CAPTCHA_SITE_KEY: ${{ vars.CAPTCHA_SITE_KEY }}
+          CAPTCHA_SECRET: ${{ secrets.CAPTCHA_SECRET }}
 
       - name: 🚀 Production Deploy
         if: github.ref == 'refs/heads/main'
@@ -159,3 +161,5 @@ jobs:
           CI: true
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          CAPTCHA_SITE_KEY: ${{ vars.CAPTCHA_SITE_KEY }}
+          CAPTCHA_SECRET: ${{ secrets.CAPTCHA_SECRET }}
