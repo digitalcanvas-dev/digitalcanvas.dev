@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { CloneReceiptRuleSetCommand, SESClient } from '@aws-sdk/client-ses';
+import AWS, { SES } from 'aws-sdk';
 import type { ActionArgs, TypedResponse } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { createStyles, Footer, rem } from '@mantine/core';
@@ -24,6 +24,24 @@ export const loader = async (): Promise<TypedResponse<{ ENV: Globals }>> => {
       CAPTCHA_SITE_KEY: process.env.CAPTCHA_SITE_KEY,
       NODE_ENV: process.env.NODE_ENV,
     },
+  });
+};
+
+const getAWSCredentials = async (): Promise<{
+  accessKeyId: string;
+  secretAccessKey: string;
+}> => {
+  return new Promise((resolve, reject) => {
+    AWS.config.getCredentials(function (err) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve({
+          accessKeyId: `${AWS.config.credentials?.accessKeyId}`,
+          secretAccessKey: `${AWS.config.credentials?.secretAccessKey}`,
+        });
+      }
+    });
   });
 };
 
@@ -64,13 +82,15 @@ export async function action({ request }: ActionArgs) {
   }
 
   try {
-    const ses = new SESClient({
-      region: 'es-east-1',
+    const { accessKeyId, secretAccessKey } = await getAWSCredentials();
+
+    const ses = new SES({
+      region: 'us-east-1',
       credentials: {
         // @ts-ignore
-        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+        accessKeyId,
         // @ts-ignore
-        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+        secretAccessKey,
       },
     });
     const charset = 'utf-8';
@@ -94,15 +114,12 @@ export async function action({ request }: ActionArgs) {
       },
     };
 
-    const command = new CloneReceiptRuleSetCommand({
-      RuleSetName: '',
-      OriginalRuleSetName: '',
-    });
+    const preSendResp = await ses.sendEmail(params);
 
-    const resp = await ses.send(command);
-    console.log(resp);
+    const sendResp = await preSendResp.send();
+    console.log(sendResp);
   } catch (e) {
-    console.log(e);
+    console.error(e);
     return {
       name: e instanceof Error ? e.message : `Unknown error ${e}`,
     };
@@ -116,22 +133,6 @@ const enum Section {
   'testimonials' = 'testimonials',
   'contact' = 'contact',
 }
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const links = [
-  {
-    link: `${Section.about}`,
-    label: 'About',
-  },
-  {
-    link: `${Section.services}`,
-    label: 'Services',
-  },
-  {
-    link: `${Section.testimonials}`,
-    label: 'Testimonials',
-  },
-];
 
 const mainCta = {
   link: `${Section.contact}`,
