@@ -1,4 +1,3 @@
-import type { RefObject } from 'react';
 import { Box, Button, createStyles, px, Title } from '@mantine/core';
 import { IndexSection } from '~/components/IndexSection';
 import aboutImg from '../../../public/aboutImg.png';

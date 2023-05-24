@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { CloneReceiptRuleSetCommand, SESClient } from '@aws-sdk/client-ses';
+import { SESClient } from '@aws-sdk/client-ses';
 import type { ActionArgs } from '@remix-run/node';
 import { createStyles, Footer, rem } from '@mantine/core';
 
@@ -7,16 +7,16 @@ import { SiteHeader } from '~/components/SiteHeader';
 import { About } from '~/components/index/About';
 import { Contact } from '~/components/index/Contact';
 
-import bg from '../../public/bg-dark.jpg';
 import {
   RefManagerContextProvider,
   useRefManagerContext,
 } from '~/components/index/RefManagerContext';
 
+import bg from '../../public/bg-dark.jpg';
+
 export async function action({ request }: ActionArgs) {
   const formData = await request.formData();
   const intent = formData.get('intent');
-  console.log(global);
   if (intent !== 'contact') {
     throw new Error(`Unexpected intent: ${intent}`);
   }
@@ -59,10 +59,10 @@ export async function action({ request }: ActionArgs) {
       },
     };
 
-    const command = new CloneReceiptRuleSetCommand(params);
+    // const command = new CloneReceiptRuleSetCommand({});
 
-    const resp = await ses.send(command);
-    console.log(resp);
+    // const resp = await ses.send(command);
+    // console.log(resp);
   } catch (e) {
     console.log(e);
     return {

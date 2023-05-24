@@ -10,6 +10,7 @@ import {
 } from '@mantine/core';
 import { Form, useSubmit } from '@remix-run/react';
 import { useForm } from '@mantine/form';
+import type { FormEventHandler } from 'react';
 
 import { IndexSection } from '~/components/IndexSection';
 import { useRefManagerContext } from '~/components/index/RefManagerContext';
@@ -50,7 +51,7 @@ export const Contact = ({ id, headerHeight }: ContactProps) => {
 
   const onSubmit = form.onSubmit((_v, e) => submit(e.currentTarget));
 
-  const onError = (e) => {
+  const onError: FormEventHandler<HTMLFormElement> = (e) => {
     console.log(e);
   };
 
