@@ -132,7 +132,7 @@ jobs:
           echo "Git ref:            ${{ github.ref }}"
           echo "GH actor:           ${{ github.actor }}"
           echo "SHA:                ${{ github.sha }}"
-          echo "CAPTCHA_SITE_KEY:   ${{ vars.CAPTCHA_SITE_KEY }}"
+          echo "CAPTCHA_SITE_KEY:   ${{ env.CAPTCHA_SITE_KEY }}"
           VER=`node --version`; echo "Node ver:   $VER"
           VER=`npm --version`; echo "npm ver:    $VER"
 
@@ -142,7 +142,7 @@ jobs:
       - name: 🏗 Build
         run: npm run build
         env:
-          CAPTCHA_SITE_KEY: ${{ vars.CAPTCHA_SITE_KEY }}
+          CAPTCHA_SITE_KEY: ${{ env.CAPTCHA_SITE_KEY }}
           CAPTCHA_SECRET: ${{ secrets.CAPTCHA_SECRET }}
 
       - name: 🛠 Install Arc
