@@ -10,7 +10,12 @@ import {
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import ReCAPTCHA from 'react-google-recaptcha';
-import { Form, useLoaderData, useSubmit } from '@remix-run/react';
+import {
+  Form,
+  useActionData,
+  useLoaderData,
+  useSubmit,
+} from '@remix-run/react';
 import type { FormEventHandler } from 'react';
 import type { Globals } from '~/types';
 
@@ -40,9 +45,21 @@ interface ContactProps {
   headerHeight: string;
 }
 
+export interface ContactFormValues {
+  name: string;
+  email: string;
+  details: string;
+  recaptchaValue: string;
+  intent: string;
+}
+
 export const Contact = ({ id, headerHeight }: ContactProps) => {
   const [recaptchaValue, setRecaptchaValue] = useState<string | null>(null);
   const { classes } = useStyles();
+
+  const actionData = useActionData<{
+    errors?: Record<Partial<keyof ContactFormValues>, string>;
+  }>();
 
   const data = useLoaderData<{ ENV: Globals }>();
 
@@ -79,9 +96,23 @@ export const Contact = ({ id, headerHeight }: ContactProps) => {
 
       <Form method="POST" onSubmit={onSubmit} onError={onError}>
         <Card className={classes.contactForm}>
-          <TextInput name="name" label="Name" autoComplete="off" />
-          <TextInput name="email" label="Contact email" autoComplete="off" />
-          <Textarea name="details" label="Details" />
+          <TextInput
+            name="name"
+            label="Name"
+            autoComplete="off"
+            error={actionData?.errors?.name ?? undefined}
+          />
+          <TextInput
+            name="email"
+            label="Contact email"
+            autoComplete="off"
+            error={actionData?.errors?.email ?? undefined}
+          />
+          <Textarea
+            name="details"
+            label="Details"
+            error={actionData?.errors?.details ?? undefined}
+          />
           <input type="hidden" name="intent" value="contact" />
           {recaptchaValue ? (
             <input type="hidden" name="recaptchaValue" value={recaptchaValue} />

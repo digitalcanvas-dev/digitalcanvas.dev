@@ -1,11 +1,11 @@
 import React, { useRef } from 'react';
-import AWS, { SES } from 'aws-sdk';
 import type { ActionArgs, TypedResponse } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { createStyles, Footer, rem } from '@mantine/core';
 
 import { SiteHeader } from '~/components/SiteHeader';
 import { About } from '~/components/index/About';
+import type { ContactFormValues } from '~/components/index/Contact';
 import { Contact } from '~/components/index/Contact';
 
 import {
@@ -15,8 +15,8 @@ import {
 
 import bg from '../../public/bg-dark.jpg';
 import type { Globals } from '~/types';
-
-const ReCaptchaURL = 'https://www.google.com/recaptcha/api/siteverify';
+import { validateCaptcha } from '~/utils/captcha.server';
+import { sendContactEmail, validateContactForm } from '~/utils/ses.server';
 
 export const loader = async (): Promise<TypedResponse<{ ENV: Globals }>> => {
   return json<{ ENV: any }>({
@@ -27,25 +27,11 @@ export const loader = async (): Promise<TypedResponse<{ ENV: Globals }>> => {
   });
 };
 
-const getAWSCredentials = async (): Promise<{
-  accessKeyId: string;
-  secretAccessKey: string;
-}> => {
-  return new Promise((resolve, reject) => {
-    AWS.config.getCredentials(function (err) {
-      if (err) {
-        reject(err);
-      } else {
-        resolve({
-          accessKeyId: `${AWS.config.credentials?.accessKeyId}`,
-          secretAccessKey: `${AWS.config.credentials?.secretAccessKey}`,
-        });
-      }
-    });
-  });
-};
-
-export async function action({ request }: ActionArgs) {
+export async function action({
+  request,
+}: ActionArgs): Promise<null | TypedResponse<{
+  errors?: { [K in keyof Partial<ContactFormValues>]: string | null };
+}>> {
   const formData = await request.formData();
   const intent = formData.get('intent');
   if (intent !== 'contact') {
@@ -59,72 +45,47 @@ export async function action({ request }: ActionArgs) {
   if (process.env.NODE_ENV !== 'development') {
     const recaptchaValue = formData.get('recaptchaValue');
 
-    const captchaResponse = await fetch(ReCaptchaURL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: `secret=${process.env.CAPTCHA_SECRET}&response=${recaptchaValue}`,
-    });
-
-    const resp = await captchaResponse.json();
+    const resp = await validateCaptcha(recaptchaValue);
 
     if (!resp.success) {
       console.error('invalid captcha response', JSON.stringify(resp));
-      return {};
+      return json({
+        errors: {
+          recaptchaValue: 'Invalid reCAPTCHA response.',
+        },
+      });
     }
   }
 
-  if (!requesterName || !details || !requesterEmail) {
-    return {
-      name: !requesterName ? 'Required' : null,
-      email: !requesterEmail ? 'Required' : null,
-      details: !details ? 'Required' : null,
-    };
+  const validationResult = validateContactForm(
+    requesterName,
+    requesterEmail,
+    details
+  );
+
+  if (validationResult !== null) {
+    return json({ errors: validationResult });
   }
 
-  try {
-    const { accessKeyId, secretAccessKey } = await getAWSCredentials();
+  const sentSuccess = await sendContactEmail(
+    `${requesterName}`,
+    `${requesterEmail}`,
+    `${details}`
+  );
 
-    const ses = new SES({
-      region: 'us-east-1',
-      credentials: {
-        // @ts-ignore
-        accessKeyId,
-        // @ts-ignore
-        secretAccessKey,
+  if (sentSuccess) {
+    return null;
+  } else {
+    return json({
+      errors: {
+        intent: null,
+        email: null,
+        name: null,
+        recaptchaValue: null,
+        details: 'Unknown error',
       },
     });
-    const charset = 'utf-8';
-
-    const params = {
-      Source: 'no-reply@digitalcanvas.dev',
-      Destination: {
-        ToAddresses: ['simon@digitalcanvas.dev'],
-      },
-      Message: {
-        Subject: {
-          Data: `Contact form request from ${requesterName}`,
-          Charset: charset,
-        },
-        Body: {
-          Html: {
-            Data: `${requesterName} [${requesterEmail}]<br />${requesterName}`,
-            Charset: charset,
-          },
-        },
-      },
-    };
-
-    const preSendResp = await ses.sendEmail(params);
-
-    const sendResp = await preSendResp.send();
-    console.log(sendResp);
-  } catch (e) {
-    console.error(e);
-    return {
-      name: e instanceof Error ? e.message : `Unknown error ${e}`,
-    };
   }
-  return null;
 }
 
 const enum Section {
