@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
-import AWS, { SES } from 'aws-sdk';
 import type { ActionArgs, TypedResponse } from '@remix-run/node';
 import { json } from '@remix-run/node';
+import { validateEmail } from '~/utils';
 import { createStyles, Footer, rem } from '@mantine/core';
 
 import { SiteHeader } from '~/components/SiteHeader';
@@ -15,8 +15,8 @@ import {
 
 import bg from '../../public/bg-dark.jpg';
 import type { Globals } from '~/types';
-
-const ReCaptchaURL = 'https://www.google.com/recaptcha/api/siteverify';
+import { validateCaptcha } from '~/utils/captcha.server';
+import { sendContactEmail } from '~/utils/ses.server';
 
 export const loader = async (): Promise<TypedResponse<{ ENV: Globals }>> => {
   return json<{ ENV: any }>({
@@ -24,24 +24,6 @@ export const loader = async (): Promise<TypedResponse<{ ENV: Globals }>> => {
       CAPTCHA_SITE_KEY: process.env.CAPTCHA_SITE_KEY,
       NODE_ENV: process.env.NODE_ENV,
     },
-  });
-};
-
-const getAWSCredentials = async (): Promise<{
-  accessKeyId: string;
-  secretAccessKey: string;
-}> => {
-  return new Promise((resolve, reject) => {
-    AWS.config.getCredentials(function (err) {
-      if (err) {
-        reject(err);
-      } else {
-        resolve({
-          accessKeyId: `${AWS.config.credentials?.accessKeyId}`,
-          secretAccessKey: `${AWS.config.credentials?.secretAccessKey}`,
-        });
-      }
-    });
   });
 };
 
@@ -59,72 +41,49 @@ export async function action({ request }: ActionArgs) {
   if (process.env.NODE_ENV !== 'development') {
     const recaptchaValue = formData.get('recaptchaValue');
 
-    const captchaResponse = await fetch(ReCaptchaURL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: `secret=${process.env.CAPTCHA_SECRET}&response=${recaptchaValue}`,
-    });
-
-    const resp = await captchaResponse.json();
+    const resp = await validateCaptcha(recaptchaValue);
 
     if (!resp.success) {
       console.error('invalid captcha response', JSON.stringify(resp));
-      return {};
+      return json({ errors: {} });
     }
   }
 
   if (!requesterName || !details || !requesterEmail) {
-    return {
-      name: !requesterName ? 'Required' : null,
-      email: !requesterEmail ? 'Required' : null,
-      details: !details ? 'Required' : null,
-    };
-  }
-
-  try {
-    const { accessKeyId, secretAccessKey } = await getAWSCredentials();
-
-    const ses = new SES({
-      region: 'us-east-1',
-      credentials: {
-        // @ts-ignore
-        accessKeyId,
-        // @ts-ignore
-        secretAccessKey,
+    return json({
+      errors: {
+        name: !requesterName ? 'Required' : null,
+        email: !requesterEmail ? 'Required' : null,
+        details: !details ? 'Required' : null,
       },
     });
-    const charset = 'utf-8';
-
-    const params = {
-      Source: 'no-reply@digitalcanvas.dev',
-      Destination: {
-        ToAddresses: ['simon@digitalcanvas.dev'],
-      },
-      Message: {
-        Subject: {
-          Data: `Contact form request from ${requesterName}`,
-          Charset: charset,
-        },
-        Body: {
-          Html: {
-            Data: `${requesterName} [${requesterEmail}]<br />${requesterName}`,
-            Charset: charset,
-          },
-        },
-      },
-    };
-
-    const preSendResp = await ses.sendEmail(params);
-
-    const sendResp = await preSendResp.send();
-    console.log(sendResp);
-  } catch (e) {
-    console.error(e);
-    return {
-      name: e instanceof Error ? e.message : `Unknown error ${e}`,
-    };
   }
-  return null;
+
+  if (!validateEmail(requesterEmail)) {
+    return json({
+      errors: {
+        email: 'Invalid',
+      },
+    });
+  }
+
+  const sentSuccess = await sendContactEmail(
+    `${requesterName}`,
+    `${requesterEmail}`,
+    `${details}`
+  );
+
+  if (sentSuccess) {
+    return json({
+      success: true,
+    });
+  } else {
+    return json({
+      errors: {
+        name: 'Unknown error',
+      },
+    });
+  }
 }
 
 const enum Section {
