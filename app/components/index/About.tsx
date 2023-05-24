@@ -1,4 +1,4 @@
-import { Box, Button, createStyles, px, Title } from '@mantine/core';
+import { Box, createStyles, px, Title } from '@mantine/core';
 import { IndexSection } from '~/components/IndexSection';
 import aboutImg from '../../../public/aboutImg.png';
 import { useRefManagerContext } from '~/components/index/RefManagerContext';
@@ -54,26 +54,12 @@ export const About = ({ id, headerHeight }: AboutProps) => {
           We empower your growth and innovation by bridging technology gaps and
           enhancing your digital presence.
         </p>
-        <Button
-          h={30}
-          color="orange"
-          onClick={() => {
-            const target = document.getElementById('contact');
-
-            if (!target) {
-              console.error(`missing target: contact`);
-              return;
-            }
-
-            const { top } = target.getBoundingClientRect();
-
-            window.scrollBy({ top: top - 60, behavior: 'smooth' });
-          }}
-        >
-          Get in touch
-        </Button>
       </Box>
-      <img src={aboutImg} className={classes.img} />
+      <img
+        src={aboutImg}
+        className={classes.img}
+        alt="Accessibility is important, but this image isn't."
+      />
     </IndexSection>
   );
 };
