@@ -1,4 +1,6 @@
 import AWS, { SES } from 'aws-sdk';
+import { json } from '@remix-run/node';
+import { validateEmail } from '~/utils';
 const getAWSCredentials = async (): Promise<{
   accessKeyId: string;
   secretAccessKey: string;
@@ -65,6 +67,28 @@ export const sendContactEmail = async (
   }
 };
 
-export const validateContactForm = () => {
-  // todo
+export const validateContactForm = (
+  requesterName: FormDataEntryValue | null,
+  requesterEmail: FormDataEntryValue | null,
+  details: FormDataEntryValue | null
+): null | {
+  name?: string | null;
+  email?: string | null;
+  details?: string | null;
+} => {
+  if (!requesterName || !details || !requesterEmail) {
+    return {
+      name: !requesterName ? 'Required' : null,
+      email: !requesterEmail ? 'Required' : null,
+      details: !details ? 'Required' : null,
+    };
+  }
+
+  if (!validateEmail(requesterEmail)) {
+    return {
+      email: 'Invalid',
+    };
+  }
+
+  return null;
 };

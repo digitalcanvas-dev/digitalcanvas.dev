@@ -1,7 +1,6 @@
 import React, { useRef } from 'react';
 import type { ActionArgs, TypedResponse } from '@remix-run/node';
 import { json } from '@remix-run/node';
-import { validateEmail } from '~/utils';
 import { createStyles, Footer, rem } from '@mantine/core';
 
 import { SiteHeader } from '~/components/SiteHeader';
@@ -17,7 +16,7 @@ import {
 import bg from '../../public/bg-dark.jpg';
 import type { Globals } from '~/types';
 import { validateCaptcha } from '~/utils/captcha.server';
-import { sendContactEmail } from '~/utils/ses.server';
+import { sendContactEmail, validateContactForm } from '~/utils/ses.server';
 
 export const loader = async (): Promise<TypedResponse<{ ENV: Globals }>> => {
   return json<{ ENV: any }>({
@@ -31,7 +30,7 @@ export const loader = async (): Promise<TypedResponse<{ ENV: Globals }>> => {
 export async function action({
   request,
 }: ActionArgs): Promise<null | TypedResponse<{
-  errors?: Record<keyof ContactFormValues, string | null>;
+  errors?: { [K in keyof Partial<ContactFormValues>]: string | null };
 }>> {
   const formData = await request.formData();
   const intent = formData.get('intent');
@@ -52,38 +51,20 @@ export async function action({
       console.error('invalid captcha response', JSON.stringify(resp));
       return json({
         errors: {
-          intent: null,
-          name: null,
-          email: null,
-          details: 'Unknown error',
-          recaptchaValue: null,
+          recaptchaValue: 'Invalid reCAPTCHA response.',
         },
       });
     }
   }
 
-  if (!requesterName || !details || !requesterEmail) {
-    return json({
-      errors: {
-        name: !requesterName ? 'Required' : null,
-        email: !requesterEmail ? 'Required' : null,
-        details: !details ? 'Required' : null,
-        intent: null,
-        recaptchaValue: null,
-      },
-    });
-  }
+  const validationResult = validateContactForm(
+    requesterName,
+    requesterEmail,
+    details
+  );
 
-  if (!validateEmail(requesterEmail)) {
-    return json({
-      errors: {
-        name: null,
-        details: null,
-        intent: null,
-        recaptchaValue: null,
-        email: 'Invalid',
-      },
-    });
+  if (validationResult !== null) {
+    return json({ errors: validationResult });
   }
 
   const sentSuccess = await sendContactEmail(
