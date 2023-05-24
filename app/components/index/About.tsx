@@ -55,6 +55,7 @@ export const About = ({ id, headerHeight }: AboutProps) => {
           enhancing your digital presence.
         </p>
       </Box>
+      {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */}
       <img
         src={aboutImg}
         className={classes.img}
