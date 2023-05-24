@@ -1,5 +1,4 @@
 import AWS, { SES } from 'aws-sdk';
-import { json } from '@remix-run/node';
 import { validateEmail } from '~/utils';
 const getAWSCredentials = async (): Promise<{
   accessKeyId: string;
