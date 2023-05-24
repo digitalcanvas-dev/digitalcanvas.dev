@@ -15,7 +15,8 @@ npx create-remix@latest --template remix-run/grunge-stack
 - [GitHub Actions](https://github.com/features/actions) for deploy on merge to production and staging environments
 - Email/Password Authentication with [cookie-based sessions](https://remix.run/utils/sessions#createcookiesessionstorage)
 - DynamoDB access via [`arc.tables`](https://arc.codes/docs/en/reference/runtime-helpers/node.js#arc.tables)
-- Styling with [Tailwind](https://tailwindcss.com/)
+- ~~Styling with [Tailwind](https://tailwindcss.com/)~~
+  - Replaced with mantine
 - End-to-end testing with [Cypress](https://cypress.io)
 - Local third party request mocking with [MSW](https://mswjs.io)
 - Unit testing with [Vitest](https://vitest.dev) and [Testing Library](https://testing-library.com)
