@@ -10,7 +10,12 @@ import {
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import ReCAPTCHA from 'react-google-recaptcha';
-import { Form, useLoaderData, useSubmit } from '@remix-run/react';
+import {
+  Form,
+  useActionData,
+  useLoaderData,
+  useSubmit,
+} from '@remix-run/react';
 import type { FormEventHandler } from 'react';
 import type { Globals } from '~/types';
 
@@ -40,9 +45,21 @@ interface ContactProps {
   headerHeight: string;
 }
 
+export interface ContactFormValues {
+  name: string;
+  email: string;
+  details: string;
+  recaptchaValue: string;
+  intent: string;
+}
+
 export const Contact = ({ id, headerHeight }: ContactProps) => {
   const [recaptchaValue, setRecaptchaValue] = useState<string | null>(null);
   const { classes } = useStyles();
+
+  const actionData = useActionData();
+
+  console.log(actionData);
 
   const data = useLoaderData<{ ENV: Globals }>();
 

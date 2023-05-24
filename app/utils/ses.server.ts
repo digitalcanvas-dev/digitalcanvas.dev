@@ -64,3 +64,7 @@ export const sendContactEmail = async (
     return false;
   }
 };
+
+export const validateContactForm = () => {
+  // todo
+};

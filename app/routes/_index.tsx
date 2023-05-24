@@ -6,6 +6,7 @@ import { createStyles, Footer, rem } from '@mantine/core';
 
 import { SiteHeader } from '~/components/SiteHeader';
 import { About } from '~/components/index/About';
+import type { ContactFormValues } from '~/components/index/Contact';
 import { Contact } from '~/components/index/Contact';
 
 import {
@@ -27,7 +28,11 @@ export const loader = async (): Promise<TypedResponse<{ ENV: Globals }>> => {
   });
 };
 
-export async function action({ request }: ActionArgs) {
+export async function action({
+  request,
+}: ActionArgs): Promise<null | TypedResponse<{
+  errors?: Record<keyof ContactFormValues, string | null>;
+}>> {
   const formData = await request.formData();
   const intent = formData.get('intent');
   if (intent !== 'contact') {
@@ -45,7 +50,15 @@ export async function action({ request }: ActionArgs) {
 
     if (!resp.success) {
       console.error('invalid captcha response', JSON.stringify(resp));
-      return json({ errors: {} });
+      return json({
+        errors: {
+          intent: null,
+          name: null,
+          email: null,
+          details: 'Unknown error',
+          recaptchaValue: null,
+        },
+      });
     }
   }
 
@@ -55,6 +68,8 @@ export async function action({ request }: ActionArgs) {
         name: !requesterName ? 'Required' : null,
         email: !requesterEmail ? 'Required' : null,
         details: !details ? 'Required' : null,
+        intent: null,
+        recaptchaValue: null,
       },
     });
   }
@@ -62,6 +77,10 @@ export async function action({ request }: ActionArgs) {
   if (!validateEmail(requesterEmail)) {
     return json({
       errors: {
+        name: null,
+        details: null,
+        intent: null,
+        recaptchaValue: null,
         email: 'Invalid',
       },
     });
@@ -74,13 +93,15 @@ export async function action({ request }: ActionArgs) {
   );
 
   if (sentSuccess) {
-    return json({
-      success: true,
-    });
+    return null;
   } else {
     return json({
       errors: {
-        name: 'Unknown error',
+        intent: null,
+        email: null,
+        name: null,
+        recaptchaValue: null,
+        details: 'Unknown error',
       },
     });
   }
