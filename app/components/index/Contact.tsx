@@ -69,8 +69,6 @@ export const Contact = ({ id }: ContactProps) => {
   const submit = useSubmit();
   const form = useForm();
 
-  const sectionHeightStr = ``;
-
   const onSubmit = form.onSubmit((_v, e) => submit(e.currentTarget));
 
   const onError: FormEventHandler<HTMLFormElement> = (e) => {
@@ -82,11 +80,7 @@ export const Contact = ({ id }: ContactProps) => {
   };
 
   return (
-    <IndexSection
-      id={id}
-      className={classes.root}
-      style={{ height: sectionHeightStr }}
-    >
+    <IndexSection id={id} className={classes.root}>
       <Title order={2} color="orange" ref={contactTitleRef}>
         Contact
       </Title>
