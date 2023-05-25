@@ -3,6 +3,7 @@ import { validateEmail } from '~/utils';
 const getAWSCredentials = async (): Promise<{
   accessKeyId: string;
   secretAccessKey: string;
+  sessionToken: string;
 }> => {
   return new Promise((resolve, reject) => {
     AWS.config.getCredentials(function (err) {
@@ -10,6 +11,7 @@ const getAWSCredentials = async (): Promise<{
         reject(err);
       } else {
         resolve({
+          sessionToken: `${AWS.config.credentials?.sessionToken}`,
           accessKeyId: `${AWS.config.credentials?.accessKeyId}`,
           secretAccessKey: `${AWS.config.credentials?.secretAccessKey}`,
         });
@@ -23,16 +25,16 @@ export const sendContactEmail = async (
   requesterEmail: string,
   requesterDetails: string
 ) => {
-  const { accessKeyId, secretAccessKey } = await getAWSCredentials();
+  const { accessKeyId, secretAccessKey, sessionToken } =
+    await getAWSCredentials();
 
   try {
     const ses = new SES({
       region: 'us-east-1',
       credentials: {
-        // @ts-ignore
         accessKeyId,
-        // @ts-ignore
         secretAccessKey,
+        sessionToken,
       },
     });
 
