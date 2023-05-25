@@ -57,12 +57,13 @@ export const sendContactEmail = async (
       },
     };
 
-    const preSendResp = await ses.sendEmail(params);
+    const resp = await ses.sendEmail(params).promise();
 
-    await preSendResp.send();
-    return true;
+    const { error } = resp.$response;
+
+    return error ?? null;
   } catch (e) {
-    return false;
+    return e;
   }
 };
 
