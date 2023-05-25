@@ -1,7 +1,14 @@
 import React, { useRef } from 'react';
 import type { ActionArgs, TypedResponse } from '@remix-run/node';
 import { json } from '@remix-run/node';
-import { createStyles, Footer, rem } from '@mantine/core';
+import {
+  createStyles,
+  em,
+  Footer,
+  getBreakpointValue,
+  rem,
+  Text,
+} from '@mantine/core';
 
 import { SiteHeader } from '~/components/SiteHeader';
 import { About } from '~/components/index/About';
@@ -106,10 +113,20 @@ const useStyles = createStyles((theme) => ({
     backgroundImage: `url(${bg})`,
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
+    padding: '0 10rem',
+    [`@media (max-width: ${em(getBreakpointValue(theme.breakpoints.sm) - 1)})`]:
+      {
+        padding: '0 2rem',
+      },
   },
   footer: {
-    padding: '5rem 20rem',
+    width: '100%',
+    padding: '2rem 10rem',
     color: theme.colors.dark[1],
+    [`@media (max-width: ${em(getBreakpointValue(theme.breakpoints.sm) - 1)})`]:
+      {
+        padding: '2rem',
+      },
   },
 }));
 
@@ -124,13 +141,15 @@ const Index = () => {
     <>
       <SiteHeader headerHeight={HEADER_HEIGHT} links={[]} mainCta={mainCta} />
       <main ref={mainRef} className={classes.main}>
-        <About id={Section.about} headerHeight={HEADER_HEIGHT} />
+        <About id={Section.about} />
         {/*<Services id={Section.services} />*/}
-        <Contact id={Section.contact} headerHeight={HEADER_HEIGHT} />
+        <Contact id={Section.contact} />
       </main>
       <Footer height="auto" className={classes.footer}>
-        Copyright <span dangerouslySetInnerHTML={{ __html: `&copy;` }} /> 2023
-        Digital Canvas LLC
+        <Text>
+          Copyright <span dangerouslySetInnerHTML={{ __html: `&copy;` }} /> 2023
+          Digital Canvas LLC
+        </Text>
       </Footer>
     </>
   );

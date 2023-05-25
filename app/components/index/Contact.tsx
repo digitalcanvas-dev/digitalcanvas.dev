@@ -25,9 +25,7 @@ import React, { useState } from 'react';
 
 const useStyles = createStyles((theme) => ({
   root: {
-    minHeight: '500px',
-    marginLeft: '10rem',
-    marginRight: '10rem',
+    height: 'calc(100vh - var(--mantine-header-height))',
   },
   contactForm: {
     marginTop: rem(10),
@@ -42,7 +40,6 @@ const useStyles = createStyles((theme) => ({
 }));
 interface ContactProps {
   id: string;
-  headerHeight: string;
 }
 
 export interface ContactFormValues {
@@ -53,7 +50,7 @@ export interface ContactFormValues {
   intent: string;
 }
 
-export const Contact = ({ id, headerHeight }: ContactProps) => {
+export const Contact = ({ id }: ContactProps) => {
   const [recaptchaValue, setRecaptchaValue] = useState<string | null>(null);
   const { classes } = useStyles();
 
@@ -72,8 +69,6 @@ export const Contact = ({ id, headerHeight }: ContactProps) => {
   const submit = useSubmit();
   const form = useForm();
 
-  const sectionHeightStr = `calc(100vh - ${px(headerHeight)})`;
-
   const onSubmit = form.onSubmit((_v, e) => submit(e.currentTarget));
 
   const onError: FormEventHandler<HTMLFormElement> = (e) => {
@@ -85,11 +80,7 @@ export const Contact = ({ id, headerHeight }: ContactProps) => {
   };
 
   return (
-    <IndexSection
-      id={id}
-      className={classes.root}
-      style={{ height: sectionHeightStr }}
-    >
+    <IndexSection id={id} className={classes.root}>
       <Title order={2} color="orange" ref={contactTitleRef}>
         Contact
       </Title>
