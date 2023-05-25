@@ -29,6 +29,7 @@ const useStyles = createStyles((theme) => ({
     transition: 'opacity 300ms ease-in-out',
     [`@media (max-width: ${em(getBreakpointValue(theme.breakpoints.sm) - 1)})`]:
       {
+        opacity: 1,
         fontSize: '1.5rem',
       },
   },

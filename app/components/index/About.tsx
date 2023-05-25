@@ -30,6 +30,13 @@ const useStyles = createStyles((theme) => ({
     gridArea: 'text',
   },
 
+  title: {
+    [`@media (max-width: ${em(getBreakpointValue(theme.breakpoints.sm) - 1)})`]:
+      {
+        display: 'none',
+      },
+  },
+
   img: {
     marginRight: '-20rem',
     width: '20rem',
@@ -50,7 +57,12 @@ export const About = ({ id }: AboutProps) => {
   return (
     <IndexSection id={id} className={classes.root}>
       <Box className={classes.text}>
-        <Title order={1} color="orange" ref={titleRef}>
+        <Title
+          className={classes.title}
+          order={1}
+          color="orange"
+          ref={titleRef}
+        >
           Digital Canvas Development
         </Title>
         <p>
