@@ -67,26 +67,24 @@ export async function action({
     return json({ errors: validationResult });
   }
 
-  const sentSuccess = await sendContactEmail(
+  const sentError = await sendContactEmail(
     `${requesterName}`,
     `${requesterEmail}`,
     `${details}`
   );
 
-  if (sentSuccess) {
-    console.log('success', sentSuccess, 'from', requesterEmail);
-    return null;
-  } else {
+  if (sentError) {
     return json({
       errors: {
         intent: null,
         email: null,
         name: null,
         recaptchaValue: null,
-        details: 'Unknown error',
+        details: `${sentError}`,
       },
     });
   }
+  return null;
 }
 
 const enum Section {
