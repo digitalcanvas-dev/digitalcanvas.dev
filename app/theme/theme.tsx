@@ -16,6 +16,13 @@ const globalStyles = (theme: MantineTheme) =>
 export const GlobalStyles = () => <Global styles={globalStyles} />;
 
 export const theme: MantineThemeOverride = {
+  breakpoints: {
+    xs: '30em',
+    sm: '48em',
+    md: '64em',
+    lg: '74em',
+    xl: '90em',
+  },
   colorScheme: 'dark',
   colors: {
     // prettier-ignore
@@ -24,7 +31,7 @@ export const theme: MantineThemeOverride = {
   fontFamily: 'Source Sans Pro, Arial, sans-serif',
   fontFamilyMonospace: 'Fira Mono, Courier, monospace',
   headings: {
-    fontWeight: '400',
+    fontWeight: 400,
     fontFamily: 'Merriweather, Times New Roman, serif',
 
     // properties for individual headings, all of them are optional

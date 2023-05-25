@@ -26,8 +26,6 @@ import React, { useState } from 'react';
 const useStyles = createStyles((theme) => ({
   root: {
     minHeight: '500px',
-    marginLeft: '10rem',
-    marginRight: '10rem',
   },
   contactForm: {
     marginTop: rem(10),
