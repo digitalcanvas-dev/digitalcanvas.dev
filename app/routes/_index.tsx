@@ -74,6 +74,7 @@ export async function action({
   );
 
   if (sentSuccess) {
+    console.log('success', sentSuccess, 'from', requesterEmail);
     return null;
   } else {
     return json({
