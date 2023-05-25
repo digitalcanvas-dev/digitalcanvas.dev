@@ -30,6 +30,13 @@ const useStyles = createStyles((theme) => ({
     gridArea: 'text',
   },
 
+  title: {
+    [`@media (max-width: ${em(getBreakpointValue(theme.breakpoints.sm) - 1)})`]:
+      {
+        display: 'none',
+      },
+  },
+
   img: {
     marginRight: '-20rem',
     width: '20rem',
@@ -50,17 +57,23 @@ export const About = ({ id }: AboutProps) => {
   return (
     <IndexSection id={id} className={classes.root}>
       <Box className={classes.text}>
-        <Title order={1} color="orange" ref={titleRef}>
+        <Title
+          className={classes.title}
+          order={1}
+          color="orange"
+          ref={titleRef}
+        >
           Digital Canvas Development
         </Title>
         <p>
-          Specializing in the unique needs of businesses and startups,{' '}
-          <b>Digital Canvas Development</b> provides tailored solutions in
-          custom development and software consulting.
+          Specializing in the unique needs of both businesses and startups,{' '}
+          <strong>Digital Canvas Development</strong> provides tailored
+          solutions in custom software development and consulting.
         </p>
         <p>
-          We empower your growth and innovation by bridging technology gaps and
-          enhancing your digital presence.
+          Whether you need a new or updated website, or you're looking for
+          someone with over 10 years' of experience to coordinate with an
+          existing team, <strong>Digital Canvas Development</strong> can help!
         </p>
       </Box>
       {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */}
