@@ -3,6 +3,8 @@ import {
   Button,
   Container,
   createStyles,
+  em,
+  getBreakpointValue,
   Group,
   Header,
   px,
@@ -16,7 +18,19 @@ const useStyles = createStyles((theme) => ({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: '20px',
+    [`@media (max-width: ${em(getBreakpointValue(theme.breakpoints.sm) - 1)})`]:
+      {
+        height: '100%',
+        justifyContent: 'center',
+      },
+  },
+
+  title: {
+    transition: 'opacity 300ms ease-in-out',
+    [`@media (max-width: ${em(getBreakpointValue(theme.breakpoints.sm) - 1)})`]:
+      {
+        fontSize: '1.5rem',
+      },
   },
 
   links: {
@@ -25,10 +39,15 @@ const useStyles = createStyles((theme) => ({
     },
   },
 
-  burger: {
-    [theme.fn.largerThan('sm')]: {
-      display: 'none',
-    },
+  contactButton: {
+    fontSize: '1rem',
+    padding: '1.5rem 4.5rem',
+    borderTopLeftRadius: 0,
+    borderTopRightRadius: 0,
+    [`@media (max-width: ${em(getBreakpointValue(theme.breakpoints.sm) - 1)})`]:
+      {
+        display: 'none',
+      },
   },
 }));
 
@@ -119,45 +138,33 @@ export const SiteHeader = ({
       })}
     >
       <Container className={classes.inner} fluid>
-        <Group>
-          <Title
-            color="orange"
-            sx={{
-              transition: 'opacity 300ms ease-in-out',
-              opacity: scrolled ? 1 : 0,
-            }}
-            order={1}
-            onClick={() => {
-              window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
-            }}
-          >
-            Digital Canvas Development
-          </Title>
-        </Group>
-        <Group spacing={5} className={classes.links}>
-          {items}
-        </Group>
-        <Group
-          spacing={5}
+        <Title
+          color="orange"
+          className={classes.title}
           sx={{
-            alignSelf: 'start',
+            opacity: scrolled ? 1 : 0,
+          }}
+          order={1}
+          onClick={() => {
+            window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
           }}
         >
-          <Button
-            radius="lg"
-            h="auto"
-            sx={{
-              fontSize: '1rem',
-              padding: '22px 75px',
-              borderTopLeftRadius: 0,
-              borderTopRightRadius: 0,
-            }}
-            color="orange"
-            onClick={(evt) => clickHandler(evt, mainCta.link, px(headerHeight))}
-          >
-            {mainCta.label}
-          </Button>
-        </Group>
+          Digital Canvas Development
+        </Title>
+        {items.length ? (
+          <Group spacing={5} className={classes.links}>
+            {items}
+          </Group>
+        ) : null}
+        <Button
+          radius="lg"
+          h="auto"
+          className={classes.contactButton}
+          color="orange"
+          onClick={(evt) => clickHandler(evt, mainCta.link, px(headerHeight))}
+        >
+          {mainCta.label}
+        </Button>
       </Container>
     </Header>
   );

@@ -3,7 +3,6 @@ import {
   createStyles,
   em,
   getBreakpointValue,
-  px,
   Title,
 } from '@mantine/core';
 import { IndexSection } from '~/components/IndexSection';
@@ -12,12 +11,11 @@ import { useRefManagerContext } from '~/components/index/RefManagerContext';
 
 interface AboutProps {
   id: string;
-  headerHeight: string;
 }
 
 const useStyles = createStyles((theme) => ({
   root: {
-    minHeight: '500px',
+    height: 'calc(100vh - var(--mantine-header-height))',
     display: 'grid',
     gridTemplateAreas: '"text img"',
     alignItems: 'center',
@@ -43,19 +41,14 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-export const About = ({ id, headerHeight }: AboutProps) => {
+export const About = ({ id }: AboutProps) => {
   const { classes } = useStyles();
-  const sectionHeightStr = `calc(100vh - ${px(headerHeight)}px)`;
   const { getHTMLHeadingElementRef } = useRefManagerContext();
 
   const titleRef = getHTMLHeadingElementRef('title');
 
   return (
-    <IndexSection
-      id={id}
-      className={classes.root}
-      style={{ height: sectionHeightStr }}
-    >
+    <IndexSection id={id} className={classes.root}>
       <Box className={classes.text}>
         <Title order={1} color="orange" ref={titleRef}>
           Digital Canvas Development

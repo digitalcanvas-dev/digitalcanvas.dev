@@ -141,9 +141,9 @@ const Index = () => {
     <>
       <SiteHeader headerHeight={HEADER_HEIGHT} links={[]} mainCta={mainCta} />
       <main ref={mainRef} className={classes.main}>
-        <About id={Section.about} headerHeight={HEADER_HEIGHT} />
+        <About id={Section.about} />
         {/*<Services id={Section.services} />*/}
-        <Contact id={Section.contact} headerHeight={HEADER_HEIGHT} />
+        <Contact id={Section.contact} />
       </main>
       <Footer height="auto" className={classes.footer}>
         <Text>
