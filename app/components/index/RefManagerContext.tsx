@@ -28,13 +28,11 @@ export const RefManagerContext = createContext<RefManagerContextValue>({
   },
 });
 
-export const RefManagerContextProvider = (
-  props: PropsWithChildren<{ refs: AllRefs }>
-) => {
-  const [refs, setRefs] = useState<AllRefs>({
-    HTMLElement: {},
-    HTMLHeadingElement: {},
-  });
+export const RefManagerContextProvider = ({
+  refs: refsProp,
+  ...rest
+}: PropsWithChildren<{ refs: AllRefs }>) => {
+  const [refs, setRefs] = useState<AllRefs>(refsProp);
 
   const registerRefs = (
     htmlElementRefs: Record<string, RefObject<HTMLElement>>,
@@ -62,7 +60,7 @@ export const RefManagerContextProvider = (
     getHTMLHeadingElementRef,
   };
 
-  return <RefManagerContext.Provider value={contextValue} {...props} />;
+  return <RefManagerContext.Provider value={contextValue} {...rest} />;
 };
 
 export const useRefManagerContext = () => useContext(RefManagerContext);

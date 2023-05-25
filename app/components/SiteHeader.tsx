@@ -88,7 +88,7 @@ export const SiteHeader = ({
     return () => {
       window.removeEventListener('scroll', handler);
     };
-  }, [titleRef]);
+  }, [titleRef?.current]);
 
   const items = links.map((link) => {
     return (
