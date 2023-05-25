@@ -117,6 +117,7 @@ export const Contact = ({ id, headerHeight }: ContactProps) => {
           {recaptchaValue ? (
             <input type="hidden" name="recaptchaValue" value={recaptchaValue} />
           ) : null}
+          {actionData?.errors?.recaptchaValue ?? undefined}
           {skipClientRecaptcha ? null : (
             <ReCAPTCHA
               onChange={onCaptchaChange}
