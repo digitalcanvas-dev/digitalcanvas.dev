@@ -10,7 +10,7 @@ import {
   px,
   Title,
 } from '@mantine/core';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useRefManagerContext } from '~/components/index/RefManagerContext';
 
 const useStyles = createStyles((theme) => ({
@@ -64,24 +64,27 @@ interface SiteHeaderProps {
   headerHeight: string;
 }
 
-const clickHandler = (evt: MouseEvent, to: string, offsetPx: number) => {
-  const target = document.getElementById(to);
-
-  if (!target) {
-    console.error(`missing target: ${to}`);
-    return;
-  }
-
-  const { top } = target.getBoundingClientRect();
-
-  window.scrollBy({ top: top - offsetPx, behavior: 'smooth' });
-};
-
 export const SiteHeader = ({
   links,
   mainCta,
   headerHeight,
 }: SiteHeaderProps) => {
+  const clickHandler = useCallback(
+    (evt: MouseEvent, to: string, offsetPx: number) => {
+      const target = document?.getElementById(to);
+
+      if (!target) {
+        console.error(`missing target: ${to}`);
+        return;
+      }
+
+      const { top } = target.getBoundingClientRect();
+
+      window.scrollBy({ top: top - offsetPx, behavior: 'smooth' });
+    },
+    []
+  );
+
   const { classes } = useStyles();
 
   const [scrolled, setScrolled] = useState(false);
@@ -93,6 +96,9 @@ export const SiteHeader = ({
   const headerRef = getHTMLElementRef('header');
 
   useEffect(() => {
+    if (!globalThis) {
+      return;
+    }
     const handler = () => {
       const top = titleRef?.current?.getBoundingClientRect().top ?? null;
 
@@ -103,12 +109,13 @@ export const SiteHeader = ({
       setScrolled(top < 0);
     };
 
-    window.addEventListener('scroll', handler);
+    globalThis.addEventListener('scroll', handler);
 
     return () => {
-      window.removeEventListener('scroll', handler);
+      globalThis.removeEventListener('scroll', handler);
     };
-  }, [titleRef?.current]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [titleRef?.current, globalThis]);
 
   const items = links.map((link) => {
     return (
