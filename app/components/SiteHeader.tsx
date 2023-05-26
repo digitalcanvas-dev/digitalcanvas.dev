@@ -114,6 +114,7 @@ export const SiteHeader = ({
     return () => {
       globalThis.removeEventListener('scroll', handler);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [titleRef?.current, globalThis]);
 
   const items = links.map((link) => {
