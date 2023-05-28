@@ -3,8 +3,6 @@ import {
   Button,
   clsx,
   createStyles,
-  em,
-  getBreakpointValue,
   Group,
   Header,
   px,
@@ -23,24 +21,22 @@ const useStyles = createStyles((theme) => ({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    [`@media (max-width: ${em(getBreakpointValue(theme.breakpoints.sm) - 1)})`]:
-      {
-        justifyContent: 'center',
-      },
+    [theme.fn.smallerThan('sm')]: {
+      justifyContent: 'center',
+    },
   },
 
   scrolledHeader: {
     backgroundColor: `${theme.colors.teal[1]}DD`,
+    '> img': {
+      opacity: 1,
+    },
   },
 
   logo: {
     height: rem(80),
     transition: 'opacity 300ms ease-in-out',
     opacity: 0,
-  },
-
-  scrolledLogo: {
-    opacity: 1,
   },
 
   links: {
@@ -55,10 +51,9 @@ const useStyles = createStyles((theme) => ({
     padding: '1.5rem 4.5rem',
     borderTopLeftRadius: 0,
     borderTopRightRadius: 0,
-    [`@media (max-width: ${em(getBreakpointValue(theme.breakpoints.sm) - 1)})`]:
-      {
-        display: 'none',
-      },
+    [theme.fn.smallerThan('sm')]: {
+      display: 'none',
+    },
   },
 }));
 
@@ -160,9 +155,7 @@ export const SiteHeader = ({
     >
       <img
         src={logo}
-        className={clsx(classes.logo, {
-          [classes.scrolledLogo]: scrolled < -headerHeightPx,
-        })}
+        className={classes.logo}
         alt=""
         onClick={() => {
           window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
