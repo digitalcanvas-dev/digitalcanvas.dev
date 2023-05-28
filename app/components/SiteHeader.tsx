@@ -38,9 +38,7 @@ const useStyles = createStyles((theme) => ({
     transition: 'opacity 300ms ease-in-out',
     opacity: 0,
     [`@media (max-width: ${em(getBreakpointValue(theme.breakpoints.sm) - 1)})`]:
-      {
-        opacity: 1,
-      },
+      {},
   },
 
   scrolledLogo: {
@@ -55,7 +53,7 @@ const useStyles = createStyles((theme) => ({
 
   contactButton: {
     alignSelf: 'start',
-    fontSize: '1rem',
+    fontSize: '1.1rem',
     padding: '1.5rem 4.5rem',
     borderTopLeftRadius: 0,
     borderTopRightRadius: 0,
@@ -114,6 +112,9 @@ export const SiteHeader = ({
     if (!window) {
       return;
     }
+
+    // setScrolled(titleLogoRef?.current?.getBoundingClientRect().top ?? 1);
+
     const handler = () => {
       const top = titleLogoRef?.current?.getBoundingClientRect().top ?? null;
 
@@ -156,13 +157,13 @@ export const SiteHeader = ({
       height={headerHeight}
       withBorder={false}
       className={clsx(classes.header, {
-        [classes.scrolledHeader]: scrolled - headerHeightPx < 0,
+        [classes.scrolledHeader]: scrolled < -headerHeightPx,
       })}
     >
       <img
         src={logo}
         className={clsx(classes.logo, {
-          [classes.scrolledLogo]: scrolled - headerHeightPx < 0,
+          [classes.scrolledLogo]: scrolled < -headerHeightPx,
         })}
         alt=""
         onClick={() => {
