@@ -115,6 +115,7 @@ export const Contact = ({ id }: ContactProps) => {
             />
           )}
           <Button
+            color="orange"
             disabled={!skipClientRecaptcha && !recaptchaValue}
             className={classes.submitButton}
             type="submit"

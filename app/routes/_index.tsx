@@ -20,7 +20,6 @@ import {
   useRefManagerContext,
 } from '~/components/index/RefManagerContext';
 
-import bg from '../../public/bg-dark.jpg';
 import type { Globals } from '~/types';
 import { validateCaptcha } from '~/utils/captcha.server';
 import { sendContactEmail, validateContactForm } from '~/utils/ses.server';
@@ -106,13 +105,10 @@ const mainCta = {
   label: 'Contact',
 };
 
-const HEADER_HEIGHT = rem(90);
+const HEADER_HEIGHT = rem(130);
 
 const useStyles = createStyles((theme) => ({
   main: {
-    backgroundImage: `url(${bg})`,
-    backgroundSize: 'cover',
-    backgroundRepeat: 'no-repeat',
     padding: '0 10rem',
     [`@media (max-width: ${em(getBreakpointValue(theme.breakpoints.sm) - 1)})`]:
       {
@@ -160,6 +156,7 @@ export default () => {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const contactTitleRef = useRef<HTMLHeadingElement>(null);
   const contactRef = useRef<HTMLElement>(null);
+  const titleLogoRef = useRef<HTMLImageElement>(null);
 
   return (
     <RefManagerContextProvider
@@ -172,6 +169,9 @@ export default () => {
         HTMLHeadingElement: {
           title: titleRef,
           contactTitle: contactTitleRef,
+        },
+        HTMLImgElement: {
+          titleLogo: titleLogoRef,
         },
       }}
     >
