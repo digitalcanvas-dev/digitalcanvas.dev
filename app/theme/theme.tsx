@@ -5,11 +5,18 @@ import type {
 } from '@mantine/core';
 import { Global } from '@mantine/core';
 import { css } from '@emotion/react';
+import bgLight from '../../public/bgLight.jpg';
 
 const globalStyles = (theme: MantineTheme) =>
   [
     css`
       @import url('https://fonts.googleapis.com/css2?family=Fira+Mono&family=Merriweather:wght@300;400;700&family=Source+Sans+Pro:wght@300;400;700&display=swap');
+
+      body {
+        background-image: url(${bgLight});
+        background-size: cover;
+        background-repeat: no-repeat;
+      }
     `,
   ] as unknown as CSSObject[];
 
@@ -23,7 +30,7 @@ export const theme: MantineThemeOverride = {
     lg: '74em',
     xl: '90em',
   },
-  colorScheme: 'dark',
+  colorScheme: 'light',
   colors: {
     // prettier-ignore
     'brand': ['#DDEFF1', '#5FCCDB', '#44CADC', '#2AC9DE', '#1AC2D9', '#11B7CD', '#09ADC3', '#0E99AC', '#128797', '#147885'],

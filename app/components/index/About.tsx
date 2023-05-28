@@ -1,12 +1,6 @@
-import {
-  Box,
-  createStyles,
-  em,
-  getBreakpointValue,
-  Title,
-} from '@mantine/core';
+import { Box, createStyles, em, getBreakpointValue, rem } from '@mantine/core';
 import { IndexSection } from '~/components/IndexSection';
-import aboutImg from '../../../public/aboutImg.png';
+import logo from '../../../public/dcdLogo.svg';
 import { useRefManagerContext } from '~/components/index/RefManagerContext';
 
 interface AboutProps {
@@ -17,54 +11,37 @@ const useStyles = createStyles((theme) => ({
   root: {
     height: 'calc(100vh - var(--mantine-header-height))',
     display: 'grid',
-    gridTemplateAreas: '"text img"',
+    gridTemplateAreas: '"img text"',
     alignItems: 'center',
     justifyItems: 'center',
-    gridTemplateColumns: 'auto 20rem',
+    gridTemplateColumns: 'auto auto',
+    gap: 50,
     [`@media (max-width: ${em(getBreakpointValue(theme.breakpoints.sm) - 1)})`]:
       {
+        gridTemplateAreas: '"img" "text"',
         gridTemplateColumns: 'auto',
+        gridTemplateRows: 'auto auto',
       },
   },
   text: {
     gridArea: 'text',
   },
-
-  title: {
-    [`@media (max-width: ${em(getBreakpointValue(theme.breakpoints.sm) - 1)})`]:
-      {
-        display: 'none',
-      },
-  },
-
   img: {
-    marginRight: '-20rem',
-    width: '20rem',
     gridArea: 'img',
-    [`@media (max-width: ${em(getBreakpointValue(theme.breakpoints.sm) - 1)})`]:
-      {
-        display: 'none',
-      },
+    height: rem(100),
   },
 }));
 
 export const About = ({ id }: AboutProps) => {
   const { classes } = useStyles();
-  const { getHTMLHeadingElementRef } = useRefManagerContext();
+  const { getHTMLImgElementRef } = useRefManagerContext();
 
-  const titleRef = getHTMLHeadingElementRef('title');
+  const titleLogoRef = getHTMLImgElementRef('titleLogo');
 
   return (
     <IndexSection id={id} className={classes.root}>
+      <img src={logo} className={classes.img} ref={titleLogoRef} alt="" />
       <Box className={classes.text}>
-        <Title
-          className={classes.title}
-          order={1}
-          color="orange"
-          ref={titleRef}
-        >
-          Digital Canvas Development
-        </Title>
         <p>
           Specializing in the unique needs of both businesses and startups,{' '}
           <strong>Digital Canvas Development</strong> provides tailored
@@ -76,12 +53,6 @@ export const About = ({ id }: AboutProps) => {
           existing team, <strong>Digital Canvas Development</strong> can help!
         </p>
       </Box>
-      {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */}
-      <img
-        src={aboutImg}
-        className={classes.img}
-        alt="Accessibility is important, but this image isn't."
-      />
     </IndexSection>
   );
 };

@@ -1,20 +1,25 @@
 import type { MouseEvent } from 'react';
 import {
   Button,
-  Container,
+  clsx,
   createStyles,
   em,
   getBreakpointValue,
   Group,
   Header,
   px,
-  Title,
+  rem,
 } from '@mantine/core';
 import { useCallback, useEffect, useState } from 'react';
+import logo from '../../public/dcdLogo.svg';
 import { useRefManagerContext } from '~/components/index/RefManagerContext';
 
 const useStyles = createStyles((theme) => ({
-  inner: {
+  header: {
+    transition: 'background-color 300ms ease-in-out',
+    backgroundColor: 'transparent',
+    position: 'sticky',
+    padding: '0 10rem',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -25,12 +30,17 @@ const useStyles = createStyles((theme) => ({
       },
   },
 
-  title: {
+  scrolledHeader: {
+    backgroundColor: `${theme.colors.teal[1]}DD`,
+  },
+
+  logo: {
+    /// alignSelf: 'center',
+    height: rem(80),
     transition: 'opacity 300ms ease-in-out',
     [`@media (max-width: ${em(getBreakpointValue(theme.breakpoints.sm) - 1)})`]:
       {
         opacity: 1,
-        fontSize: '1.5rem',
       },
   },
 
@@ -41,6 +51,7 @@ const useStyles = createStyles((theme) => ({
   },
 
   contactButton: {
+    alignSelf: 'start',
     fontSize: '1rem',
     padding: '1.5rem 4.5rem',
     borderTopLeftRadius: 0,
@@ -87,12 +98,11 @@ export const SiteHeader = ({
 
   const { classes } = useStyles();
 
-  const [scrolled, setScrolled] = useState(false);
+  const [scrolled, setScrolled] = useState(0);
 
-  const { getHTMLElementRef, getHTMLHeadingElementRef } =
-    useRefManagerContext();
+  const { getHTMLElementRef, getHTMLImgElementRef } = useRefManagerContext();
 
-  const titleRef = getHTMLHeadingElementRef('title');
+  const titleLogoRef = getHTMLImgElementRef('titleLogo');
   const headerRef = getHTMLElementRef('header');
 
   useEffect(() => {
@@ -100,13 +110,13 @@ export const SiteHeader = ({
       return;
     }
     const handler = () => {
-      const top = titleRef?.current?.getBoundingClientRect().top ?? null;
+      const top = titleLogoRef?.current?.getBoundingClientRect().top ?? null;
 
       if (top === null) {
         return;
       }
 
-      setScrolled(top < 0);
+      setScrolled(top);
     };
 
     globalThis.addEventListener('scroll', handler);
@@ -115,7 +125,7 @@ export const SiteHeader = ({
       globalThis.removeEventListener('scroll', handler);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [titleRef?.current, globalThis]);
+  }, [titleLogoRef?.current, globalThis]);
 
   const items = links.map((link) => {
     return (
@@ -139,41 +149,34 @@ export const SiteHeader = ({
     <Header
       ref={headerRef}
       height={headerHeight}
-      sx={(theme) => ({
-        transition: 'background-color 300ms ease-in-out',
-        backgroundColor: `${theme.colors.dark[9]}DD`,
-        position: 'sticky',
-      })}
+      withBorder={false}
+      className={clsx(classes.header, { [classes.scrolledHeader]: scrolled })}
     >
-      <Container className={classes.inner} fluid>
-        <Title
-          color="orange"
-          className={classes.title}
-          sx={{
-            opacity: scrolled ? 1 : 0,
-          }}
-          order={1}
-          onClick={() => {
-            window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
-          }}
-        >
-          Digital Canvas Development
-        </Title>
-        {items.length ? (
-          <Group spacing={5} className={classes.links}>
-            {items}
-          </Group>
-        ) : null}
-        <Button
-          radius="lg"
-          h="auto"
-          className={classes.contactButton}
-          color="orange"
-          onClick={(evt) => clickHandler(evt, mainCta.link, px(headerHeight))}
-        >
-          {mainCta.label}
-        </Button>
-      </Container>
+      <img
+        src={logo}
+        className={classes.logo}
+        style={{
+          opacity: scrolled < 0 ? 1 : 0,
+        }}
+        alt=""
+        onClick={() => {
+          window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+        }}
+      />
+      {items.length ? (
+        <Group spacing={5} className={classes.links}>
+          {items}
+        </Group>
+      ) : null}
+      <Button
+        radius="lg"
+        h="auto"
+        className={classes.contactButton}
+        color="orange"
+        onClick={(evt) => clickHandler(evt, mainCta.link, px(headerHeight))}
+      >
+        {mainCta.label}
+      </Button>
     </Header>
   );
 };

@@ -3,14 +3,17 @@ import type { PropsWithChildren, RefObject } from 'react';
 
 interface AllRefs {
   HTMLElement: Record<string, RefObject<HTMLElement>>;
+  HTMLImgElement: Record<string, RefObject<HTMLImageElement>>;
   HTMLHeadingElement: Record<string, RefObject<HTMLHeadingElement>>;
 }
 
 interface RefManagerContextValue {
   registerRefs: (
     htmlElementRefs: Record<string, RefObject<HTMLElement>>,
-    htmlHeadingElementRefs: Record<string, RefObject<HTMLHeadingElement>>
+    htmlHeadingElementRefs: Record<string, RefObject<HTMLHeadingElement>>,
+    htmlImgElementRefs: Record<string, RefObject<HTMLImageElement>>
   ) => void;
+  getHTMLImgElementRef: (key: string) => RefObject<HTMLImageElement> | null;
   getHTMLElementRef: (key: string) => RefObject<HTMLElement> | null;
   getHTMLHeadingElementRef: (
     key: string
@@ -18,6 +21,9 @@ interface RefManagerContextValue {
 }
 export const RefManagerContext = createContext<RefManagerContextValue>({
   registerRefs: () => {
+    throw new Error('Not implemented.');
+  },
+  getHTMLImgElementRef: () => {
     throw new Error('Not implemented.');
   },
   getHTMLElementRef: () => {
@@ -36,16 +42,24 @@ export const RefManagerContextProvider = ({
 
   const registerRefs = (
     htmlElementRefs: Record<string, RefObject<HTMLElement>>,
-    htmlHeadingElementRefs: Record<string, RefObject<HTMLHeadingElement>>
+    htmlHeadingElementRefs: Record<string, RefObject<HTMLHeadingElement>>,
+    htmlImgElementRefs: Record<string, RefObject<HTMLImageElement>>
   ) => {
     setRefs({
       HTMLElement: htmlElementRefs,
       HTMLHeadingElement: htmlHeadingElementRefs,
+      HTMLImgElement: htmlImgElementRefs,
     });
   };
 
   const getHTMLElementRef = (key: string): RefObject<HTMLElement> | null => {
     return refs['HTMLElement']?.[key] ?? null;
+  };
+
+  const getHTMLImgElementRef = (
+    key: string
+  ): RefObject<HTMLImageElement> | null => {
+    return refs['HTMLImgElement']?.[key] ?? null;
   };
 
   const getHTMLHeadingElementRef = (
@@ -57,6 +71,7 @@ export const RefManagerContextProvider = ({
   const contextValue: RefManagerContextValue = {
     registerRefs,
     getHTMLElementRef,
+    getHTMLImgElementRef,
     getHTMLHeadingElementRef,
   };
 
