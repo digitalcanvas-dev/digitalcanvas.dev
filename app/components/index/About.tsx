@@ -29,6 +29,10 @@ const useStyles = createStyles((theme) => ({
   img: {
     gridArea: 'img',
     height: rem(100),
+    [`@media (max-width: ${em(getBreakpointValue(theme.breakpoints.sm) - 1)})`]:
+      {
+        display: 'none',
+      },
   },
 }));
 
@@ -40,8 +44,8 @@ export const About = ({ id }: AboutProps) => {
 
   return (
     <IndexSection id={id} className={classes.root}>
-      <img src={logo} className={classes.img} ref={titleLogoRef} alt="" />
-      <Box className={classes.text}>
+      <img src={logo} className={classes.img} alt="" />
+      <Box className={classes.text} ref={titleLogoRef}>
         <p>
           Specializing in the unique needs of both businesses and startups,{' '}
           <strong>Digital Canvas Development</strong> provides tailored

@@ -25,7 +25,6 @@ const useStyles = createStyles((theme) => ({
     alignItems: 'center',
     [`@media (max-width: ${em(getBreakpointValue(theme.breakpoints.sm) - 1)})`]:
       {
-        height: '100%',
         justifyContent: 'center',
       },
   },
@@ -35,13 +34,16 @@ const useStyles = createStyles((theme) => ({
   },
 
   logo: {
-    /// alignSelf: 'center',
     height: rem(80),
     transition: 'opacity 300ms ease-in-out',
     [`@media (max-width: ${em(getBreakpointValue(theme.breakpoints.sm) - 1)})`]:
       {
         opacity: 1,
       },
+  },
+
+  scrolledLogo: {
+    opacity: 1,
   },
 
   links: {
@@ -100,13 +102,15 @@ export const SiteHeader = ({
 
   const [scrolled, setScrolled] = useState(0);
 
+  const headerHeightPx = px(headerHeight);
+
   const { getHTMLElementRef, getHTMLImgElementRef } = useRefManagerContext();
 
   const titleLogoRef = getHTMLImgElementRef('titleLogo');
   const headerRef = getHTMLElementRef('header');
 
   useEffect(() => {
-    if (!globalThis) {
+    if (!window) {
       return;
     }
     const handler = () => {
@@ -119,13 +123,13 @@ export const SiteHeader = ({
       setScrolled(top);
     };
 
-    globalThis.addEventListener('scroll', handler);
+    window.addEventListener('scroll', handler);
 
     return () => {
-      globalThis.removeEventListener('scroll', handler);
+      window.removeEventListener('scroll', handler);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [titleLogoRef?.current, globalThis]);
+  }, [titleLogoRef?.current]);
 
   const items = links.map((link) => {
     return (
@@ -150,14 +154,15 @@ export const SiteHeader = ({
       ref={headerRef}
       height={headerHeight}
       withBorder={false}
-      className={clsx(classes.header, { [classes.scrolledHeader]: scrolled })}
+      className={clsx(classes.header, {
+        [classes.scrolledHeader]: scrolled - headerHeightPx < 0,
+      })}
     >
       <img
         src={logo}
-        className={classes.logo}
-        style={{
-          opacity: scrolled < 0 ? 1 : 0,
-        }}
+        className={clsx(classes.logo, {
+          [classes.scrolledLogo]: scrolled - headerHeightPx < 0,
+        })}
         alt=""
         onClick={() => {
           window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
