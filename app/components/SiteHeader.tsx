@@ -36,6 +36,7 @@ const useStyles = createStyles((theme) => ({
   logo: {
     height: rem(80),
     transition: 'opacity 300ms ease-in-out',
+    opacity: 0,
     [`@media (max-width: ${em(getBreakpointValue(theme.breakpoints.sm) - 1)})`]:
       {
         opacity: 1,

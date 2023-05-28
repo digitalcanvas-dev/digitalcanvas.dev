@@ -18,9 +18,9 @@ const useStyles = createStyles((theme) => ({
     gap: 50,
     [`@media (max-width: ${em(getBreakpointValue(theme.breakpoints.sm) - 1)})`]:
       {
-        gridTemplateAreas: '"img" "text"',
+        gridTemplateAreas: '"text" "img"',
         gridTemplateColumns: 'auto',
-        gridTemplateRows: 'auto auto',
+        gridTemplateRows: 'auto',
       },
   },
   text: {
