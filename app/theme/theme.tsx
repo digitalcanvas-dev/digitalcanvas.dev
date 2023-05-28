@@ -1,10 +1,4 @@
-import type {
-  CSSObject,
-  MantineTheme,
-  MantineThemeOverride,
-} from '@mantine/core';
-import { Global } from '@mantine/core';
-import { css } from '@emotion/react';
+/*
 import bgLight from '../../public/bgLight.jpg';
 
 const globalStyles = (theme: MantineTheme) =>
@@ -52,3 +46,5 @@ export const theme: MantineThemeOverride = {
     },
   },
 };
+
+*/

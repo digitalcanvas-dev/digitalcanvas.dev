@@ -1,13 +1,3 @@
-import {
-  Button,
-  Card,
-  createStyles,
-  rem,
-  Textarea,
-  TextInput,
-  Title,
-} from '@mantine/core';
-import { useForm } from '@mantine/form';
 import ReCAPTCHA from 'react-google-recaptcha';
 import {
   Form,
@@ -22,21 +12,6 @@ import { IndexSection } from '~/components/IndexSection';
 import { useRefManagerContext } from '~/components/index/RefManagerContext';
 import React, { useState } from 'react';
 
-const useStyles = createStyles((theme) => ({
-  root: {
-    height: 'calc(100vh - var(--mantine-header-height))',
-  },
-  contactForm: {
-    marginTop: rem(10),
-    borderRadius: theme.radius.lg,
-    display: 'flex',
-    flexDirection: 'column',
-    gap: rem(20),
-  },
-  submitButton: {
-    alignSelf: 'start',
-  },
-}));
 interface ContactProps {
   id: string;
 }
@@ -51,7 +26,6 @@ export interface ContactFormValues {
 
 export const Contact = ({ id }: ContactProps) => {
   const [recaptchaValue, setRecaptchaValue] = useState<string | null>(null);
-  const { classes } = useStyles();
 
   const actionData = useActionData<{
     errors?: Record<Partial<keyof ContactFormValues>, string>;
@@ -66,9 +40,12 @@ export const Contact = ({ id }: ContactProps) => {
   const contactTitleRef = getHTMLHeadingElementRef('contactTitle');
 
   const submit = useSubmit();
-  const form = useForm();
 
-  const onSubmit = form.onSubmit((_v, e) => submit(e.currentTarget));
+  const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
+    await submit(e.currentTarget);
+    setRecaptchaValue(null);
+    return;
+  };
 
   const onError: FormEventHandler<HTMLFormElement> = (e) => {
     console.error(e);
@@ -79,30 +56,73 @@ export const Contact = ({ id }: ContactProps) => {
   };
 
   return (
-    <IndexSection id={id} className={classes.root}>
-      <Title order={2} color="orange" ref={contactTitleRef}>
+    <IndexSection id={id} className="" style={{ height: 'calc(100vh - 5rem)' }}>
+      <h2
+        ref={contactTitleRef}
+        className="font-heading text-xl text-orange-500"
+      >
         Contact
-      </Title>
+      </h2>
 
-      <Form method="POST" onSubmit={onSubmit} onError={onError}>
-        <Card className={classes.contactForm}>
-          <TextInput
-            name="name"
-            label="Name"
-            autoComplete="off"
-            error={actionData?.errors?.name ?? undefined}
-          />
-          <TextInput
-            name="email"
-            label="Contact email"
-            autoComplete="off"
-            error={actionData?.errors?.email ?? undefined}
-          />
-          <Textarea
-            name="details"
-            label="Details"
-            error={actionData?.errors?.details ?? undefined}
-          />
+      <Form method="POST" onSubmit={onSubmit} onError={onError} className="">
+        <div className="mt-2.5 grid grid-flow-row auto-rows-auto gap-4 rounded-2xl bg-white p-4">
+          <div>
+            <label className="mb-2 block text-sm text-gray-700" htmlFor="name">
+              Name
+            </label>
+            <input
+              id="name"
+              name="name"
+              type="text"
+              autoComplete="off"
+              className={`focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none ${
+                actionData?.errors?.name ? 'border-red-500' : ''
+              }`}
+            />
+            {actionData?.errors?.name ? (
+              <p className="text-xs italic text-red-500">
+                {actionData?.errors?.name}
+              </p>
+            ) : null}
+          </div>
+          <div>
+            <label className="mb-2 block text-sm text-gray-700" htmlFor="email">
+              Contact email
+            </label>
+            <input
+              type="email"
+              name="email"
+              autoComplete="off"
+              className={`focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none ${
+                actionData?.errors?.name ? 'border-red-500' : ''
+              }`}
+            />
+            {actionData?.errors?.email ? (
+              <p className="text-xs italic text-red-500">
+                {actionData?.errors?.email}
+              </p>
+            ) : null}
+          </div>
+          <div>
+            <label
+              className="mb-2 block text-sm text-gray-700"
+              htmlFor="details"
+            >
+              Details
+            </label>
+            <textarea
+              name="details"
+              id="details"
+              className={`focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none ${
+                actionData?.errors?.name ? 'border-red-500' : ''
+              }`}
+            />
+            {actionData?.errors?.details ? (
+              <p className="text-xs italic text-red-500">
+                {actionData?.errors?.details}
+              </p>
+            ) : null}
+          </div>
           <input type="hidden" name="intent" value="contact" />
           {recaptchaValue ? (
             <input type="hidden" name="recaptchaValue" value={recaptchaValue} />
@@ -114,15 +134,14 @@ export const Contact = ({ id }: ContactProps) => {
               sitekey={data.ENV.CAPTCHA_SITE_KEY}
             />
           )}
-          <Button
-            color="orange"
+          <button
             disabled={!skipClientRecaptcha && !recaptchaValue}
-            className={classes.submitButton}
+            className="justify-self-start rounded-xl bg-orange-500 px-6 py-3 text-sm text-white hover:bg-orange-600"
             type="submit"
           >
             Send
-          </Button>
-        </Card>
+          </button>
+        </div>
       </Form>
     </IndexSection>
   );

@@ -1,14 +1,6 @@
 import React, { useRef } from 'react';
 import type { ActionArgs, TypedResponse } from '@remix-run/node';
 import { json } from '@remix-run/node';
-import {
-  createStyles,
-  em,
-  Footer,
-  getBreakpointValue,
-  rem,
-  Text,
-} from '@mantine/core';
 
 import { SiteHeader } from '~/components/SiteHeader';
 import { About } from '~/components/index/About';
@@ -105,48 +97,24 @@ const mainCta = {
   label: 'Contact',
 };
 
-const HEADER_HEIGHT = rem(130);
-
-const useStyles = createStyles((theme) => ({
-  main: {
-    padding: '0 10rem',
-    [`@media (max-width: ${em(getBreakpointValue(theme.breakpoints.sm) - 1)})`]:
-      {
-        padding: '0 2rem',
-      },
-  },
-  footer: {
-    width: '100%',
-    padding: '2rem 10rem',
-    color: theme.colors.dark[1],
-    [`@media (max-width: ${em(getBreakpointValue(theme.breakpoints.sm) - 1)})`]:
-      {
-        padding: '2rem',
-      },
-  },
-}));
+const HEADER_HEIGHT = '130px';
 
 const Index = () => {
-  const { classes } = useStyles();
-
   const { getHTMLElementRef } = useRefManagerContext();
 
   const mainRef = getHTMLElementRef('main');
 
   return (
     <>
-      <SiteHeader headerHeight={HEADER_HEIGHT} links={[]} mainCta={mainCta} />
-      <main ref={mainRef} className={classes.main}>
+      <SiteHeader headerHeight={HEADER_HEIGHT} mainCta={mainCta} />
+      <main ref={mainRef} className="-mt-32 px-8 md:px-32">
         <About id={Section.about} />
         {/*<Services id={Section.services} />*/}
         <Contact id={Section.contact} />
       </main>
-      <Footer height="auto" className={classes.footer}>
-        <Text>
-          Copyright <span dangerouslySetInnerHTML={{ __html: `&copy;` }} /> 2023
-          Digital Canvas LLC
-        </Text>
-      </Footer>
+      <footer className="w-full px-32 py-8 text-gray-950 md:p-8">
+        Copyright &copy; 2023 Digital Canvas LLC
+      </footer>
     </>
   );
 };

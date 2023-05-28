@@ -13,5 +13,5 @@ module.exports = {
   server: './server.ts',
   serverBuildPath: 'server/index.js',
   serverModuleFormat: 'cjs',
-  tailwind: false,
+  tailwind: true,
 };
