@@ -71,7 +71,7 @@ export const Contact = ({ id }: ContactProps) => {
   const onSubmit = form.onSubmit((_v, e) => submit(e.currentTarget));
 
   const onError: FormEventHandler<HTMLFormElement> = (e) => {
-    console.log(e);
+    console.error(e);
   };
 
   const onCaptchaChange = (value: string | null) => {
