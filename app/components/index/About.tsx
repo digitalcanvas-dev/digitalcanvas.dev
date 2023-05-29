@@ -24,14 +24,16 @@ export const About = ({ id }: AboutProps) => {
       />
       <div className="flex flex-col gap-8 text-lg">
         <p>
-          Specializing in the unique needs of both businesses and startups,{' '}
-          <strong>Digital Canvas Development</strong> provides tailored
-          solutions in custom software development and consulting.
+          In the dynamic landscape of modern business and emerging startups,
+          your unique needs deserve personalized attention.{' '}
+          <strong>Digital Canvas Development</strong> specializes in creating
+          tailor-made software solutions that not only answer your challenges
+          but also stimulate growth and innovation.
         </p>
         <p>
-          Whether you need a new or updated website, or you're looking for
-          someone with over 10 years' of experience to coordinate with an
-          existing team, <strong>Digital Canvas Development</strong> can help!
+          Seeking a fresh, contemporary website to reflect your brand's
+          personality? Need to update an existing platform to stay ahead in the
+          digital race? Look no further and schedule a free consultation today!
         </p>
       </div>
     </IndexSection>
