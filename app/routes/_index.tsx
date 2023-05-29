@@ -6,6 +6,7 @@ import { SiteHeader } from '~/components/SiteHeader';
 import { About } from '~/components/index/About';
 import type { ContactFormValues } from '~/components/index/Contact';
 import { Contact } from '~/components/index/Contact';
+import { Services } from '~/components/index/Services';
 
 import {
   RefManagerContextProvider,
@@ -109,7 +110,7 @@ const Index = () => {
       <SiteHeader headerHeight={HEADER_HEIGHT} mainCta={mainCta} />
       <main ref={mainRef} className="-mt-32 px-8 md:px-32">
         <About id={Section.about} />
-        {/*<Services id={Section.services} />*/}
+        <Services id={Section.services} />
         <Contact id={Section.contact} />
       </main>
       <footer className="w-full px-32 py-8 text-gray-950 md:p-8">
