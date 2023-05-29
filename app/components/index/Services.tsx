@@ -5,25 +5,6 @@ interface ServicesProps {
   id: string;
 }
 
-const ServiceBlock = ({
-  title,
-  content,
-}: {
-  title: string;
-  content: string[];
-}) => {
-  return (
-    <div className="rounded-xl bg-white bg-opacity-50 p-4 transition-transform hover:scale-110">
-      <h3 className="font-heading text-teal-950">{title}</h3>
-      {content.map((str) => (
-        <p className="mb-2 font-body text-teal-900 last-of-type:mb-0" key={str}>
-          {str}
-        </p>
-      ))}
-    </div>
-  );
-};
-
 const services = [
   {
     title: 'Custom Web Development',
@@ -47,10 +28,29 @@ const services = [
   },
 ];
 
+const ServiceBlock = ({
+  title,
+  content,
+}: {
+  title: string;
+  content: string[];
+}) => {
+  return (
+    <div className="rounded-xl bg-white bg-opacity-50 p-4 md:transition-transform md:hover:scale-110">
+      <h3 className="font-heading text-teal-950">{title}</h3>
+      {content.map((str) => (
+        <p className="mb-2 font-body text-teal-900 last-of-type:mb-0" key={str}>
+          {str}
+        </p>
+      ))}
+    </div>
+  );
+};
+
 export const Services = ({ id }: PropsWithChildren<ServicesProps>) => {
   return (
-    <IndexSection id={id} style={{ height: '50vh' }}>
-      <div className="mt-2.5 grid auto-cols-auto grid-flow-col gap-4">
+    <IndexSection id={id} className="mb-32 mt-24">
+      <div className="mt-2.5 grid grid-flow-row auto-rows-auto gap-4 md:auto-cols-auto md:grid-flow-col">
         {services.map(({ title, content }) => (
           <ServiceBlock key={title} title={title} content={content} />
         ))}

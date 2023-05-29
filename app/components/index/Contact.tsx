@@ -55,6 +55,12 @@ export const Contact = ({ id }: ContactProps) => {
     setRecaptchaValue(value);
   };
 
+  const inputStyles =
+    'w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow';
+  const focusInputStyles =
+    'focus:border-teal-300 focus:border-opacity-80 focus:outline-none';
+  const hoverInputStyles = 'hover:border-teal-300 hover:border-opacity-30';
+
   return (
     <IndexSection id={id} className="" style={{ height: 'calc(100vh - 5rem)' }}>
       <h2
@@ -75,7 +81,7 @@ export const Contact = ({ id }: ContactProps) => {
               name="name"
               type="text"
               autoComplete="off"
-              className={`focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none ${
+              className={`${inputStyles} ${hoverInputStyles} ${focusInputStyles} ${
                 actionData?.errors?.name ? 'border-red-500' : ''
               }`}
             />
@@ -93,7 +99,7 @@ export const Contact = ({ id }: ContactProps) => {
               type="email"
               name="email"
               autoComplete="off"
-              className={`focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none ${
+              className={`${inputStyles} ${hoverInputStyles} ${focusInputStyles} ${
                 actionData?.errors?.name ? 'border-red-500' : ''
               }`}
             />
@@ -113,7 +119,7 @@ export const Contact = ({ id }: ContactProps) => {
             <textarea
               name="details"
               id="details"
-              className={`focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none ${
+              className={`${inputStyles} ${hoverInputStyles} ${focusInputStyles} ${
                 actionData?.errors?.name ? 'border-red-500' : ''
               }`}
             />
