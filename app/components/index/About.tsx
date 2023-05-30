@@ -32,7 +32,7 @@ export const About = ({ id }: AboutProps) => {
         </p>
         <p>
           Seeking a fresh, contemporary website to reflect your brand's
-          personality? Need to update an existing platform to stay ahead in the
+          personality? Need to update an existing site to stay ahead in the
           digital race? Look no further and schedule a free consultation today!
         </p>
       </div>
