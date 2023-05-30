@@ -5,12 +5,14 @@ import {
   useLoaderData,
   useSubmit,
 } from '@remix-run/react';
+import React, { useState } from 'react';
 import type { FormEventHandler } from 'react';
 import type { Globals } from '~/types';
 
 import { IndexSection } from '~/components/IndexSection';
 import { useRefManagerContext } from '~/components/index/RefManagerContext';
-import React, { useState } from 'react';
+
+import img from '../../../public/0_0-removebg-preview.png';
 
 interface ContactProps {
   id: string;
@@ -74,113 +76,133 @@ export const Contact = ({ id }: ContactProps) => {
   const hoverInputStyles = 'hover:border-teal-300 hover:border-opacity-30';
 
   return (
-    <IndexSection id={id} style={{ height: 'calc(100vh - 5rem)' }}>
-      <h2
-        ref={contactTitleRef}
-        className="font-heading text-xl text-orange-500"
-      >
-        Contact
-      </h2>
+    <IndexSection
+      id={id}
+      className="mb-20 grid grid-flow-row items-center justify-stretch gap-20 md:gap-8 lg:grid-flow-col lg:grid-cols-3"
+    >
+      <div className="w-full lg:col-span-2">
+        <h2
+          ref={contactTitleRef}
+          className="font-heading text-xl text-orange-500"
+        >
+          Contact
+        </h2>
 
-      <Form method="POST" onSubmit={onSubmit} onError={onError} className="">
-        <div className="mt-2.5 grid grid-flow-row auto-rows-auto gap-4 rounded-2xl bg-white p-4">
-          <div>
-            <label className="mb-2 block text-sm text-gray-700" htmlFor="name">
-              Name
-            </label>
-            <input
-              id="name"
-              name="name"
-              type="text"
-              autoComplete="off"
-              className={`${inputStyles} ${
-                !actionData?.success && actionData?.errors?.name
-                  ? 'border-red-500'
-                  : `${hoverInputStyles} ${focusInputStyles}`
-              }`}
-            />
-            {!actionData?.success && actionData?.errors?.name ? (
+        <Form method="POST" onSubmit={onSubmit} onError={onError} className="">
+          <div className="mt-2.5 grid grid-flow-row auto-rows-auto gap-4 rounded-2xl bg-white p-4">
+            <div>
+              <label
+                className="mb-2 block text-sm text-gray-700"
+                htmlFor="name"
+              >
+                Name
+              </label>
+              <input
+                id="name"
+                name="name"
+                type="text"
+                autoComplete="off"
+                className={`${inputStyles} ${
+                  !actionData?.success && actionData?.errors?.name
+                    ? 'border-red-500'
+                    : `${hoverInputStyles} ${focusInputStyles}`
+                }`}
+              />
+              {!actionData?.success && actionData?.errors?.name ? (
+                <p className="text-xs italic text-red-500">
+                  {actionData?.errors?.name}
+                </p>
+              ) : null}
+            </div>
+            <div>
+              <label
+                className="mb-2 block text-sm text-gray-700"
+                htmlFor="email"
+              >
+                Contact email
+              </label>
+              <input
+                type="email"
+                name="email"
+                autoComplete="off"
+                className={`${inputStyles} ${
+                  !actionData?.success && actionData?.errors?.name
+                    ? 'border-red-500'
+                    : `${hoverInputStyles} ${focusInputStyles}`
+                }`}
+              />
+              {!actionData?.success && actionData?.errors?.email ? (
+                <p className="text-xs italic text-red-500">
+                  {actionData?.errors?.email}
+                </p>
+              ) : null}
+            </div>
+            <div>
+              <label
+                className="mb-2 block text-sm text-gray-700"
+                htmlFor="details"
+              >
+                Details
+              </label>
+              <textarea
+                name="details"
+                id="details"
+                className={`${inputStyles} ${
+                  !actionData?.success && actionData?.errors?.name
+                    ? 'border-red-500'
+                    : `${hoverInputStyles} ${focusInputStyles}`
+                }`}
+              />
+              {!actionData?.success && actionData?.errors?.details ? (
+                <p className="text-xs italic text-red-500">
+                  {actionData?.errors?.details}
+                </p>
+              ) : null}
+            </div>
+            {recaptchaValue ? (
+              <input
+                type="hidden"
+                name="recaptchaValue"
+                value={recaptchaValue}
+              />
+            ) : null}
+            {!actionData?.success && actionData?.errors?.recaptchaValue ? (
               <p className="text-xs italic text-red-500">
-                {actionData?.errors?.name}
+                {actionData?.errors?.recaptchaValue}
               </p>
             ) : null}
-          </div>
-          <div>
-            <label className="mb-2 block text-sm text-gray-700" htmlFor="email">
-              Contact email
-            </label>
-            <input
-              type="email"
-              name="email"
-              autoComplete="off"
-              className={`${inputStyles} ${
-                !actionData?.success && actionData?.errors?.name
-                  ? 'border-red-500'
-                  : `${hoverInputStyles} ${focusInputStyles}`
-              }`}
-            />
-            {!actionData?.success && actionData?.errors?.email ? (
+            {!actionData?.success && actionData?.errors?.form ? (
               <p className="text-xs italic text-red-500">
-                {actionData?.errors?.email}
+                {actionData?.errors?.form}
               </p>
             ) : null}
-          </div>
-          <div>
-            <label
-              className="mb-2 block text-sm text-gray-700"
-              htmlFor="details"
+            {actionData?.success && actionData?.successMessage ? (
+              <p className="text-xs italic text-green-800">
+                {actionData?.successMessage}
+              </p>
+            ) : null}
+            {skipClientRecaptcha ? null : (
+              <ReCAPTCHA
+                onChange={onCaptchaChange}
+                sitekey={data.ENV.CAPTCHA_SITE_KEY}
+              />
+            )}
+            <input type="hidden" name="intent" value="contact" />
+            <button
+              disabled={!skipClientRecaptcha && !recaptchaValue}
+              className="justify-self-start rounded-xl bg-orange-500 px-6 py-3 text-sm text-white hover:bg-orange-600"
+              type="submit"
             >
-              Details
-            </label>
-            <textarea
-              name="details"
-              id="details"
-              className={`${inputStyles} ${
-                !actionData?.success && actionData?.errors?.name
-                  ? 'border-red-500'
-                  : `${hoverInputStyles} ${focusInputStyles}`
-              }`}
-            />
-            {!actionData?.success && actionData?.errors?.details ? (
-              <p className="text-xs italic text-red-500">
-                {actionData?.errors?.details}
-              </p>
-            ) : null}
+              Send
+            </button>
           </div>
-          {recaptchaValue ? (
-            <input type="hidden" name="recaptchaValue" value={recaptchaValue} />
-          ) : null}
-          {!actionData?.success && actionData?.errors?.recaptchaValue ? (
-            <p className="text-xs italic text-red-500">
-              {actionData?.errors?.recaptchaValue}
-            </p>
-          ) : null}
-          {!actionData?.success && actionData?.errors?.form ? (
-            <p className="text-xs italic text-red-500">
-              {actionData?.errors?.form}
-            </p>
-          ) : null}
-          {actionData?.success && actionData?.successMessage ? (
-            <p className="text-xs italic text-green-800">
-              {actionData?.successMessage}
-            </p>
-          ) : null}
-          {skipClientRecaptcha ? null : (
-            <ReCAPTCHA
-              onChange={onCaptchaChange}
-              sitekey={data.ENV.CAPTCHA_SITE_KEY}
-            />
-          )}
-          <input type="hidden" name="intent" value="contact" />
-          <button
-            disabled={!skipClientRecaptcha && !recaptchaValue}
-            className="justify-self-start rounded-xl bg-orange-500 px-6 py-3 text-sm text-white hover:bg-orange-600"
-            type="submit"
-          >
-            Send
-          </button>
-        </div>
-      </Form>
+        </Form>
+      </div>
+      <img
+        className="col-span-1 max-w-xs justify-self-center lg:w-full"
+        src={img}
+        alt=""
+      />
     </IndexSection>
   );
 };
