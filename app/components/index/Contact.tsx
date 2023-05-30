@@ -24,12 +24,25 @@ export interface ContactFormValues {
   intent: string;
 }
 
+export type FormErrors = {
+  [K in keyof Pick<
+    ContactFormValues,
+    'name' | 'email' | 'details' | 'recaptchaValue'
+  >]?: string;
+} & {
+  form?: string;
+};
+
 export const Contact = ({ id }: ContactProps) => {
   const [recaptchaValue, setRecaptchaValue] = useState<string | null>(null);
 
-  const actionData = useActionData<{
-    errors?: Record<Partial<keyof ContactFormValues>, string>;
-  }>();
+  const actionData = useActionData<
+    | {
+        errors: FormErrors;
+        success: false;
+      }
+    | { success: true; successMessage: string }
+  >();
 
   const data = useLoaderData<{ ENV: Globals }>();
 
@@ -56,13 +69,12 @@ export const Contact = ({ id }: ContactProps) => {
   };
 
   const inputStyles =
-    'w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow';
-  const focusInputStyles =
-    'focus:border-teal-300 focus:border-opacity-80 focus:outline-none';
+    'w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none';
+  const focusInputStyles = 'focus:border-teal-300 focus:border-opacity-80';
   const hoverInputStyles = 'hover:border-teal-300 hover:border-opacity-30';
 
   return (
-    <IndexSection id={id} className="" style={{ height: 'calc(100vh - 5rem)' }}>
+    <IndexSection id={id} style={{ height: 'calc(100vh - 5rem)' }}>
       <h2
         ref={contactTitleRef}
         className="font-heading text-xl text-orange-500"
@@ -81,11 +93,13 @@ export const Contact = ({ id }: ContactProps) => {
               name="name"
               type="text"
               autoComplete="off"
-              className={`${inputStyles} ${hoverInputStyles} ${focusInputStyles} ${
-                actionData?.errors?.name ? 'border-red-500' : ''
+              className={`${inputStyles} ${
+                !actionData?.success && actionData?.errors?.name
+                  ? 'border-red-500'
+                  : `${hoverInputStyles} ${focusInputStyles}`
               }`}
             />
-            {actionData?.errors?.name ? (
+            {!actionData?.success && actionData?.errors?.name ? (
               <p className="text-xs italic text-red-500">
                 {actionData?.errors?.name}
               </p>
@@ -99,11 +113,13 @@ export const Contact = ({ id }: ContactProps) => {
               type="email"
               name="email"
               autoComplete="off"
-              className={`${inputStyles} ${hoverInputStyles} ${focusInputStyles} ${
-                actionData?.errors?.name ? 'border-red-500' : ''
+              className={`${inputStyles} ${
+                !actionData?.success && actionData?.errors?.name
+                  ? 'border-red-500'
+                  : `${hoverInputStyles} ${focusInputStyles}`
               }`}
             />
-            {actionData?.errors?.email ? (
+            {!actionData?.success && actionData?.errors?.email ? (
               <p className="text-xs italic text-red-500">
                 {actionData?.errors?.email}
               </p>
@@ -119,27 +135,43 @@ export const Contact = ({ id }: ContactProps) => {
             <textarea
               name="details"
               id="details"
-              className={`${inputStyles} ${hoverInputStyles} ${focusInputStyles} ${
-                actionData?.errors?.name ? 'border-red-500' : ''
+              className={`${inputStyles} ${
+                !actionData?.success && actionData?.errors?.name
+                  ? 'border-red-500'
+                  : `${hoverInputStyles} ${focusInputStyles}`
               }`}
             />
-            {actionData?.errors?.details ? (
+            {!actionData?.success && actionData?.errors?.details ? (
               <p className="text-xs italic text-red-500">
                 {actionData?.errors?.details}
               </p>
             ) : null}
           </div>
-          <input type="hidden" name="intent" value="contact" />
           {recaptchaValue ? (
             <input type="hidden" name="recaptchaValue" value={recaptchaValue} />
           ) : null}
-          {actionData?.errors?.recaptchaValue ?? undefined}
+          {!actionData?.success && actionData?.errors?.recaptchaValue ? (
+            <p className="text-xs italic text-red-500">
+              {actionData?.errors?.recaptchaValue}
+            </p>
+          ) : null}
+          {!actionData?.success && actionData?.errors?.form ? (
+            <p className="text-xs italic text-red-500">
+              {actionData?.errors?.form}
+            </p>
+          ) : null}
+          {actionData?.success && actionData?.successMessage ? (
+            <p className="text-xs italic text-green-800">
+              {actionData?.successMessage}
+            </p>
+          ) : null}
           {skipClientRecaptcha ? null : (
             <ReCAPTCHA
               onChange={onCaptchaChange}
               sitekey={data.ENV.CAPTCHA_SITE_KEY}
             />
           )}
+          <input type="hidden" name="intent" value="contact" />
           <button
             disabled={!skipClientRecaptcha && !recaptchaValue}
             className="justify-self-start rounded-xl bg-orange-500 px-6 py-3 text-sm text-white hover:bg-orange-600"

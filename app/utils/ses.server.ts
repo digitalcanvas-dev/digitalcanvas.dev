@@ -74,21 +74,19 @@ export const validateContactForm = (
   requesterEmail: FormDataEntryValue | null,
   details: FormDataEntryValue | null
 ): null | {
-  name?: string | null;
-  email?: string | null;
-  details?: string | null;
+  name?: string;
+  email?: string;
+  details?: string;
 } => {
   if (!requesterName || !details || !requesterEmail) {
     return {
-      name: !requesterName ? 'Required' : null,
-      email: !requesterEmail ? 'Required' : null,
-      details: !details ? 'Required' : null,
-    };
-  }
-
-  if (!validateEmail(requesterEmail)) {
-    return {
-      email: 'Invalid',
+      ...(requesterName ? {} : { name: 'Required' }),
+      ...(requesterEmail
+        ? validateEmail(requesterEmail)
+          ? {}
+          : { email: 'Invalid ' }
+        : { email: 'Required' }),
+      ...(details ? {} : { details: 'Required' }),
     };
   }
 
