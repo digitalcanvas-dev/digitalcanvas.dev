@@ -4,7 +4,7 @@ import { json } from '@remix-run/node';
 
 import { SiteHeader } from '~/components/SiteHeader';
 import { About } from '~/components/index/About';
-import type { ContactFormValues } from '~/components/index/Contact';
+import type { FormErrors } from '~/components/index/Contact';
 import { Contact } from '~/components/index/Contact';
 import { Services } from '~/components/index/Services';
 
@@ -26,11 +26,15 @@ export const loader = async (): Promise<TypedResponse<{ ENV: Globals }>> => {
   });
 };
 
-export async function action({
-  request,
-}: ActionArgs): Promise<null | TypedResponse<{
-  errors?: { [K in keyof Partial<ContactFormValues>]: string | null };
-}>> {
+export async function action({ request }: ActionArgs): Promise<
+  TypedResponse<
+    | { success: true; successMessage: string }
+    | {
+        success: false;
+        errors?: FormErrors;
+      }
+  >
+> {
   const formData = await request.formData();
   const intent = formData.get('intent');
   if (intent !== 'contact') {
@@ -47,10 +51,10 @@ export async function action({
     const resp = await validateCaptcha(recaptchaValue);
 
     if (!resp.success) {
-      console.error('invalid captcha response', JSON.stringify(resp));
       return json({
+        success: false,
         errors: {
-          recaptchaValue: 'Invalid reCAPTCHA response.',
+          recaptchaValue: 'Invalid ReCAPTCHA response.',
         },
       });
     }
@@ -63,7 +67,7 @@ export async function action({
   );
 
   if (validationResult !== null) {
-    return json({ errors: validationResult });
+    return json({ success: false, errors: validationResult });
   }
 
   const sentError = await sendContactEmail(
@@ -74,16 +78,17 @@ export async function action({
 
   if (sentError) {
     return json({
+      success: false,
       errors: {
-        intent: null,
-        email: null,
-        name: null,
-        recaptchaValue: null,
-        details: `${sentError}`,
+        form: `${sentError}`,
       },
     });
   }
-  return null;
+
+  return json({
+    success: true,
+    successMessage: 'Message sent!',
+  });
 }
 
 const enum Section {
@@ -108,12 +113,15 @@ const Index = () => {
   return (
     <>
       <SiteHeader headerHeight={HEADER_HEIGHT} mainCta={mainCta} />
-      <main ref={mainRef} className="-mt-32 px-8 md:px-32">
+      <main
+        ref={mainRef}
+        className="mx-auto -mt-32 max-w-screen-xl px-8 md:px-32"
+      >
         <About id={Section.about} />
         <Services id={Section.services} />
         <Contact id={Section.contact} />
       </main>
-      <footer className="w-full px-32 py-8 text-gray-950 md:p-8">
+      <footer className="w-full border-t-2 border-t-teal-100 bg-teal-800 bg-opacity-40 p-8 text-teal-100 md:px-32">
         Copyright &copy; 2023 Digital Canvas LLC
       </footer>
     </>
