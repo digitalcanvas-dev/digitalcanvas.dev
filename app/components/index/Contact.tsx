@@ -13,6 +13,8 @@ import { IndexSection } from '~/components/IndexSection';
 import { useRefManagerContext } from '~/components/index/RefManagerContext';
 
 import img from '../../../public/0_0-removebg-preview.png';
+import { InputText } from '~/components/InputText';
+import { Textarea } from '~/components/Textarea';
 
 interface ContactProps {
   id: string;
@@ -70,11 +72,6 @@ export const Contact = ({ id }: ContactProps) => {
     setRecaptchaValue(value);
   };
 
-  const inputStyles =
-    'w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none';
-  const focusInputStyles = 'focus:border-teal-300 focus:border-opacity-80';
-  const hoverInputStyles = 'hover:border-teal-300 hover:border-opacity-30';
-
   return (
     <IndexSection
       id={id}
@@ -90,75 +87,43 @@ export const Contact = ({ id }: ContactProps) => {
 
         <Form method="POST" onSubmit={onSubmit} onError={onError} className="">
           <div className="mt-2.5 grid grid-flow-row auto-rows-auto gap-4 rounded-2xl bg-white p-4">
-            <div>
-              <label
-                className="mb-2 block text-sm text-gray-700"
-                htmlFor="name"
-              >
-                Name
-              </label>
-              <input
-                id="name"
-                name="name"
-                type="text"
-                autoComplete="off"
-                className={`${inputStyles} ${
-                  !actionData?.success && actionData?.errors?.name
-                    ? 'border-red-500'
-                    : `${hoverInputStyles} ${focusInputStyles}`
-                }`}
-              />
-              {!actionData?.success && actionData?.errors?.name ? (
-                <p className="text-xs italic text-red-500">
-                  {actionData?.errors?.name}
-                </p>
-              ) : null}
-            </div>
-            <div>
-              <label
-                className="mb-2 block text-sm text-gray-700"
-                htmlFor="email"
-              >
-                Contact email
-              </label>
-              <input
-                type="email"
-                name="email"
-                autoComplete="off"
-                className={`${inputStyles} ${
-                  !actionData?.success && actionData?.errors?.name
-                    ? 'border-red-500'
-                    : `${hoverInputStyles} ${focusInputStyles}`
-                }`}
-              />
-              {!actionData?.success && actionData?.errors?.email ? (
-                <p className="text-xs italic text-red-500">
-                  {actionData?.errors?.email}
-                </p>
-              ) : null}
-            </div>
-            <div>
-              <label
-                className="mb-2 block text-sm text-gray-700"
-                htmlFor="details"
-              >
-                Details
-              </label>
-              <textarea
-                name="details"
-                id="details"
-                className={`${inputStyles} ${
-                  !actionData?.success && actionData?.errors?.name
-                    ? 'border-red-500'
-                    : `${hoverInputStyles} ${focusInputStyles}`
-                }`}
-              />
-              {!actionData?.success && actionData?.errors?.details ? (
-                <p className="text-xs italic text-red-500">
-                  {actionData?.errors?.details}
-                </p>
-              ) : null}
-            </div>
+            <InputText
+              name="name"
+              label="Name"
+              errorFeedback={
+                !actionData?.success && actionData?.errors?.name
+                  ? actionData?.errors?.name
+                  : undefined
+              }
+            />
+            <InputText
+              type="email"
+              name="email"
+              label="Email"
+              errorFeedback={
+                !actionData?.success && actionData?.errors?.email
+                  ? actionData?.errors?.email
+                  : undefined
+              }
+            />
+            <InputText
+              name="name"
+              label="Name"
+              errorFeedback={
+                !actionData?.success && actionData?.errors?.name
+                  ? actionData?.errors?.name
+                  : undefined
+              }
+            />
+            <Textarea
+              name="details"
+              label="Details"
+              errorFeedback={
+                !actionData?.success && actionData?.errors?.details
+                  ? actionData?.errors?.details
+                  : undefined
+              }
+            />
             {recaptchaValue ? (
               <input
                 type="hidden"
@@ -166,14 +131,10 @@ export const Contact = ({ id }: ContactProps) => {
                 value={recaptchaValue}
               />
             ) : null}
-            {!actionData?.success && actionData?.errors?.recaptchaValue ? (
+            {!actionData?.success &&
+            (actionData?.errors?.form || actionData?.errors?.recaptchaValue) ? (
               <p className="text-xs italic text-red-500">
-                {actionData?.errors?.recaptchaValue}
-              </p>
-            ) : null}
-            {!actionData?.success && actionData?.errors?.form ? (
-              <p className="text-xs italic text-red-500">
-                {actionData?.errors?.form}
+                {actionData?.errors?.form || actionData?.errors?.recaptchaValue}
               </p>
             ) : null}
             {actionData?.success && actionData?.successMessage ? (
