@@ -119,7 +119,7 @@ const Index = () => {
         ref={mainRef}
         className="mx-auto -mt-32 max-w-screen-xl px-8 md:px-32"
       >
-        <About id={Section.about} />
+        <About id={Section.about} contactSelector={contactSelector} />
         <Services id={Section.services} />
         <Contact id={Section.contact} />
       </main>

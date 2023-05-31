@@ -4,10 +4,22 @@ import logo from '../../../public/dcdLogo.svg';
 
 interface AboutProps {
   id: string;
+  contactSelector: string;
 }
 
-export const About = ({ id }: AboutProps) => {
+export const About = ({ id, contactSelector }: AboutProps) => {
   const { getHTMLImgElementRef } = useRefManagerContext();
+
+  const scrollTo = (targetSelector: string) => {
+    const target = document.querySelector(targetSelector);
+
+    if (!target) {
+      console.error(`missing target. Selector: ${targetSelector}`);
+      return;
+    }
+
+    target.scrollIntoView({ behavior: 'smooth' });
+  };
 
   const titleLogoRef = getHTMLImgElementRef('titleLogo');
 
@@ -33,7 +45,14 @@ export const About = ({ id }: AboutProps) => {
         <p>
           Seeking a fresh, contemporary website to reflect your brand's
           personality? Need to update an existing site to stay ahead in the
-          digital race? Look no further and schedule a free consultation today!
+          digital race? Look no further and{' '}
+          <span
+            onClick={() => scrollTo(contactSelector)}
+            className="cursor-pointer font-bold text-orange-500 underline underline-offset-2 hover:no-underline"
+          >
+            schedule a free consultation
+          </span>{' '}
+          today!
         </p>
       </div>
     </IndexSection>
