@@ -98,8 +98,10 @@ const enum Section {
   'contact' = 'contact',
 }
 
+const contactSelector = `#${Section.contact}`;
+
 const mainCta = {
-  link: `${Section.contact}`,
+  link: contactSelector,
   label: 'Contact',
 };
 
