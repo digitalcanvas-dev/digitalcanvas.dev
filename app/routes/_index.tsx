@@ -123,7 +123,7 @@ const Index = () => {
         <Services id={Section.services} />
         <Contact id={Section.contact} />
       </main>
-      <footer className="w-full border-t-2 border-t-teal-100 bg-teal-800 bg-opacity-40 p-8 text-teal-100 md:px-32">
+      <footer className="w-full border-t-2 border-t-teal-100 bg-teal-800 bg-opacity-60 p-8 text-teal-50 md:px-32">
         Copyright &copy; 2023 Digital Canvas LLC
       </footer>
     </>
