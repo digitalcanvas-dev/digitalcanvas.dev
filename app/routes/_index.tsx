@@ -98,8 +98,10 @@ const enum Section {
   'contact' = 'contact',
 }
 
+const contactSelector = `#${Section.contact}`;
+
 const mainCta = {
-  link: `${Section.contact}`,
+  link: contactSelector,
   label: 'Contact',
 };
 
@@ -117,11 +119,11 @@ const Index = () => {
         ref={mainRef}
         className="mx-auto -mt-32 max-w-screen-xl px-8 md:px-32"
       >
-        <About id={Section.about} />
+        <About id={Section.about} contactSelector={contactSelector} />
         <Services id={Section.services} />
         <Contact id={Section.contact} />
       </main>
-      <footer className="w-full border-t-2 border-t-teal-100 bg-teal-800 bg-opacity-40 p-8 text-teal-100 md:px-32">
+      <footer className="w-full border-t-2 border-t-teal-100 bg-teal-800 bg-opacity-60 p-8 text-teal-50 md:px-32">
         Copyright &copy; 2023 Digital Canvas LLC
       </footer>
     </>

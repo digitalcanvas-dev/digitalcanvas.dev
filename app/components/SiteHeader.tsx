@@ -14,7 +14,7 @@ interface SiteHeaderProps {
 export const SiteHeader = ({ mainCta, headerHeight }: SiteHeaderProps) => {
   const clickHandler = useCallback(
     (evt: MouseEvent, to: string, offsetPx: number) => {
-      const target = document?.getElementById(to);
+      const target = document.querySelector(to);
 
       if (!target) {
         console.error(`missing target: ${to}`);
