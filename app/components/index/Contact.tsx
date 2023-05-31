@@ -75,7 +75,7 @@ export const Contact = ({ id }: ContactProps) => {
   return (
     <IndexSection
       id={id}
-      className="mb-20 grid grid-flow-row items-center justify-stretch gap-20 md:gap-8 lg:grid-flow-col lg:grid-cols-3"
+      className="grid grid-flow-row items-center justify-stretch gap-20 pb-20 md:gap-8 lg:grid-flow-col lg:grid-cols-3"
     >
       <div className="w-full lg:col-span-2">
         <h2

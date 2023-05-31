@@ -17,6 +17,8 @@ import type { Globals } from '~/types';
 import { validateCaptcha } from '~/utils/captcha.server';
 import { sendContactEmail, validateContactForm } from '~/utils/ses.server';
 
+import bgLight2 from '../../public/bgLight2.jpg';
+
 export const loader = async (): Promise<TypedResponse<{ ENV: Globals }>> => {
   return json<{ ENV: any }>({
     ENV: {
@@ -117,6 +119,13 @@ const Index = () => {
       <SiteHeader headerHeight={HEADER_HEIGHT} mainCta={mainCta} />
       <main
         ref={mainRef}
+        style={{
+          backgroundImage: `url(${bgLight2})`,
+          backgroundSize: 'auto 140%',
+          backgroundRepeat: 'no-repeat',
+          backgroundAttachment: 'fixed',
+          backgroundPosition: 'top center',
+        }}
         className="mx-auto -mt-32 max-w-screen-xl px-8 md:px-32"
       >
         <About id={Section.about} contactSelector={contactSelector} />
