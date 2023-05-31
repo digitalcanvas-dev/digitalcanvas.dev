@@ -124,7 +124,22 @@ const Index = () => {
         <Contact id={Section.contact} />
       </main>
       <footer className="w-full border-t-2 border-t-teal-100 bg-teal-800 bg-opacity-60 p-8 text-teal-50 md:px-32">
-        Copyright &copy; 2023 Digital Canvas LLC
+        <p className="mb-4">Copyright &copy; 2023 Digital Canvas LLC</p>
+        <p className="text-xs">
+          This site collects anonymized usage statistics that cannot be used to
+          identify anyone, only for aggregated data to help my business.
+          <br />
+          Use an adblocker to opt out (I use{' '}
+          <a
+            target="_blank"
+            rel="noreferrer"
+            className="underline underline-offset-2"
+            href="https://chrome.google.com/webstore/detail/ublock-origin/cjpalhdlnbpafiamejdnhcphjbkeiagm"
+          >
+            uBlock Origin
+          </a>
+          ).
+        </p>
       </footer>
     </>
   );
