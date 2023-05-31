@@ -7,9 +7,11 @@ import {
   Scripts,
   ScrollRestoration,
 } from '@remix-run/react';
+import ReactGA from 'react-ga4';
 
 import stylesheet from '~/tailwind.css';
 import global from '~/global.css';
+import React from 'react';
 
 export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: stylesheet },
@@ -37,6 +39,11 @@ export default function App() {
         <Scripts />
         <LiveReload />
       </body>
+      {
+        void ReactGA.initialize('G-3CJL1CV5C5', {
+          testMode: process.env.NODE_ENV === 'development',
+        })
+      }
     </html>
   );
 }
