@@ -1,9 +1,9 @@
 import type { PropsWithChildren } from 'react';
 import { IndexSection } from '~/components/IndexSection';
+import { useRef } from 'react';
+import { useRefManagerContext } from '~/components/index/RefManagerContext';
 
-interface ServicesProps {
-  id: string;
-}
+interface ServicesProps {}
 
 const services = [
   {
@@ -47,9 +47,13 @@ const ServiceBlock = ({
   );
 };
 
-export const Services = ({ id }: PropsWithChildren<ServicesProps>) => {
+export const Services = ({}: PropsWithChildren<ServicesProps>) => {
+  const { getHTMLElementRef } = useRefManagerContext();
+
+  const servicesRef = getHTMLElementRef('services');
+
   return (
-    <IndexSection id={id} className="mb-32 mt-24">
+    <IndexSection className="mb-32 mt-24" ref={servicesRef}>
       <div className="mt-2.5 grid grid-flow-row auto-rows-auto gap-4 md:auto-cols-auto md:grid-flow-col">
         {services.map(({ title, content }) => (
           <ServiceBlock key={title} title={title} content={content} />

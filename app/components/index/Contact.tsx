@@ -12,13 +12,10 @@ import type { Globals } from '~/types';
 import { IndexSection } from '~/components/IndexSection';
 import { useRefManagerContext } from '~/components/index/RefManagerContext';
 
-import img from '../../../public/0_0-removebg-preview.png';
 import { InputText } from '~/components/InputText';
 import { Textarea } from '~/components/Textarea';
 
-interface ContactProps {
-  id: string;
-}
+interface ContactProps {}
 
 export interface ContactFormValues {
   name: string;
@@ -37,7 +34,7 @@ export type FormErrors = {
   form?: string;
 };
 
-export const Contact = ({ id }: ContactProps) => {
+export const Contact = ({}: ContactProps) => {
   const [recaptchaValue, setRecaptchaValue] = useState<string | null>(null);
 
   const actionData = useActionData<
@@ -52,9 +49,9 @@ export const Contact = ({ id }: ContactProps) => {
 
   const skipClientRecaptcha = data.ENV.NODE_ENV === 'development';
 
-  const { getHTMLHeadingElementRef } = useRefManagerContext();
+  const { getHTMLElementRef } = useRefManagerContext();
 
-  const contactTitleRef = getHTMLHeadingElementRef('contactTitle');
+  const contactRef = getHTMLElementRef('contact');
 
   const submit = useSubmit();
 
@@ -74,16 +71,11 @@ export const Contact = ({ id }: ContactProps) => {
 
   return (
     <IndexSection
-      id={id}
       className="grid grid-flow-row items-center justify-stretch gap-20 pb-20 md:gap-8 lg:grid-flow-col lg:grid-cols-3"
+      ref={contactRef}
     >
       <div className="w-full lg:col-span-2">
-        <h2
-          ref={contactTitleRef}
-          className="font-heading text-xl text-orange-500"
-        >
-          Contact
-        </h2>
+        <h2 className="font-heading text-xl text-orange-500">Contact</h2>
 
         <Form method="POST" onSubmit={onSubmit} onError={onError} className="">
           <div className="mt-2.5 grid grid-flow-row auto-rows-auto gap-4 rounded-2xl bg-white p-4">
@@ -159,11 +151,6 @@ export const Contact = ({ id }: ContactProps) => {
           </div>
         </Form>
       </div>
-      <img
-        className="col-span-1 max-w-xs justify-self-center lg:w-full"
-        src={img}
-        alt=""
-      />
     </IndexSection>
   );
 };

@@ -7,7 +7,16 @@ export default {
       heading: ['Merriweather', 'serif'],
       body: ['"Source Sans Pro"', 'sans-serif'],
     },
-    extend: {},
+    extend: {
+      colors: {
+        brand: {
+          DEFAULT: '#3E5462',
+        },
+        highlight: {
+          DEFAULT: '#FF5E00',
+        },
+      },
+    },
   },
   plugins: [],
 } satisfies Config;

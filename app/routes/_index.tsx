@@ -17,7 +17,12 @@ import type { Globals } from '~/types';
 import { validateCaptcha } from '~/utils/captcha.server';
 import { sendContactEmail, validateContactForm } from '~/utils/ses.server';
 
-import bgLight2 from '../../public/bgLight2.jpg';
+import { SiteFooter } from '~/components/SiteFooter';
+import { Hero } from '~/components/index/Hero';
+import { Maintenance } from '~/components/index/Maintenance';
+import { Consultation } from '~/components/index/Consultation';
+import { CustomDevelopment } from '~/components/index/CustomDevelopment';
+import { Testimonials } from '~/components/index/images/Testimonials';
 
 export const loader = async (): Promise<TypedResponse<{ ENV: Globals }>> => {
   return json<{ ENV: any }>({
@@ -93,21 +98,7 @@ export async function action({ request }: ActionArgs): Promise<
   });
 }
 
-const enum Section {
-  'about' = 'about',
-  'services' = 'services',
-  'testimonials' = 'testimonials',
-  'contact' = 'contact',
-}
-
-const contactSelector = `#${Section.contact}`;
-
-const mainCta = {
-  link: contactSelector,
-  label: 'Contact',
-};
-
-const HEADER_HEIGHT = '130px';
+const HEADER_HEIGHT = '112px';
 
 const Index = () => {
   const { getHTMLElementRef } = useRefManagerContext();
@@ -116,40 +107,22 @@ const Index = () => {
 
   return (
     <>
-      <SiteHeader headerHeight={HEADER_HEIGHT} mainCta={mainCta} />
+      <SiteHeader headerHeight={HEADER_HEIGHT} />
       <main
         ref={mainRef}
-        style={{
-          backgroundImage: `url(${bgLight2})`,
-          backgroundSize: 'auto 140%',
-          backgroundRepeat: 'no-repeat',
-          backgroundAttachment: 'fixed',
-          backgroundPosition: 'top center',
-        }}
+        style={{}}
         className="mx-auto -mt-32 max-w-screen-xl px-8 md:px-32"
       >
-        <About id={Section.about} contactSelector={contactSelector} />
-        <Services id={Section.services} />
-        <Contact id={Section.contact} />
+        <Hero />
+        <About />
+        <Services />
+        <CustomDevelopment />
+        <Maintenance />
+        <Consultation />
+        <Testimonials />
+        <Contact />
       </main>
-      <footer className="w-full border-t-2 border-t-teal-100 bg-teal-800 bg-opacity-60 p-8 text-teal-50 md:px-32">
-        <p className="mb-4">Copyright &copy; 2023 Digital Canvas LLC</p>
-        <p className="text-xs">
-          This site collects anonymized usage statistics that cannot be used to
-          identify anyone, only for aggregated data to help my business.
-          <br />
-          Use an adblocker to opt out (I use{' '}
-          <a
-            target="_blank"
-            rel="noreferrer"
-            className="underline underline-offset-2"
-            href="https://chrome.google.com/webstore/detail/ublock-origin/cjpalhdlnbpafiamejdnhcphjbkeiagm"
-          >
-            uBlock Origin
-          </a>
-          ).
-        </p>
-      </footer>
+      <SiteFooter />
     </>
   );
 };
@@ -159,6 +132,9 @@ export default () => {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const contactTitleRef = useRef<HTMLHeadingElement>(null);
   const contactRef = useRef<HTMLElement>(null);
+  const aboutRef = useRef<HTMLElement>(null);
+  const servicesRef = useRef<HTMLElement>(null);
+  const testimonialsRef = useRef<HTMLElement>(null);
   const titleLogoRef = useRef<HTMLImageElement>(null);
 
   return (
@@ -168,6 +144,9 @@ export default () => {
           main: mainRef,
           header: headerRef,
           contact: contactRef,
+          services: servicesRef,
+          about: aboutRef,
+          testimonials: testimonialsRef,
         },
         HTMLHeadingElement: {
           title: titleRef,

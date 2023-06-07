@@ -5,14 +5,14 @@
  */
 
 import { RemixBrowser } from '@remix-run/react';
-import { startTransition, StrictMode } from 'react';
-import { hydrate } from 'react-dom';
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
 
-startTransition(() => {
-  hydrate(
-    <StrictMode>
-      <RemixBrowser />
-    </StrictMode>,
-    document
-  );
-});
+// todo: see if there's a better way to do this without console errors or warnings...
+// @ts-ignore
+const root = createRoot(document);
+root.render(
+  <StrictMode>
+    <RemixBrowser />
+  </StrictMode>
+);
