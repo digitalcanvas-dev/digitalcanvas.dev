@@ -19,7 +19,7 @@ import { sendContactEmail, validateContactForm } from '~/utils/ses.server';
 
 import { SiteFooter } from '~/components/SiteFooter';
 import { Hero } from '~/components/index/Hero';
-import { Maintenance } from '~/components/index/Maintenance';
+import { WebsiteBuilders } from '~/components/index/WebsiteBuilders';
 import { Consultation } from '~/components/index/Consultation';
 import { CustomDevelopment } from '~/components/index/CustomDevelopment';
 import { Testimonials } from '~/components/index/images/Testimonials';
@@ -108,17 +108,13 @@ const Index = () => {
   return (
     <>
       <SiteHeader headerHeight={HEADER_HEIGHT} />
-      <main
-        ref={mainRef}
-        style={{}}
-        className="mx-auto -mt-32 max-w-screen-xl px-8 md:px-32"
-      >
+      <main ref={mainRef} style={{}}>
         <Hero />
         <About />
         <Services />
         <CustomDevelopment />
-        <Maintenance />
         <Consultation />
+        <WebsiteBuilders />
         <Testimonials />
         <Contact />
       </main>

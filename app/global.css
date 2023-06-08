@@ -3,3 +3,14 @@
 body {
     background-color: #FFF;
 }
+
+p + p {
+   margin-top: .5rem;
+}
+
+/*
+ will be added here: https://github.com/tailwindlabs/tailwindcss/pull/11320
+*/
+.text-balance {
+    text-wrap: balance;
+}

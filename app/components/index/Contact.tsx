@@ -75,7 +75,7 @@ export const Contact = ({}: ContactProps) => {
       ref={contactRef}
     >
       <div className="w-full lg:col-span-2">
-        <h2 className="font-heading text-xl text-orange-500">Contact</h2>
+        <h2 className="font-heading text-3xl text-orange-500">Contact</h2>
 
         <Form method="POST" onSubmit={onSubmit} onError={onError} className="">
           <div className="mt-2.5 grid grid-flow-row auto-rows-auto gap-4 rounded-2xl bg-white p-4">

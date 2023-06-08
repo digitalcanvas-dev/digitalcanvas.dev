@@ -9,7 +9,7 @@ export type TextareaProps = HTMLAttributes<HTMLTextAreaElement> & {
 const inputStyles =
   'w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none';
 const focusInputStyles = 'focus:border-teal-300 focus:border-opacity-80';
-const hoverInputStyles = 'hover:border-teal-300 hover:border-opacity-30';
+const hoverInputStyles = 'hover:border-teal-300 hover:border-opacity-40';
 
 export const Textarea = ({
   label,

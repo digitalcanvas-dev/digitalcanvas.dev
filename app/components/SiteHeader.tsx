@@ -86,11 +86,6 @@ export const SiteHeader = ({ headerHeight }: SiteHeaderProps) => {
   }, [titleLogoRef?.current]);
 
   useEffect(() => {
-    console.log(
-      aboutRef?.current,
-      testimonialsRef?.current,
-      servicesRef?.current
-    );
     if (aboutRef?.current && testimonialsRef?.current && servicesRef?.current) {
       setNavItems([
         {
@@ -117,7 +112,7 @@ export const SiteHeader = ({ headerHeight }: SiteHeaderProps) => {
       style={{
         height: headerHeight,
       }}
-      className={`sticky top-0 z-20 flex flex-row items-center justify-center px-8 transition-colors md:justify-between ${
+      className={`sticky top-0 z-20 flex flex-row items-center justify-between px-8 transition-colors ${
         scrolledDown ? 'bg-brand' : 'bg-white'
       }`}
     >
@@ -131,7 +126,7 @@ export const SiteHeader = ({ headerHeight }: SiteHeaderProps) => {
           window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
         }}
       />
-      <div className="flex items-center justify-between gap-14">
+      <div className="hidden items-center justify-between gap-14 md:flex">
         {navItems.map(({ label, target }) => {
           return (
             <NavItem

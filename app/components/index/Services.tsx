@@ -1,48 +1,68 @@
 import type { PropsWithChildren } from 'react';
 import { IndexSection } from '~/components/IndexSection';
-import { useRef } from 'react';
 import { useRefManagerContext } from '~/components/index/RefManagerContext';
+import Responsive from '~/components/index/images/services/Responsive.svg';
+import TestingDebugging from '~/components/index/images/services/TestingDebugging.svg';
+import DigitalMarketing from '~/components/index/images/services/DigitalMarketing.svg';
+import Cloud from '~/components/index/images/services/Cloud.svg';
 
 interface ServicesProps {}
 
 const services = [
   {
     title: 'Custom Web Development',
-    content: [
-      'Digital Canvas Development can create your website or app to exact specifications.',
-    ],
+    content:
+      'We can build to exact specifications and will exceed your expectations.',
+    icon: Responsive,
   },
   {
     title: 'Site Builder Management',
-    content: [
-      'We can maintain an existing website on SquareSpace, Wix or any other platform.',
-      'Contact us today!',
-    ],
+    content:
+      "We can maintain an existing website on SquareSpace, Wix or any other platform you're already using.",
+    icon: Cloud,
+  },
+  {
+    title: 'Testing & Debugging',
+    content:
+      'Automated testing is available to future-proof our work and make debugging easier.',
+    icon: TestingDebugging,
   },
   {
     title: 'Technical Consulting',
-    content: [
+    content:
       'Digital Canvas Development specializes in high quality code and modern practices.',
-      'Contact us for a free initial consultation!',
-    ],
+    icon: Responsive,
+  },
+  {
+    title: 'Team Extension',
+    content:
+      'We can work with an existing team and processes to help meet your goals and deadlines.',
+    icon: DigitalMarketing,
+  },
+  {
+    title: 'Custom Services',
+    content:
+      'Are accessibility, developer experience, or something else on your mind? Let us know!',
+    icon: DigitalMarketing,
   },
 ];
 
 const ServiceBlock = ({
   title,
   content,
+  icon,
 }: {
   title: string;
-  content: string[];
+  content: string;
+  icon?: string;
 }) => {
   return (
-    <div className="rounded-xl bg-white bg-opacity-50 p-4 md:transition-transform md:hover:scale-110">
+    <div className="grid grid-flow-row auto-rows-auto justify-items-center gap-4 rounded-xl bg-white bg-opacity-50 p-4 md:transition-transform md:hover:scale-110">
+      {icon ? <img src={icon} alt="" /> : null}
       <h3 className="font-heading text-teal-950">{title}</h3>
-      {content.map((str) => (
-        <p className="mb-2 font-body text-teal-900 last-of-type:mb-0" key={str}>
-          {str}
-        </p>
-      ))}
+      <p className="text-balance text-center font-body text-brand last-of-type:mb-0">
+        {content}
+      </p>
     </div>
   );
 };
@@ -53,10 +73,32 @@ export const Services = ({}: PropsWithChildren<ServicesProps>) => {
   const servicesRef = getHTMLElementRef('services');
 
   return (
-    <IndexSection className="mb-32 mt-24" ref={servicesRef}>
-      <div className="mt-2.5 grid grid-flow-row auto-rows-auto gap-4 md:auto-cols-auto md:grid-flow-col">
-        {services.map(({ title, content }) => (
-          <ServiceBlock key={title} title={title} content={content} />
+    <IndexSection className="mb-28 mt-24 px-8 md:px-32" ref={servicesRef}>
+      <div className="flex flex-col justify-between">
+        <div className="border-b-1 mb-10 grid auto-cols-auto grid-flow-col gap-60 border-b border-b-brand border-opacity-40 py-10 md:mx-auto md:max-w-screen-xl">
+          <h3 className="font-heading text-3xl text-brand">Services</h3>
+          <div className="self-start justify-self-end font-body font-light text-brand">
+            <p>
+              <strong>Digital Canvas Development</strong> specializes in working
+              with small business and software-as-a-service startups. We offer a
+              wide range of services that can be custom tailored to your needs.
+            </p>
+            <p>
+              While our tech stack is always evolving, the{' '}
+              <strong>React</strong> and <strong>TypeScript</strong> ecosystem
+              is our specialty.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div className="mt-2.5 grid grid-cols-3 gap-10">
+        {services.map(({ title, content, icon }) => (
+          <ServiceBlock
+            key={title}
+            title={title}
+            content={content}
+            icon={icon}
+          />
         ))}
       </div>
     </IndexSection>
