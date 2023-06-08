@@ -1,59 +1,33 @@
-import { IndexSection } from '~/components/IndexSection';
 import { useRefManagerContext } from '~/components/index/RefManagerContext';
-import logo from '../../../public/dcdLogo.svg';
+import { IndexSection } from '~/components/index/IndexSection';
 
-interface AboutProps {
-  id: string;
-  contactSelector: string;
-}
+interface AboutProps {}
 
-export const About = ({ id, contactSelector }: AboutProps) => {
-  const { getHTMLImgElementRef } = useRefManagerContext();
+export const About = ({}: AboutProps) => {
+  const { getHTMLElementRef } = useRefManagerContext();
 
-  const scrollTo = (targetSelector: string) => {
-    const target = document.querySelector(targetSelector);
-
-    if (!target) {
-      console.error(`missing target. Selector: ${targetSelector}`);
-      return;
-    }
-
-    target.scrollIntoView({ behavior: 'smooth' });
-  };
-
-  const titleLogoRef = getHTMLImgElementRef('titleLogo');
+  const aboutRef = getHTMLElementRef('about');
 
   return (
-    <IndexSection
-      id={id}
-      className="grid h-screen grid-flow-row auto-rows-auto items-center justify-center gap-12 md:auto-cols-auto md:grid-flow-col"
-    >
-      <img
-        src={logo}
-        className="h-24 self-end justify-self-center md:self-center"
-        alt=""
-        ref={titleLogoRef}
-      />
-      <div className="flex flex-col gap-8 text-lg">
-        <p>
-          In the dynamic landscape of modern business and emerging startups,
-          your unique needs deserve personalized attention.{' '}
-          <strong>Digital Canvas Development</strong> specializes in creating
-          tailor-made software solutions that not only answer your challenges
-          but also stimulate growth and innovation.
-        </p>
-        <p>
-          Seeking a fresh, contemporary website to reflect your brand's
-          personality? Need to update an existing site to stay ahead in the
-          digital race? Look no further and{' '}
-          <span
-            onClick={() => scrollTo(contactSelector)}
-            className="cursor-pointer font-bold text-orange-500 underline underline-offset-2 hover:no-underline"
-          >
-            schedule a free consultation
-          </span>{' '}
-          today!
-        </p>
+    <IndexSection ref={aboutRef} bgColor="bg-brand/10" border="top">
+      <div className="grid w-full grid-flow-row items-start justify-stretch gap-20 text-brand md:min-h-[50vh] md:grid-flow-col md:gap-60">
+        <h3 className="self-start justify-self-start align-top font-heading text-3xl">
+          About Us
+        </h3>
+        <div className="text-balance flex flex-col gap-8 self-start justify-self-end font-body font-light text-opacity-80">
+          <p>
+            After over 13 years in different technical fields including
+            advertising, finance, education technology, and cyber security,{' '}
+            <strong>Simon Goldin</strong> launched{' '}
+            <strong>Digital Canvas Development</strong> to help small businesses
+            and startups leverage their technology and people to provide the
+            best products and user experiences possible.
+          </p>
+          <p>
+            <strong>Digital Canvas Development</strong> is based in New Jersey
+            and provides services globally.
+          </p>
+        </div>
       </div>
     </IndexSection>
   );

@@ -1,8 +1,9 @@
 import { cssBundleHref } from '@remix-run/css-bundle';
-import type { LinksFunction } from '@remix-run/node';
+import type { LinksFunction, V2_MetaFunction } from '@remix-run/node';
 import {
   Links,
   LiveReload,
+  Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
@@ -21,16 +22,29 @@ export const links: LinksFunction = () => [
   { rel: 'icon', href: '/_static/favicon.ico' },
 ];
 
+export const meta: V2_MetaFunction = () => [
+  {
+    charSet: 'utf-8',
+  },
+  {
+    name: 'description',
+    content: 'Custom website development for small businesses and startups.',
+  },
+  {
+    name: 'viewport',
+    content: 'width=device-width,initial-scale=1',
+  },
+  {
+    httpEquiv: 'cache-control',
+    content: 'no-cache',
+  },
+];
+
 export default function App() {
   return (
     <html lang="en">
       <head>
-        <meta
-          name="description"
-          content="Custom website development for small businesses and startups."
-        />
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <Meta />
         <Links />
       </head>
       <body>
