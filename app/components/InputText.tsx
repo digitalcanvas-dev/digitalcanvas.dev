@@ -9,8 +9,8 @@ export type InputTextProps = HTMLAttributes<HTMLInputElement> & {
 
 const inputStyles =
   'w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none';
-const focusInputStyles = 'focus:border-teal-300 focus:border-opacity-80';
-const hoverInputStyles = 'hover:border-teal-300 hover:border-opacity-40';
+const focusInputStyles = 'focus:border-brand focus:border-opacity-80';
+const hoverInputStyles = 'hover:border-brand hover:border-opacity-40';
 
 export const InputText = ({
   label,

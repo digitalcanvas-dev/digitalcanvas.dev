@@ -9,7 +9,6 @@ import React, { useState } from 'react';
 import type { FormEventHandler } from 'react';
 import type { Globals } from '~/types';
 
-import { IndexSection } from '~/components/IndexSection';
 import { useRefManagerContext } from '~/components/index/RefManagerContext';
 
 import { InputText } from '~/components/InputText';
@@ -70,14 +69,11 @@ export const Contact = ({}: ContactProps) => {
   };
 
   return (
-    <IndexSection
-      className="grid grid-flow-row items-center justify-stretch gap-20 pb-20 md:gap-8 lg:grid-flow-col lg:grid-cols-3"
-      ref={contactRef}
-    >
-      <div className="w-full lg:col-span-2">
-        <h2 className="font-heading text-3xl text-orange-500">Contact</h2>
+    <section className="md:mx-auto md:max-w-screen-xl" ref={contactRef}>
+      <div className="w-full px-8 lg:col-span-2">
+        <h3 className="font-heading text-3xl text-brand">Get in Touch</h3>
 
-        <Form method="POST" onSubmit={onSubmit} onError={onError} className="">
+        <Form method="POST" onSubmit={onSubmit} onError={onError}>
           <div className="mt-2.5 grid grid-flow-row auto-rows-auto gap-4 rounded-2xl bg-white p-4">
             <InputText
               name="name"
@@ -151,6 +147,6 @@ export const Contact = ({}: ContactProps) => {
           </div>
         </Form>
       </div>
-    </IndexSection>
+    </section>
   );
 };

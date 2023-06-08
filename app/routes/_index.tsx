@@ -22,7 +22,7 @@ import { Hero } from '~/components/index/Hero';
 import { WebsiteBuilders } from '~/components/index/WebsiteBuilders';
 import { Consultation } from '~/components/index/Consultation';
 import { CustomDevelopment } from '~/components/index/CustomDevelopment';
-import { Testimonials } from '~/components/index/images/Testimonials';
+import { Testimonials } from '~/components/index/Testimonials';
 
 export const loader = async (): Promise<TypedResponse<{ ENV: Globals }>> => {
   return json<{ ENV: any }>({
