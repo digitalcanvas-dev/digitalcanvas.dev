@@ -1,5 +1,5 @@
-import img1 from '~/components/index/images/services/img1.png';
-import img2 from '~/components/index/images/services/img2.png';
+import ConsultingImg from '~/components/index/images/services/Consulting1.png';
+import ConsultingImgAlt from '~/components/index/images/services/Consulting2.png';
 import { IndexSection } from '~/components/index/IndexSection';
 
 interface ConsultationProps {}
@@ -62,22 +62,49 @@ const StockImageWrapper = ({
 
 export const Consultation = ({}: ConsultationProps) => {
   return (
-    <IndexSection bgColor="brand" bgOpacity={40}>
+    <IndexSection bgColor="bg-brand/40">
       <div className="grid auto-cols-auto grid-flow-col items-center justify-between gap-60">
         <div className="hidden flex-col gap-4 md:flex">
-          <StockImageWrapper imgSrc={img2} pos="left" heightPx={190} />
-          <StockImageWrapper imgSrc={img1} pos="right" heightPx={190} />
+          <StockImageWrapper
+            imgSrc={ConsultingImgAlt}
+            pos="left"
+            heightPx={190}
+          />
+          <StockImageWrapper
+            imgSrc={ConsultingImg}
+            pos="right"
+            heightPx={190}
+          />
         </div>
-        <div>
-          <h3 className="text-balance mb-1 font-heading text-3xl text-brand">
+        <div className="text-balance">
+          <h3 className="mb-8 font-heading text-3xl text-brand">
             Startup Consultation and Team Augmentation
           </h3>
-          <div className="text-balance font-body text-brand text-opacity-80">
-            <p className="">
-              We can work with your existing team to meet your deadlines or
-              exceed your goals.
+          <div className="font-body text-brand">
+            <p className="mb-6 text-brand/80">
+              As your partner in frontend web development consultation and team
+              augmentation, I provide a comprehensive digital solution. I'll
+              guide you in crafting an impactful website and offer my expertise
+              to bring your vision to life, ensuring you have a notable web
+              presence backed by years of experience.
             </p>
-            <p>Second paragraph</p>
+            <h4 className="mb-2 font-bold">Consultation</h4>
+            <p className="mb-6 text-brand/80">
+              Our frontend consultation service delivers engaging, intuitive web
+              designs using the latest trends and technologies. We offer expert
+              guidance on design, user experience, and performance optimization,
+              aiming to create an interactive digital front that effectively
+              converts visitors into customers.
+            </p>
+            <h4 className="font-bold">Augmentation</h4>
+            <p className="mb-2 text-brand/80">
+              Our team augmentation service is designed to seamlessly blend with
+              your existing setup, providing the additional skills and expertise
+              you need to meet project deadlines. Whether you're looking to fill
+              a temporary skill gap or need support for a larger project,{' '}
+              <strong>Digital Canvas Development</strong> is here to ensure your
+              web development initiatives are successful.
+            </p>
           </div>
         </div>
       </div>

@@ -57,7 +57,7 @@ const ServiceBlock = ({
   icon?: string;
 }) => {
   return (
-    <div className="grid grid-flow-row auto-rows-auto justify-items-center gap-4 rounded-xl bg-white bg-opacity-50 p-4 md:transition-transform md:hover:scale-110">
+    <div className="grid grid-flow-row auto-rows-auto justify-items-center gap-4 rounded-xl bg-white/50 p-4 md:transition-transform md:hover:scale-110">
       {icon ? <img src={icon} alt="" /> : null}
       <h3 className="font-heading text-brand">{title}</h3>
       <p className="text-balance text-center font-body font-light text-brand last-of-type:mb-0">

@@ -93,9 +93,7 @@ const getContainerBounds = (
 export const IndexSection = forwardRef<
   HTMLElement,
   PropsWithChildren<IndexSectionProps>
->(({ children, collapse, border, bgColor = 'white', bgOpacity = 100 }, ref) => {
-  const bgOpacityStyle = bgOpacity === 100 ? '' : `bg-opacity-${bgOpacity}`;
-
+>(({ children, collapse, border, bgColor = 'bg-white' }, ref) => {
   const {
     inner: {
       mt: innerMT,
@@ -119,10 +117,7 @@ export const IndexSection = forwardRef<
   const outerStyles = `${outerMT} ${outerMB} ${outerPT} ${outerPB} ${outerMX} ${outerPX}`;
 
   return (
-    <section
-      ref={ref}
-      className={`bg-${bgColor} ${bgOpacityStyle} ${outerStyles}`}
-    >
+    <section ref={ref} className={`${bgColor} ${outerStyles}`}>
       <div
         className={`max-w-screen-xl ${innerStyles} ${
           border

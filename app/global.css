@@ -9,7 +9,8 @@ p + p {
 }
 
 /*
-Future-proofing with the same class name that will be added here: https://github.com/tailwindlabs/tailwindcss/pull/11320
+Future-proofing with the same class name that will be added here:
+https://github.com/tailwindlabs/tailwindcss/pull/11320
 */
 .text-balance {
     text-wrap: balance;

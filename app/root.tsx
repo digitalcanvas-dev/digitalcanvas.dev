@@ -34,6 +34,10 @@ export const meta: V2_MetaFunction = () => [
     name: 'viewport',
     content: 'width=device-width,initial-scale=1',
   },
+  {
+    httpEquiv: 'cache-control',
+    content: 'no-cache',
+  },
 ];
 
 export default function App() {

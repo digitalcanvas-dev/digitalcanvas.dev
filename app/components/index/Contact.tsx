@@ -13,6 +13,7 @@ import { useRefManagerContext } from '~/components/index/RefManagerContext';
 
 import { InputText } from '~/components/InputText';
 import { Textarea } from '~/components/Textarea';
+import { IndexSection } from '~/components/index/IndexSection';
 
 interface ContactProps {}
 
@@ -69,12 +70,12 @@ export const Contact = ({}: ContactProps) => {
   };
 
   return (
-    <section className="md:mx-auto md:max-w-screen-xl" ref={contactRef}>
+    <IndexSection ref={contactRef}>
       <div className="w-full px-8 lg:col-span-2">
         <h3 className="font-heading text-3xl text-brand">Get in Touch</h3>
 
         <Form method="POST" onSubmit={onSubmit} onError={onError}>
-          <div className="mt-2.5 grid grid-flow-row auto-rows-auto gap-4 rounded-2xl bg-white p-4">
+          <div className="mt-2.5 grid grid-flow-row auto-rows-auto gap-4 py-4">
             <InputText
               name="name"
               label="Name"
@@ -91,15 +92,6 @@ export const Contact = ({}: ContactProps) => {
               errorFeedback={
                 !actionData?.success && actionData?.errors?.email
                   ? actionData?.errors?.email
-                  : undefined
-              }
-            />
-            <InputText
-              name="name"
-              label="Name"
-              errorFeedback={
-                !actionData?.success && actionData?.errors?.name
-                  ? actionData?.errors?.name
                   : undefined
               }
             />
@@ -139,7 +131,7 @@ export const Contact = ({}: ContactProps) => {
             <input type="hidden" name="intent" value="contact" />
             <button
               disabled={!skipClientRecaptcha && !recaptchaValue}
-              className="justify-self-start rounded-xl bg-orange-500 px-6 py-3 text-sm text-white hover:bg-orange-600"
+              className="justify-self-start rounded-xl bg-brand px-6 py-3 text-sm text-white transition-transform hover:scale-105"
               type="submit"
             >
               Send
@@ -147,6 +139,6 @@ export const Contact = ({}: ContactProps) => {
           </div>
         </Form>
       </div>
-    </section>
+    </IndexSection>
   );
 };

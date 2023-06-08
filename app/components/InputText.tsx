@@ -8,7 +8,7 @@ export type InputTextProps = HTMLAttributes<HTMLInputElement> & {
 };
 
 const inputStyles =
-  'w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none';
+  'w-full appearance-none border px-3 py-2 leading-tight text-brand focus:outline-none rounded-3xl';
 const focusInputStyles = 'focus:border-brand focus:border-opacity-80';
 const hoverInputStyles = 'hover:border-brand hover:border-opacity-40';
 
@@ -21,7 +21,7 @@ export const InputText = ({
 }: InputTextProps) => {
   return (
     <div>
-      <label className="mb-2 block text-sm text-gray-700" htmlFor={name}>
+      <label className="mb-2 block text-sm text-brand" htmlFor={name}>
         {label}
       </label>
       <input

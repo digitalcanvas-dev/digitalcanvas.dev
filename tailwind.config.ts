@@ -10,10 +10,10 @@ export default {
     extend: {
       colors: {
         brand: {
-          DEFAULT: '#3E5462',
+          DEFAULT: 'rgb(var(--color-brand) / <alpha-value>)',
         },
         highlight: {
-          DEFAULT: '#FF5E00',
+          DEFAULT: 'rgb(var(--color-highlight) / <alpha-value>)',
         },
       },
     },
