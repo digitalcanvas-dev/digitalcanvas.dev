@@ -77,7 +77,7 @@ export const Consultation = ({}: ConsultationProps) => {
           />
         </div>
         <div className="text-balance">
-          <h3 className="mb-8 font-heading text-3xl text-brand">
+          <h3 className="mb-14 font-heading text-3xl text-brand">
             Startup Consultation and Team Augmentation
           </h3>
           <div className="font-body text-brand">

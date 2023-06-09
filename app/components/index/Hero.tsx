@@ -20,10 +20,10 @@ export const Hero = ({}: HeroProps) => {
   return (
     <IndexSection>
       <div
-        className="grid content-between justify-start gap-12"
+        className="grid content-between justify-start gap-14"
         style={{ gridTemplateColumns: 'auto 1fr' }}
       >
-        <div className="col-span-2 grid grid-flow-row auto-rows-auto content-center items-center justify-start gap-12 md:col-span-1">
+        <div className="col-span-2 grid grid-flow-row auto-rows-auto content-center items-center justify-start gap-14 md:col-span-1">
           <h3 className="font-heading text-3xl font-bold text-brand">
             Pixels to Masterpieces: Unleashing the Digital Canvas
           </h3>
