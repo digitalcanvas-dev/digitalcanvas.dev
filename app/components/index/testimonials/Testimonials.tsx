@@ -42,19 +42,22 @@ const TestimonialBox = ({
   name,
   placeholder,
   w,
+  highlight,
 }: {
   id: string;
   quote: string;
   name: string;
   placeholder?: boolean;
   w: string;
+  highlight: boolean;
 }) => {
   return (
     <div
       id={id}
       className={`text-balance grid rounded-2xl ${
         placeholder ? 'content-center justify-center' : 'content-between'
-      } overflow-hidden bg-white p-4 font-body text-brand ${w}`}
+      } ${highlight ? 'bg-white' : 'bg-white/70'}
+      overflow-hidden p-4 font-body text-brand ${w}`}
     >
       {placeholder ? (
         <p className="font-light">{quote}</p>
@@ -100,12 +103,10 @@ export const Testimonials = () => {
   const onScroll = (direction: 'left' | 'right') =>
     setActiveBlockIndex((currentActive) => {
       if (direction === 'left') {
-        return currentActive === 0
-          ? testimonialContent.length - 1
-          : currentActive - 1;
+        return currentActive === 0 ? 0 : currentActive - 1;
       } else {
         return currentActive === testimonialContent.length - 1
-          ? 0
+          ? testimonialContent.length - 1
           : currentActive + 1;
       }
     });
@@ -120,13 +121,21 @@ export const Testimonials = () => {
           <p className="mb-8 font-heading text-3xl text-white md:mb-0">
             See what others are saying
           </p>
-          <div className="mt-2 grid auto-cols-auto grid-flow-col justify-start gap-2 2xl:hidden">
+          <div className="3xl:hidden mt-2 grid auto-cols-auto grid-flow-col justify-start gap-2">
             <IconCircleChevronLeft
-              className="h-11 w-11 cursor-pointer text-white transition-transform hover:scale-105"
+              className={`${
+                activeBlockIndex === 0
+                  ? 'text-white/50'
+                  : 'cursor-pointer text-white hover:scale-105'
+              } h-11 w-11 transition-transform`}
               onClick={() => onScroll('left')}
             />
             <IconCircleChevronRight
-              className="h-11 w-11 cursor-pointer text-white transition-transform hover:scale-105"
+              className={`${
+                activeBlockIndex === testimonialContent.length - 1
+                  ? 'text-white/50'
+                  : 'cursor-pointer text-white hover:scale-105'
+              } h-11 w-11  transition-transform`}
               onClick={() => onScroll('right')}
             />
           </div>
@@ -137,7 +146,7 @@ export const Testimonials = () => {
         >
           <div className="grid h-80 w-1/2 auto-cols-auto grid-flow-col gap-10">
             {testimonialContent.map(
-              ({ id, name, quoteFragment, placeholder }) => {
+              ({ id, name, quoteFragment, placeholder }, index) => {
                 return (
                   <TestimonialBox
                     id={id}
@@ -145,6 +154,7 @@ export const Testimonials = () => {
                     name={name}
                     quote={quoteFragment}
                     placeholder={placeholder}
+                    highlight={activeBlockIndex === index}
                     w="w-60"
                   />
                 );
