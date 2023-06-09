@@ -11,7 +11,7 @@ const ID_PREFIX = 'testimonial-';
 const testimonialContent = [
   {
     id: `${ID_PREFIX}1`,
-    name: 'Hollis M. (Owner/Designer)',
+    name: 'Hollis M. (Business Owner & Designer)',
     quoteFragment: `[...] That kind of communication and ease of vision is invaluable to help with the efficiency and ease of every development, and it just shows how much of an expert he is in his field. I highly recommend Simon for any website development project! [...]`,
     fullQuote: `Working with Simon is always so easy and enjoyable! I've worked with a variety of website developers in the past, and Simon rises above as someone who is incredibly professional, responsive, honest, and kind. The integrity he carries in his work is felt through the whole experience, and it makes my job as a designer so much easier. What I might love most about working with Simon is that he's incredibly easy to communicate with, and he holds the vision of every project as clearly as I do. Working with other developers I've found I have to go above and beyond in my explanation of the project, but with Simon I've always felt he has an understanding of the details of each project after the first meeting. That kind of communication and ease of vision is invaluable to help with the efficiency and ease of every development, and it just shows how much of an expert he is in his field. I highly recommend Simon for any website development project!`,
   },
@@ -65,14 +65,12 @@ const TestimonialBox = ({
           &rdquo;
         </p>
       )}
-      <p className="font-bold">{name}</p>
+      <p className="font-heading text-sm font-bold">{name}</p>
     </div>
   );
 };
 
-interface TestimonialsProps {}
-
-export const Testimonials = ({}: TestimonialsProps) => {
+export const Testimonials = () => {
   const [activeBlockIndex, setActiveBlockIndex] = useState(0);
   const { getHTMLElementRef } = useRefManagerContext();
 
@@ -97,7 +95,7 @@ export const Testimonials = ({}: TestimonialsProps) => {
         behavior: 'smooth',
       });
     }
-  }, [testimonialBlocksWrapper?.current, activeBlockIndex]);
+  }, [activeBlockIndex]);
 
   const onScroll = (direction: 'left' | 'right') =>
     setActiveBlockIndex((currentActive) => {

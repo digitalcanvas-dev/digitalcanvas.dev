@@ -1,11 +1,9 @@
-import SiteBuilder1 from '~/components/index/images/services/SiteBuilder1.png';
-import SiteBuilder2 from '~/components/index/images/services/SiteBuilder2.png';
-import SiteBuilder3 from '~/components/index/images/services/SiteBuilder3.png';
 import { IndexSection } from '~/components/index/IndexSection';
+import SiteBuilder1 from './SiteBuilder1.jpg';
+import SiteBuilder2 from './SiteBuilder2.jpg';
+import SiteBuilder3 from './SiteBuilder3.jpg';
 
-interface MaintenanceProps {}
-
-export const WebsiteBuilders = ({}: MaintenanceProps) => {
+export const WebsiteBuilders = () => {
   const rowStyles =
     'grid grid-flow-col auto-cols-auto gap-6 align-start md:grid-cols-2';
 

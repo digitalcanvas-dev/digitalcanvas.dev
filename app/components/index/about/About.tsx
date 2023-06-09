@@ -1,9 +1,7 @@
 import { useRefManagerContext } from '~/components/index/RefManagerContext';
 import { IndexSection } from '~/components/index/IndexSection';
 
-interface AboutProps {}
-
-export const About = ({}: AboutProps) => {
+export const About = () => {
   const { getHTMLElementRef } = useRefManagerContext();
 
   const aboutRef = getHTMLElementRef('about');

@@ -1,8 +1,6 @@
-import StartupOffice from '~/components/index/images/services/StartupOffice.jpg';
-import OfficeWhiteboard from '~/components/index/images/services/OfficeWhiteboard.jpg';
 import { IndexSection } from '~/components/index/IndexSection';
-
-interface ConsultationProps {}
+import StartupOffice from './StartupOffice.jpg';
+import OfficeWhiteboard from './OfficeWhiteboard.jpg';
 
 const StockImageWrapper = ({
   imgSrc,
@@ -60,7 +58,7 @@ const StockImageWrapper = ({
   );
 };
 
-export const Consultation = ({}: ConsultationProps) => {
+export const Consultation = () => {
   return (
     <IndexSection bgColor="bg-brand/40">
       <div className="grid auto-cols-auto grid-flow-col items-center justify-between gap-60">
