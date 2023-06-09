@@ -34,7 +34,7 @@ const services = [
     icon: Responsive,
   },
   {
-    title: 'Team Extension',
+    title: 'Team Augmentation',
     content:
       'We can work with an existing team and processes to help meet your goals and deadlines.',
     icon: DigitalMarketing,
@@ -73,8 +73,8 @@ export const Services = ({}: PropsWithChildren<ServicesProps>) => {
   const servicesRef = getHTMLElementRef('services');
 
   return (
-    <IndexSection ref={servicesRef} collapse="bottom">
-      <div className="border-b-1 mb-10 grid auto-cols-auto grid-flow-col gap-60 border-b border-b-brand border-opacity-40 pb-10">
+    <IndexSection ref={servicesRef}>
+      <div className="border-b-1 mb-10 grid grid-flow-row auto-rows-auto gap-14 border-b border-b-brand border-opacity-40 pb-10 md:auto-cols-auto md:grid-flow-col md:gap-60">
         <h3 className="font-heading text-3xl text-brand">Services</h3>
         <div className="self-start justify-self-end font-body font-light text-brand">
           <p>
@@ -88,7 +88,7 @@ export const Services = ({}: PropsWithChildren<ServicesProps>) => {
           </p>
         </div>
       </div>
-      <div className="mt-2.5 grid grid-cols-3 gap-10">
+      <div className="mt-2.5 grid grid-cols-2 gap-10 md:grid-cols-3">
         {services.map(({ title, content, icon }) => (
           <ServiceBlock
             key={title}

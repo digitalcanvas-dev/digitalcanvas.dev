@@ -71,74 +71,68 @@ export const Contact = ({}: ContactProps) => {
 
   return (
     <IndexSection ref={contactRef}>
-      <div className="w-full px-8 lg:col-span-2">
-        <h3 className="font-heading text-3xl text-brand">Get in Touch</h3>
+      <h3 className="font-heading text-3xl text-brand">Get in Touch</h3>
 
-        <Form method="POST" onSubmit={onSubmit} onError={onError}>
-          <div className="mt-2.5 grid grid-flow-row auto-rows-auto gap-4 py-4">
-            <InputText
-              name="name"
-              label="Name"
-              errorFeedback={
-                !actionData?.success && actionData?.errors?.name
-                  ? actionData?.errors?.name
-                  : undefined
-              }
+      <Form method="POST" onSubmit={onSubmit} onError={onError}>
+        <div className="mt-2.5 grid grid-flow-row auto-rows-auto gap-4 py-4">
+          <InputText
+            name="name"
+            label="Name"
+            errorFeedback={
+              !actionData?.success && actionData?.errors?.name
+                ? actionData?.errors?.name
+                : undefined
+            }
+          />
+          <InputText
+            type="email"
+            name="email"
+            label="Email"
+            errorFeedback={
+              !actionData?.success && actionData?.errors?.email
+                ? actionData?.errors?.email
+                : undefined
+            }
+          />
+          <Textarea
+            name="details"
+            label="Details"
+            errorFeedback={
+              !actionData?.success && actionData?.errors?.details
+                ? actionData?.errors?.details
+                : undefined
+            }
+          />
+          {recaptchaValue ? (
+            <input type="hidden" name="recaptchaValue" value={recaptchaValue} />
+          ) : null}
+          {!actionData?.success &&
+          (actionData?.errors?.form || actionData?.errors?.recaptchaValue) ? (
+            <p className="text-xs italic text-red-500">
+              {actionData?.errors?.form || actionData?.errors?.recaptchaValue}
+            </p>
+          ) : null}
+          {actionData?.success && actionData?.successMessage ? (
+            <p className="text-xs italic text-green-800">
+              {actionData?.successMessage}
+            </p>
+          ) : null}
+          {skipClientRecaptcha ? null : (
+            <ReCAPTCHA
+              onChange={onCaptchaChange}
+              sitekey={data.ENV.CAPTCHA_SITE_KEY}
             />
-            <InputText
-              type="email"
-              name="email"
-              label="Email"
-              errorFeedback={
-                !actionData?.success && actionData?.errors?.email
-                  ? actionData?.errors?.email
-                  : undefined
-              }
-            />
-            <Textarea
-              name="details"
-              label="Details"
-              errorFeedback={
-                !actionData?.success && actionData?.errors?.details
-                  ? actionData?.errors?.details
-                  : undefined
-              }
-            />
-            {recaptchaValue ? (
-              <input
-                type="hidden"
-                name="recaptchaValue"
-                value={recaptchaValue}
-              />
-            ) : null}
-            {!actionData?.success &&
-            (actionData?.errors?.form || actionData?.errors?.recaptchaValue) ? (
-              <p className="text-xs italic text-red-500">
-                {actionData?.errors?.form || actionData?.errors?.recaptchaValue}
-              </p>
-            ) : null}
-            {actionData?.success && actionData?.successMessage ? (
-              <p className="text-xs italic text-green-800">
-                {actionData?.successMessage}
-              </p>
-            ) : null}
-            {skipClientRecaptcha ? null : (
-              <ReCAPTCHA
-                onChange={onCaptchaChange}
-                sitekey={data.ENV.CAPTCHA_SITE_KEY}
-              />
-            )}
-            <input type="hidden" name="intent" value="contact" />
-            <button
-              disabled={!skipClientRecaptcha && !recaptchaValue}
-              className="justify-self-start rounded-xl bg-brand px-6 py-3 text-sm text-white transition-transform hover:scale-105"
-              type="submit"
-            >
-              Send
-            </button>
-          </div>
-        </Form>
-      </div>
+          )}
+          <input type="hidden" name="intent" value="contact" />
+          <button
+            disabled={!skipClientRecaptcha && !recaptchaValue}
+            className="justify-self-start rounded-xl bg-brand px-6 py-3 text-sm text-white transition-transform hover:scale-105"
+            type="submit"
+          >
+            Send
+          </button>
+        </div>
+      </Form>
     </IndexSection>
   );
 };

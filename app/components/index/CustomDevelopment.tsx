@@ -1,13 +1,13 @@
-import CustomDevelopmentImg from '~/components/index/images/services/CustomDevelopment.png';
+import CustomDevelopmentImg from '~/components/index/images/services/LaptopWithCode.jpg';
 import { IndexSection } from '~/components/index/IndexSection';
 interface CustomDevelopmentProps {}
 
 export const CustomDevelopment = ({}: CustomDevelopmentProps) => {
   return (
-    <IndexSection border="top" collapse="top">
+    <IndexSection bgColor="bg-brand/20">
       <div className="grid grid-flow-row auto-rows-auto items-center justify-between gap-8 sm:gap-20 md:auto-cols-auto md:grid-flow-col">
         <div>
-          <h3 className="mb-1 font-heading text-3xl text-brand">
+          <h3 className="mb-14 font-heading text-3xl text-brand">
             Custom Web Development
           </h3>
           <div className="font-body font-light text-brand text-opacity-80">
