@@ -1,20 +1,20 @@
 import SiteBuilder1 from '~/components/index/images/services/SiteBuilder1.png';
 import SiteBuilder2 from '~/components/index/images/services/SiteBuilder2.png';
-import SiteBuilder3 from '~/components/index/images/services/SiteBuilder2.png';
+import SiteBuilder3 from '~/components/index/images/services/SiteBuilder3.png';
 import { IndexSection } from '~/components/index/IndexSection';
 
 interface MaintenanceProps {}
 
 export const WebsiteBuilders = ({}: MaintenanceProps) => {
   const rowStyles =
-    'grid grid-flow-col auto-cols-auto gap-6 align-start grid-cols-2';
+    'grid grid-flow-col auto-cols-auto gap-6 align-start md:grid-cols-2';
 
   return (
     <IndexSection>
       <div className="text-balance grid grid-flow-row items-start justify-between gap-12 md:auto-cols-auto md:gap-16">
         <div className={rowStyles}>
           <div>
-            <h3 className="mb-2 mt-6 font-heading text-3xl text-brand">
+            <h3 className="mb-2 font-heading text-3xl text-brand md:mt-6">
               Website builder management
             </h3>
             <div className="font-body font-light text-brand text-opacity-80">
@@ -34,7 +34,7 @@ export const WebsiteBuilders = ({}: MaintenanceProps) => {
         <div className={rowStyles}>
           <img className="hidden md:block" src={SiteBuilder2} alt="" />
           <div>
-            <h3 className="mb-2 mt-6 font-heading text-3xl text-brand">
+            <h3 className="mb-2 font-heading text-3xl text-brand md:mt-6">
               Setup
             </h3>
             <div className="font-body font-light text-brand text-opacity-80">
@@ -52,7 +52,7 @@ export const WebsiteBuilders = ({}: MaintenanceProps) => {
         </div>
         <div className={rowStyles}>
           <div>
-            <h3 className="mb-2 mt-6 font-heading text-3xl text-brand">
+            <h3 className="mb-2 font-heading text-3xl text-brand md:mt-6">
               Updates
             </h3>
             <div className="font-body font-light text-brand text-opacity-80">

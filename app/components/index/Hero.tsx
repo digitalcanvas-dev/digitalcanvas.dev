@@ -1,6 +1,7 @@
 import { IconArrowNarrowRight } from '@tabler/icons-react';
 import { useRefManagerContext } from '~/components/index/RefManagerContext';
 import { IndexSection } from '~/components/index/IndexSection';
+import Splash from '~/components/index/images/Splash3.jpg';
 
 interface HeroProps {}
 
@@ -18,9 +19,12 @@ export const Hero = ({}: HeroProps) => {
 
   return (
     <IndexSection>
-      <section className="grid h-screen grid-flow-row auto-rows-auto items-center justify-center gap-12">
-        <div className="flex flex-col gap-8 text-lg">
-          <h3 className="font-heading font-bold text-brand">
+      <div
+        className="grid content-between justify-start gap-12"
+        style={{ gridTemplateColumns: 'auto 1fr' }}
+      >
+        <div className="col-span-2 grid grid-flow-row auto-rows-auto content-center items-center justify-start gap-12 md:col-span-1">
+          <h3 className="font-heading text-3xl font-bold text-brand">
             Pixels to Masterpieces: Unleashing the Digital Canvas
           </h3>
           <p className="font-body font-light text-brand">
@@ -31,12 +35,13 @@ export const Hero = ({}: HeroProps) => {
           </p>
           <span
             onClick={() => scrollTo(contactRef?.current)}
-            className="flex cursor-pointer auto-rows-auto items-center self-end font-body text-brand hover:underline"
+            className="mt-16 flex cursor-pointer auto-rows-auto justify-self-end font-body text-lg text-brand hover:underline"
           >
             Contact us now <IconArrowNarrowRight className="text-highlight" />
           </span>
         </div>
-      </section>
+        <img src={Splash} alt="" className="hidden max-w-sm md:block" />
+      </div>
     </IndexSection>
   );
 };

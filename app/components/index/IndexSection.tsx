@@ -5,7 +5,6 @@ type Y = 'top' | 'bottom' | 'both';
 
 interface IndexSectionProps {
   bgColor?: string;
-  bgOpacity?: number;
   border?: Y;
   // remove margins
   collapse?: Y;
@@ -60,9 +59,15 @@ const getContainerBounds = (
         ? 'mt-8'
         : 'mt-0'
       : hasTopBorder
-      ? 'mt-24'
-      : 'mt-8',
-    mb: hasBottomCollapse ? 'mb-0' : hasBottomBorder ? 'mb-8' : 'mb-8',
+      ? 'mt-14 md:mt-24'
+      : 'mt-0',
+    mb: hasBottomCollapse
+      ? hasBottomBorder
+        ? 'mb-8'
+        : 'mb-0'
+      : hasBottomBorder
+      ? 'mb-14 md:mb-24'
+      : 'mb-0',
     mx: 'mx-auto',
     pt: hasTopCollapse
       ? hasTopBorder
@@ -70,8 +75,14 @@ const getContainerBounds = (
         : 'pt-0'
       : hasTopBorder
       ? 'pt-8'
-      : 'pt-24',
-    pb: hasBottomCollapse ? 'pb-0' : hasBottomBorder ? 'pb-8' : 'pb-24',
+      : 'pt-16 md:pt-32',
+    pb: hasBottomCollapse
+      ? hasBottomBorder
+        ? 'pb-8'
+        : 'pb-0'
+      : hasBottomBorder
+      ? 'pb-8'
+      : 'pb-16 md:pb-32',
     px: 'px-0',
   };
 

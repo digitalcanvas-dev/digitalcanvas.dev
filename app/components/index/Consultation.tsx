@@ -1,5 +1,5 @@
-import ConsultingImg from '~/components/index/images/services/Consulting1.png';
-import ConsultingImgAlt from '~/components/index/images/services/Consulting2.png';
+import StartupOffice from '~/components/index/images/services/StartupOffice.jpg';
+import OfficeWhiteboard from '~/components/index/images/services/OfficeWhiteboard.jpg';
 import { IndexSection } from '~/components/index/IndexSection';
 
 interface ConsultationProps {}
@@ -66,12 +66,12 @@ export const Consultation = ({}: ConsultationProps) => {
       <div className="grid auto-cols-auto grid-flow-col items-center justify-between gap-60">
         <div className="hidden flex-col gap-4 md:flex">
           <StockImageWrapper
-            imgSrc={ConsultingImgAlt}
+            imgSrc={OfficeWhiteboard}
             pos="left"
             heightPx={190}
           />
           <StockImageWrapper
-            imgSrc={ConsultingImg}
+            imgSrc={StartupOffice}
             pos="right"
             heightPx={190}
           />

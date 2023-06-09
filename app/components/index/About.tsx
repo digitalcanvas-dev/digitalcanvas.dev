@@ -10,7 +10,7 @@ export const About = ({}: AboutProps) => {
 
   return (
     <IndexSection ref={aboutRef} bgColor="bg-brand/10" border="top">
-      <div className="grid w-full grid-flow-row items-start justify-stretch gap-20 text-brand md:min-h-[50vh] md:grid-flow-col md:gap-60">
+      <div className="grid w-full grid-flow-row items-start justify-stretch gap-14 text-brand md:min-h-[50vh] md:grid-flow-col md:gap-60">
         <h3 className="self-start justify-self-start align-top font-heading text-3xl">
           About Us
         </h3>

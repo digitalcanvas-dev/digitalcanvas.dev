@@ -17,7 +17,7 @@ const testimonialContent = [
   },
   {
     id: `${ID_PREFIX}2`,
-    name: 'Paul A. (Engineering Manager)',
+    name: 'Paul A. (Eng. Manager)',
     quoteFragment: `[...] outstanding software engineer with remarkable technical leadership and a consistent track record of delivering high-quality work. [...] I highly recommend Simon for his technical expertise, professionalism, and commitment to excellence.`,
     fullQuote: `I am delighted to recommend Simon, an outstanding software engineer with remarkable technical leadership and a consistent track record of delivering high-quality work. Simon possesses a deep understanding of software engineering principles, excels at problem-solving, and consistently produces clean, efficient, and reliable code. His exceptional leadership skills and willingness to mentor others make him an invaluable asset to any team. I highly recommend Simon for his technical expertise, professionalism, and commitment to excellence.`,
   },
@@ -52,7 +52,7 @@ const TestimonialBox = ({
   return (
     <div
       id={id}
-      className={`text-balance grid ${
+      className={`text-balance grid rounded-2xl ${
         placeholder ? 'content-center justify-center' : 'content-between'
       } overflow-hidden bg-white p-4 font-body text-brand ${w}`}
     >
@@ -114,12 +114,12 @@ export const Testimonials = ({}: TestimonialsProps) => {
 
   return (
     <IndexSection ref={testimonialsRef} bgColor="bg-brand">
-      <div className="grid grid-flow-row auto-rows-auto justify-between gap-16 md:auto-cols-auto md:grid-flow-col">
+      <div className="grid grid-flow-row auto-rows-auto justify-between gap-4 md:auto-cols-auto md:grid-flow-col md:gap-16">
         <div className="text-balance">
           <h3 className="font-body text-sm capitalize text-white/50">
             Testimonials
           </h3>
-          <p className="font-heading text-3xl text-white">
+          <p className="mb-8 font-heading text-3xl text-white md:mb-0">
             See what others are saying
           </p>
           <div className="mt-2 grid auto-cols-auto grid-flow-col justify-start gap-2 2xl:hidden">
