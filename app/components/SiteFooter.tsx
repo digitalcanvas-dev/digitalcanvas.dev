@@ -1,8 +1,6 @@
 import LogoLight from '../../public/LogoLight.svg';
 
-interface FooterProps {}
-
-export const SiteFooter = ({}: FooterProps) => {
+export const SiteFooter = () => {
   return (
     <footer className="text-balance mx-auto grid w-full auto-cols-auto grid-flow-col justify-between gap-20 bg-brand px-8 py-10 text-white/80 md:px-32">
       <div className="grid grid-flow-row auto-rows-auto gap-4 text-xs md:gap-8">

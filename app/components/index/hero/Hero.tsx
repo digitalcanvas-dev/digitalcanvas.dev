@@ -1,9 +1,7 @@
 import { IconArrowNarrowRight } from '@tabler/icons-react';
 import { useRefManagerContext } from '~/components/index/RefManagerContext';
 import { IndexSection } from '~/components/index/IndexSection';
-import Splash from '~/components/index/images/Splash3.jpg';
-
-interface HeroProps {}
+import Splash from './Splash3.jpg';
 
 const scrollTo = (targetElement?: HTMLElement | null) => {
   if (!targetElement) {
@@ -12,7 +10,7 @@ const scrollTo = (targetElement?: HTMLElement | null) => {
   targetElement.scrollIntoView({ behavior: 'smooth' });
 };
 
-export const Hero = ({}: HeroProps) => {
+export const Hero = () => {
   const { getHTMLElementRef } = useRefManagerContext();
 
   const contactRef = getHTMLElementRef('contact');

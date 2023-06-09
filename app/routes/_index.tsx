@@ -3,10 +3,17 @@ import type { ActionArgs, TypedResponse } from '@remix-run/node';
 import { json } from '@remix-run/node';
 
 import { SiteHeader } from '~/components/SiteHeader';
-import { About } from '~/components/index/About';
-import type { FormErrors } from '~/components/index/Contact';
-import { Contact } from '~/components/index/Contact';
-import { Services } from '~/components/index/Services';
+import {
+  About,
+  Consultation,
+  Contact,
+  CustomDevelopment,
+  Hero,
+  Services,
+  Testimonials,
+  WebsiteBuilders,
+} from '~/components/index';
+import type { FormErrors } from '~/components/index';
 
 import {
   RefManagerContextProvider,
@@ -18,11 +25,6 @@ import { validateCaptcha } from '~/utils/captcha.server';
 import { sendContactEmail, validateContactForm } from '~/utils/ses.server';
 
 import { SiteFooter } from '~/components/SiteFooter';
-import { Hero } from '~/components/index/Hero';
-import { WebsiteBuilders } from '~/components/index/WebsiteBuilders';
-import { Consultation } from '~/components/index/Consultation';
-import { CustomDevelopment } from '~/components/index/CustomDevelopment';
-import { Testimonials } from '~/components/index/Testimonials';
 
 export const loader = async (): Promise<TypedResponse<{ ENV: Globals }>> => {
   return json<{ ENV: any }>({

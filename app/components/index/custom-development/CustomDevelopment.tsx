@@ -1,8 +1,7 @@
-import CustomDevelopmentImg from '~/components/index/images/services/LaptopWithCode.jpg';
 import { IndexSection } from '~/components/index/IndexSection';
-interface CustomDevelopmentProps {}
+import CustomDevelopmentImg from './LaptopWithCode.jpg';
 
-export const CustomDevelopment = ({}: CustomDevelopmentProps) => {
+export const CustomDevelopment = () => {
   return (
     <IndexSection bgColor="bg-brand/20">
       <div className="grid grid-flow-row auto-rows-auto items-center justify-between gap-8 sm:gap-20 md:auto-cols-auto md:grid-flow-col">

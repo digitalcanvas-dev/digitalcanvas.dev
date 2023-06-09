@@ -11,7 +11,7 @@ const ID_PREFIX = 'testimonial-';
 const testimonialContent = [
   {
     id: `${ID_PREFIX}1`,
-    name: 'Hollis M. (Owner/Designer)',
+    name: 'Hollis M. (Business Owner & Designer)',
     quoteFragment: `[...] That kind of communication and ease of vision is invaluable to help with the efficiency and ease of every development, and it just shows how much of an expert he is in his field. I highly recommend Simon for any website development project! [...]`,
     fullQuote: `Working with Simon is always so easy and enjoyable! I've worked with a variety of website developers in the past, and Simon rises above as someone who is incredibly professional, responsive, honest, and kind. The integrity he carries in his work is felt through the whole experience, and it makes my job as a designer so much easier. What I might love most about working with Simon is that he's incredibly easy to communicate with, and he holds the vision of every project as clearly as I do. Working with other developers I've found I have to go above and beyond in my explanation of the project, but with Simon I've always felt he has an understanding of the details of each project after the first meeting. That kind of communication and ease of vision is invaluable to help with the efficiency and ease of every development, and it just shows how much of an expert he is in his field. I highly recommend Simon for any website development project!`,
   },
@@ -42,19 +42,22 @@ const TestimonialBox = ({
   name,
   placeholder,
   w,
+  highlight,
 }: {
   id: string;
   quote: string;
   name: string;
   placeholder?: boolean;
   w: string;
+  highlight: boolean;
 }) => {
   return (
     <div
       id={id}
       className={`text-balance grid rounded-2xl ${
         placeholder ? 'content-center justify-center' : 'content-between'
-      } overflow-hidden bg-white p-4 font-body text-brand ${w}`}
+      } ${highlight ? 'bg-white' : 'bg-white/70'}
+      overflow-hidden p-4 font-body text-brand ${w}`}
     >
       {placeholder ? (
         <p className="font-light">{quote}</p>
@@ -65,14 +68,12 @@ const TestimonialBox = ({
           &rdquo;
         </p>
       )}
-      <p className="font-bold">{name}</p>
+      <p className="font-heading text-sm font-bold">{name}</p>
     </div>
   );
 };
 
-interface TestimonialsProps {}
-
-export const Testimonials = ({}: TestimonialsProps) => {
+export const Testimonials = () => {
   const [activeBlockIndex, setActiveBlockIndex] = useState(0);
   const { getHTMLElementRef } = useRefManagerContext();
 
@@ -97,17 +98,15 @@ export const Testimonials = ({}: TestimonialsProps) => {
         behavior: 'smooth',
       });
     }
-  }, [testimonialBlocksWrapper?.current, activeBlockIndex]);
+  }, [activeBlockIndex]);
 
   const onScroll = (direction: 'left' | 'right') =>
     setActiveBlockIndex((currentActive) => {
       if (direction === 'left') {
-        return currentActive === 0
-          ? testimonialContent.length - 1
-          : currentActive - 1;
+        return currentActive === 0 ? 0 : currentActive - 1;
       } else {
         return currentActive === testimonialContent.length - 1
-          ? 0
+          ? testimonialContent.length - 1
           : currentActive + 1;
       }
     });
@@ -122,13 +121,21 @@ export const Testimonials = ({}: TestimonialsProps) => {
           <p className="mb-8 font-heading text-3xl text-white md:mb-0">
             See what others are saying
           </p>
-          <div className="mt-2 grid auto-cols-auto grid-flow-col justify-start gap-2 2xl:hidden">
+          <div className="3xl:hidden mt-2 grid auto-cols-auto grid-flow-col justify-start gap-2">
             <IconCircleChevronLeft
-              className="h-11 w-11 cursor-pointer text-white transition-transform hover:scale-105"
+              className={`${
+                activeBlockIndex === 0
+                  ? 'text-white/50'
+                  : 'cursor-pointer text-white hover:scale-105'
+              } h-11 w-11 transition-transform`}
               onClick={() => onScroll('left')}
             />
             <IconCircleChevronRight
-              className="h-11 w-11 cursor-pointer text-white transition-transform hover:scale-105"
+              className={`${
+                activeBlockIndex === testimonialContent.length - 1
+                  ? 'text-white/50'
+                  : 'cursor-pointer text-white hover:scale-105'
+              } h-11 w-11  transition-transform`}
               onClick={() => onScroll('right')}
             />
           </div>
@@ -139,7 +146,7 @@ export const Testimonials = ({}: TestimonialsProps) => {
         >
           <div className="grid h-80 w-1/2 auto-cols-auto grid-flow-col gap-10">
             {testimonialContent.map(
-              ({ id, name, quoteFragment, placeholder }) => {
+              ({ id, name, quoteFragment, placeholder }, index) => {
                 return (
                   <TestimonialBox
                     id={id}
@@ -147,6 +154,7 @@ export const Testimonials = ({}: TestimonialsProps) => {
                     name={name}
                     quote={quoteFragment}
                     placeholder={placeholder}
+                    highlight={activeBlockIndex === index}
                     w="w-60"
                   />
                 );

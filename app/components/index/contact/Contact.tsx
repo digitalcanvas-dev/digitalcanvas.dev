@@ -15,8 +15,6 @@ import { InputText } from '~/components/InputText';
 import { Textarea } from '~/components/Textarea';
 import { IndexSection } from '~/components/index/IndexSection';
 
-interface ContactProps {}
-
 export interface ContactFormValues {
   name: string;
   email: string;
@@ -34,7 +32,7 @@ export type FormErrors = {
   form?: string;
 };
 
-export const Contact = ({}: ContactProps) => {
+export const Contact = () => {
   const [recaptchaValue, setRecaptchaValue] = useState<string | null>(null);
 
   const actionData = useActionData<

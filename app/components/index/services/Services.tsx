@@ -1,12 +1,9 @@
-import type { PropsWithChildren } from 'react';
 import { useRefManagerContext } from '~/components/index/RefManagerContext';
-import Responsive from '~/components/index/images/services/Responsive.svg';
-import TestingDebugging from '~/components/index/images/services/TestingDebugging.svg';
-import DigitalMarketing from '~/components/index/images/services/DigitalMarketing.svg';
-import Cloud from '~/components/index/images/services/Cloud.svg';
+import Responsive from '~/components/index/services/Responsive.svg';
+import TestingDebugging from '~/components/index/services/TestingDebugging.svg';
+import DigitalMarketing from '~/components/index/services/DigitalMarketing.svg';
+import Cloud from '~/components/index/services/Cloud.svg';
 import { IndexSection } from '~/components/index/IndexSection';
-
-interface ServicesProps {}
 
 const services = [
   {
@@ -67,7 +64,7 @@ const ServiceBlock = ({
   );
 };
 
-export const Services = ({}: PropsWithChildren<ServicesProps>) => {
+export const Services = () => {
   const { getHTMLElementRef } = useRefManagerContext();
 
   const servicesRef = getHTMLElementRef('services');

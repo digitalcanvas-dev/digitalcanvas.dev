@@ -20,6 +20,7 @@ module.exports = {
     },
   },
   rules: {
+    'react/display-name': 'off',
     'sort-imports': [
       'error',
       { ignoreCase: true, ignoreDeclarationSort: true },
