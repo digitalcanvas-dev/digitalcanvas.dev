@@ -35,8 +35,8 @@ export const meta: V2_MetaFunction = () => [
     content: 'width=device-width,initial-scale=1',
   },
   {
-    httpEquiv: 'cache-control',
-    content: 'no-cache',
+    name: 'og:image',
+    content: '/_static/LogoWhiteBg.jpg',
   },
 ];
 
