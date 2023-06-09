@@ -12,7 +12,7 @@ export const CustomDevelopment = ({}: CustomDevelopmentProps) => {
           </h3>
           <div className="font-body font-light text-brand text-opacity-80">
             <p>
-              <strong>Digital Canvas Development</strong> can work with you our
+              <strong>Digital Canvas Development</strong> can work with you or
               your designers to create or perfect a unique online presence your
               business.
             </p>
