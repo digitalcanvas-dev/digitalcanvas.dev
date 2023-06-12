@@ -140,7 +140,7 @@ export const SiteHeader = ({ headerHeight }: SiteHeaderProps) => {
       </div>
       <button
         type="button"
-        className={`rounded-3xl px-8 py-3.5 font-body text-opacity-80 transition-all hover:scale-105 hover:text-opacity-100 ${
+        className={`rounded-3xl px-4 py-2 font-body text-opacity-80 transition-all hover:scale-105 hover:text-opacity-100 md:px-8 md:py-3.5 ${
           scrolledDown ? 'bg-white text-brand' : 'bg-brand text-white'
         }`}
         onClick={(evt) =>

@@ -96,7 +96,7 @@ export async function action({ request }: ActionArgs): Promise<
 
   return json({
     success: true,
-    successMessage: 'Message sent!',
+    successMessage: 'Message sent! Expect to hear back soon.',
   });
 }
 

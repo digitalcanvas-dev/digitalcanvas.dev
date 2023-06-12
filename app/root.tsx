@@ -53,7 +53,7 @@ export const meta: V2_MetaFunction = () => [
   },
   {
     property: 'og:image',
-    content: '/_static/LogoWhiteBgCropped1200x720.jpg',
+    content: '/_static/LogoWhiteBgCropped1200x720.webp',
   },
   {
     property: 'og:image:width',
