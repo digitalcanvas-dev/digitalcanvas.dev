@@ -130,7 +130,7 @@ export const Testimonials = () => {
           <p className="mb-8 font-heading text-3xl text-white md:mb-0">
             See what others are saying
           </p>
-          <div className="mt-2 grid auto-cols-auto grid-flow-col gap-2 self-end justify-self-start md:justify-self-end 2xl:hidden">
+          <div className="mt-2 grid auto-cols-auto grid-flow-col gap-2 self-end justify-self-start md:justify-self-end">
             <IconCircleChevronLeft
               className={`${
                 activeBlockIndex === 0
