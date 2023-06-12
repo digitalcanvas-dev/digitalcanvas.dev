@@ -5,6 +5,7 @@ import {
   IconCircleChevronLeft,
   IconCircleChevronRight,
 } from '@tabler/icons-react';
+import FancyQuote from '~/components/index/testimonials/FancyQuote.svg';
 
 const ID_PREFIX = 'testimonial-';
 
@@ -68,7 +69,12 @@ const TestimonialBox = ({
           &rdquo;
         </p>
       )}
-      <p className="font-heading text-sm font-bold">{name}</p>
+      {placeholder ? null : (
+        <span className="grid auto-cols-auto grid-flow-col items-center justify-start gap-4">
+          <img src={FancyQuote} alt="" className="text-brand" />
+          <p className="font-heading text-sm font-bold">{name}</p>
+        </span>
+      )}
     </div>
   );
 };
@@ -114,14 +120,17 @@ export const Testimonials = () => {
   return (
     <IndexSection ref={testimonialsRef} bgColor="bg-brand">
       <div className="grid grid-flow-row auto-rows-auto justify-between gap-4 md:auto-cols-auto md:grid-flow-col md:gap-16">
-        <div className="text-balance">
+        <div
+          className="text-balance grid"
+          style={{ gridTemplateRows: 'auto auto 1fr' }}
+        >
           <h3 className="font-body text-sm capitalize text-white/50">
             Testimonials
           </h3>
           <p className="mb-8 font-heading text-3xl text-white md:mb-0">
             See what others are saying
           </p>
-          <div className="3xl:hidden mt-2 grid auto-cols-auto grid-flow-col justify-start gap-2">
+          <div className="mt-2 grid auto-cols-auto grid-flow-col gap-2 self-end justify-self-start md:justify-self-end 2xl:hidden">
             <IconCircleChevronLeft
               className={`${
                 activeBlockIndex === 0
@@ -155,7 +164,7 @@ export const Testimonials = () => {
                     quote={quoteFragment}
                     placeholder={placeholder}
                     highlight={activeBlockIndex === index}
-                    w="w-60"
+                    w="w-72"
                   />
                 );
               }

@@ -59,11 +59,14 @@ export const sendContactEmail = async (
       },
     };
 
-    const resp = await ses.sendEmail(params).promise();
-
-    const { error } = resp.$response;
-
-    return error ?? null;
+    if (process.env.NODE_ENV !== 'development') {
+      const resp = await ses.sendEmail(params).promise();
+      const { error } = resp.$response;
+      return error ?? null;
+    } else {
+      console.log(JSON.stringify(params));
+      return null;
+    }
   } catch (e) {
     return e;
   }

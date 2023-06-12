@@ -124,7 +124,7 @@ export const Contact = () => {
           <input type="hidden" name="intent" value="contact" />
           <button
             disabled={!skipClientRecaptcha && !recaptchaValue}
-            className="justify-self-start rounded-xl bg-brand px-6 py-3 text-sm text-white transition-transform hover:scale-105"
+            className="justify-self-start rounded-3xl bg-brand px-6 py-3 text-sm text-white transition-transform hover:scale-105"
             type="submit"
           >
             Send

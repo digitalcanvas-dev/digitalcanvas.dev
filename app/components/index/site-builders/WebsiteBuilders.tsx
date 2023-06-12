@@ -1,7 +1,7 @@
 import { IndexSection } from '~/components/index/IndexSection';
-import SiteBuilder1 from './SiteBuilder1.jpg';
-import SiteBuilder2 from './SiteBuilder2.jpg';
-import SiteBuilder3 from './SiteBuilder3.jpg';
+import SiteBuilder1 from './SiteBuilder1.webp';
+import SiteBuilder2 from './SiteBuilder2.webp';
+import SiteBuilder3 from './SiteBuilder3.webp';
 
 export const WebsiteBuilders = () => {
   const rowStyles =

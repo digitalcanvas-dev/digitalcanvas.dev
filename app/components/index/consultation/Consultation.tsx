@@ -1,78 +1,14 @@
 import { IndexSection } from '~/components/index/IndexSection';
-import StartupOffice from './StartupOffice.jpg';
-import OfficeWhiteboard from './OfficeWhiteboard.jpg';
-
-const StockImageWrapper = ({
-  imgSrc,
-  pos,
-  heightPx,
-}: {
-  imgSrc: string;
-  pos: 'left' | 'right';
-  heightPx: number;
-}) => {
-  const rightPos = pos === 'right';
-
-  const radiusStyles = rightPos
-    ? {
-        borderTopLeftRadius: `${Math.round(heightPx / 2)}px`,
-        borderBottomLeftRadius: `${Math.round(heightPx / 2)}px`,
-      }
-    : {
-        borderTopRightRadius: `${Math.round(heightPx / 2)}px`,
-        borderBottomRightRadius: `${Math.round(heightPx / 2)}px`,
-      };
-
-  const borderClassName = `border-${rightPos ? 'r' : 'l'}-0`;
-
-  return (
-    <div
-      className={`border ${borderClassName} border-brand`}
-      style={{
-        ...radiusStyles,
-        height: `${heightPx - 2}px`,
-        transform: `translate(${rightPos ? '0' : '72'}px)`,
-      }}
-    >
-      <div
-        className={`border ${borderClassName} border-brand`}
-        style={{
-          ...radiusStyles,
-          height: `${heightPx - 2}px`,
-          transform: `translate(${rightPos ? '25' : '-25'}px)`,
-        }}
-      >
-        <div
-          style={{
-            ...radiusStyles,
-            marginTop: -2,
-            backgroundImage: `url(${imgSrc})`,
-            backgroundSize: 'contain',
-            height: heightPx,
-            width: (heightPx * 17) / 9,
-            transform: `translate(${rightPos ? '47' : '-47'}px)`,
-          }}
-        />
-      </div>
-    </div>
-  );
-};
+import StartupOffice from './StartupOffice.webp';
+import OfficeWhiteboard from './OfficeWhiteboard.webp';
 
 export const Consultation = () => {
   return (
     <IndexSection bgColor="bg-brand/40">
-      <div className="grid auto-cols-auto grid-flow-col items-center justify-between gap-60">
-        <div className="hidden flex-col gap-4 md:flex">
-          <StockImageWrapper
-            imgSrc={OfficeWhiteboard}
-            pos="left"
-            heightPx={190}
-          />
-          <StockImageWrapper
-            imgSrc={StartupOffice}
-            pos="right"
-            heightPx={190}
-          />
+      <div className="grid auto-cols-auto grid-flow-col items-stretch justify-between gap-6">
+        <div className="hidden flex-col justify-around gap-4 md:flex">
+          <img src={OfficeWhiteboard} alt="" />
+          <img src={StartupOffice} alt="" />
         </div>
         <div className="text-balance">
           <h3 className="mb-14 font-heading text-3xl text-brand">

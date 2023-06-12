@@ -16,6 +16,11 @@ export default {
           DEFAULT: 'rgb(var(--color-highlight) / <alpha-value>)',
         },
       },
+      gridTemplateColumns: {
+        // Simple 16 column grid
+        indexLeftHeadingMd: '0.4fr 1fr',
+        indexTopHeading: 'auto',
+      },
     },
   },
   plugins: [],
