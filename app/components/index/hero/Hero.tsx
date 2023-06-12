@@ -2,7 +2,7 @@ import { IconArrowNarrowRight } from '@tabler/icons-react';
 import { useRefManagerContext } from '~/components/index/RefManagerContext';
 import { IndexSection } from '~/components/index/IndexSection';
 import Splash from './Hero2.webp';
-import LogoEffect from './Hero.png';
+import LogoDark from './LogoDark.svg';
 
 const scrollTo = (targetElement?: HTMLElement | null) => {
   if (!targetElement) {
@@ -34,7 +34,11 @@ export const Hero = () => {
       <div className="mx-auto mt-20 grid max-w-screen-2xl grid-cols-1 content-between justify-start gap-14 px-8 md:mt-0 md:grid-cols-indexLeftHeadingMd md:px-32">
         <div className="hidden md:block" />
         <div className="col-span-2 grid grid-flow-row auto-rows-auto content-center items-center justify-start gap-4 md:col-span-1">
-          <img src={LogoEffect} alt="" className="mx-auto mb-8 md:my-20" />
+          <img
+            src={LogoDark}
+            alt=""
+            className="mx-auto mb-8 max-w-xl md:my-20"
+          />
           <h3 className="font-heading text-3xl font-bold text-brand">
             Your Dedicated Partner for Custom Web Development
           </h3>
