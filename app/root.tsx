@@ -69,7 +69,6 @@ export default function App() {
   return (
     <html lang="en">
       <head>
-        <title />
         <Meta />
         <Links />
       </head>
