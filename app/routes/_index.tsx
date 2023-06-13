@@ -3,102 +3,45 @@ import type { ActionArgs, TypedResponse } from '@remix-run/node';
 import { json } from '@remix-run/node';
 
 import { SiteHeader } from '~/components/SiteHeader';
-import {
-  About,
-  Consultation,
-  Contact,
-  CustomDevelopment,
-  Hero,
-  Services,
-  Testimonials,
-  WebsiteBuilders,
-} from '~/components/index';
-import type { FormErrors } from '~/components/index';
+
+import { About } from './about';
+import { Consultation } from './consultation';
+import { CustomDevelopment } from './custom-development';
+import { Services } from './services';
+import { Testimonials } from './testimonials';
+import { WebsiteBuilders } from './website-builders';
+import { Contact, sendContact } from './contact';
+import { Hero } from './hero';
 
 import {
   RefManagerContextProvider,
   useRefManagerContext,
 } from '~/components/index/RefManagerContext';
-
-import type { Globals } from '~/types';
-import { validateCaptcha } from '~/utils/captcha.server';
-import { sendContactEmail, validateContactForm } from '~/utils/ses.server';
-
 import { SiteFooter } from '~/components/SiteFooter';
+import type { Globals } from '~/types';
 
-export const loader = async (): Promise<TypedResponse<{ ENV: Globals }>> => {
-  return json<{ ENV: any }>({
+export const loader = async (): Promise<
+  TypedResponse<{ ENV: Pick<Globals, 'CAPTCHA_SITE_KEY' | 'NODE_ENV'> }>
+> => {
+  return json<{
+    ENV: Pick<Globals, 'CAPTCHA_SITE_KEY' | 'NODE_ENV'>;
+  }>({
     ENV: {
-      CAPTCHA_SITE_KEY: process.env.CAPTCHA_SITE_KEY,
+      CAPTCHA_SITE_KEY: `${process.env.CAPTCHA_SITE_KEY}`,
       NODE_ENV: process.env.NODE_ENV,
     },
   });
 };
 
-export async function action({ request }: ActionArgs): Promise<
-  TypedResponse<
-    | { success: true; successMessage: string }
-    | {
-        success: false;
-        errors?: FormErrors;
-      }
-  >
-> {
+export const action = async ({ request }: ActionArgs) => {
   const formData = await request.formData();
-  const intent = formData.get('intent');
-  if (intent !== 'contact') {
-    throw new Error(`Unexpected intent: ${intent}`);
+  const action = formData.get('_action');
+  if (action !== 'contact') {
+    throw new Error(`Unexpected _action: ${action}`);
   }
 
-  const requesterName = formData.get('name');
-  const requesterEmail = formData.get('email');
-  const details = formData.get('details');
-
-  if (process.env.NODE_ENV !== 'development') {
-    const recaptchaValue = formData.get('recaptchaValue');
-
-    const resp = await validateCaptcha(recaptchaValue);
-
-    if (!resp.success) {
-      return json({
-        success: false,
-        errors: {
-          recaptchaValue: 'Invalid ReCAPTCHA response.',
-        },
-      });
-    }
-  }
-
-  const validationResult = validateContactForm(
-    requesterName,
-    requesterEmail,
-    details
-  );
-
-  if (validationResult !== null) {
-    return json({ success: false, errors: validationResult });
-  }
-
-  const sentError = await sendContactEmail(
-    `${requesterName}`,
-    `${requesterEmail}`,
-    `${details}`
-  );
-
-  if (sentError) {
-    return json({
-      success: false,
-      errors: {
-        form: `${sentError}`,
-      },
-    });
-  }
-
-  return json({
-    success: true,
-    successMessage: 'Message sent! Expect to hear back soon.',
-  });
-}
+  return sendContact(formData);
+};
 
 const HEADER_HEIGHT = '112px';
 

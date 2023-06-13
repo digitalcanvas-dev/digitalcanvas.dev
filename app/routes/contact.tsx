@@ -3,27 +3,33 @@ import {
   Form,
   useActionData,
   useLoaderData,
+  useNavigation,
   useSubmit,
 } from '@remix-run/react';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import type { FormEventHandler } from 'react';
+import type { TypedResponse } from '@remix-run/node';
+import { json } from '@remix-run/node';
+
 import type { Globals } from '~/types';
 
-import { useRefManagerContext } from '~/components/index/RefManagerContext';
+import { validateCaptcha } from '~/utils/captcha.server';
+import { sendContactEmail, validateContactForm } from '~/utils/contact.server';
 
+import { useRefManagerContext } from '~/components/index/RefManagerContext';
 import { InputText } from '~/components/InputText';
 import { Textarea } from '~/components/Textarea';
 import { IndexSection } from '~/components/index/IndexSection';
 
-export interface ContactFormValues {
+interface ContactFormValues {
   name: string;
   email: string;
   details: string;
   recaptchaValue: string;
-  intent: string;
+  _action: string;
 }
 
-export type FormErrors = {
+type FormErrors = {
   [K in keyof Pick<
     ContactFormValues,
     'name' | 'email' | 'details' | 'recaptchaValue'
@@ -32,8 +38,70 @@ export type FormErrors = {
   form?: string;
 };
 
+export async function sendContact(formData: FormData): Promise<
+  TypedResponse<
+    | { success: true; successMessage: string }
+    | {
+        success: false;
+        errors?: FormErrors;
+      }
+  >
+> {
+  const requesterName = formData.get('name');
+  const requesterEmail = formData.get('email');
+  const details = formData.get('details');
+
+  if (process.env.NODE_ENV !== 'development') {
+    const recaptchaValue = formData.get('recaptchaValue');
+
+    const resp = await validateCaptcha(recaptchaValue);
+
+    if (!resp.success) {
+      return json({
+        success: false,
+        errors: {
+          recaptchaValue: 'Invalid ReCAPTCHA response.',
+        },
+      });
+    }
+  }
+
+  const validationResult = validateContactForm(
+    requesterName,
+    requesterEmail,
+    details
+  );
+
+  if (validationResult !== null) {
+    return json({ success: false, errors: validationResult });
+  }
+
+  const sentError = await sendContactEmail(
+    `${requesterName}`,
+    `${requesterEmail}`,
+    `${details}`
+  );
+
+  if (sentError) {
+    return json({
+      success: false,
+      errors: {
+        form: `${sentError}`,
+      },
+    });
+  }
+
+  return json({
+    success: true,
+    successMessage: 'Thank you for reaching out! Expect to hear back soon.',
+  });
+}
+
 export const Contact = () => {
+  // using the ref to get the value would be cumbersome since it would involve a
+  // useEffect with a ref dependency.
   const [recaptchaValue, setRecaptchaValue] = useState<string | null>(null);
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
 
   const actionData = useActionData<
     | {
@@ -42,6 +110,8 @@ export const Contact = () => {
       }
     | { success: true; successMessage: string }
   >();
+
+  const navigation = useNavigation();
 
   const data = useLoaderData<{ ENV: Globals }>();
 
@@ -56,14 +126,11 @@ export const Contact = () => {
   const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     await submit(e.currentTarget);
     setRecaptchaValue(null);
+    recaptchaRef?.current?.reset();
     return;
   };
 
-  const onError: FormEventHandler<HTMLFormElement> = (e) => {
-    console.error(e);
-  };
-
-  const onCaptchaChange = (value: string | null) => {
+  const handleRecaptchaChange = (value: string | null) => {
     setRecaptchaValue(value);
   };
 
@@ -71,7 +138,7 @@ export const Contact = () => {
     <IndexSection ref={contactRef}>
       <h3 className="font-heading text-3xl text-brand">Get in Touch</h3>
 
-      <Form method="POST" onSubmit={onSubmit} onError={onError}>
+      <Form method="POST" onSubmit={onSubmit}>
         <div className="mt-2.5 grid grid-flow-row auto-rows-auto gap-4 py-4">
           <InputText
             name="name"
@@ -95,6 +162,7 @@ export const Contact = () => {
           <Textarea
             name="details"
             label="Details"
+            rows={5}
             errorFeedback={
               !actionData?.success && actionData?.errors?.details
                 ? actionData?.errors?.details
@@ -117,14 +185,19 @@ export const Contact = () => {
           ) : null}
           {skipClientRecaptcha ? null : (
             <ReCAPTCHA
-              onChange={onCaptchaChange}
+              ref={recaptchaRef}
+              onChange={handleRecaptchaChange}
               sitekey={data.ENV.CAPTCHA_SITE_KEY}
             />
           )}
-          <input type="hidden" name="intent" value="contact" />
           <button
-            disabled={!skipClientRecaptcha && !recaptchaValue}
-            className="justify-self-start rounded-3xl bg-brand px-6 py-3 text-sm text-white transition-transform hover:scale-105"
+            name="_action"
+            value="contact"
+            disabled={
+              navigation.state === 'submitting' ||
+              (!skipClientRecaptcha && !recaptchaValue)
+            }
+            className="justify-self-start rounded-3xl bg-brand px-6 py-3 text-sm text-white transition-transform hover:scale-105 disabled:bg-neutral-400"
             type="submit"
           >
             Send

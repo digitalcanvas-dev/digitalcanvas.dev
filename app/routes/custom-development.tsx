@@ -1,5 +1,5 @@
 import { IndexSection } from '~/components/index/IndexSection';
-import CustomDevelopmentImg from './LaptopWithCode.webp';
+import CustomDevelopmentImg from '~/components/index/custom-development/LaptopWithCode.webp';
 
 export const CustomDevelopment = () => {
   return (

@@ -1,97 +1,51 @@
-import AWS, { SES } from 'aws-sdk';
-import { validateEmail } from '~/utils';
+import {
+  SendEmailCommand,
+  SendEmailCommandInput,
+  SESClient,
+} from '@aws-sdk/client-ses';
+import { ConfigServiceClient } from '@aws-sdk/client-config-service';
+
 const getAWSCredentials = async (): Promise<{
   accessKeyId: string;
   secretAccessKey: string;
-  sessionToken: string;
 }> => {
-  return new Promise((resolve, reject) => {
-    AWS.config.getCredentials(function (err) {
-      if (err) {
-        reject(err);
-      } else {
-        resolve({
-          sessionToken: `${AWS.config.credentials?.sessionToken}`,
-          accessKeyId: `${AWS.config.credentials?.accessKeyId}`,
-          secretAccessKey: `${AWS.config.credentials?.secretAccessKey}`,
-        });
-      }
-    });
+  const configServiceClient = new ConfigServiceClient({
+    region: 'us-east-1',
   });
+
+  const {
+    config: { credentials },
+  } = configServiceClient;
+
+  const fetchedCredentials = await credentials();
+
+  const { accessKeyId, secretAccessKey } = fetchedCredentials;
+
+  return {
+    accessKeyId,
+    secretAccessKey,
+  };
 };
 
-export const sendContactEmail = async (
-  requesterName: string,
-  requesterEmail: string,
-  requesterDetails: string
-) => {
-  const { accessKeyId, secretAccessKey, sessionToken } =
-    await getAWSCredentials();
+export const sendEmail = async (params: SendEmailCommandInput) => {
+  const { accessKeyId, secretAccessKey } = await getAWSCredentials();
 
-  try {
-    const ses = new SES({
-      region: 'us-east-1',
-      credentials: {
-        accessKeyId,
-        secretAccessKey,
-        sessionToken,
-      },
-    });
+  const sesClient = new SESClient({
+    region: 'us-east-1',
+    credentials: {
+      accessKeyId,
+      secretAccessKey,
+    },
+  });
 
-    const charset = 'utf-8';
+  const command = new SendEmailCommand(params);
 
-    const params = {
-      Source: 'no-reply@digitalcanvas.dev',
-      Destination: {
-        ToAddresses: ['simon@digitalcanvas.dev'],
-      },
-      Message: {
-        Subject: {
-          Data: `Contact form request from ${requesterName}`,
-          Charset: charset,
-        },
-        Body: {
-          Html: {
-            Data: `${requesterName} [${requesterEmail}]<br />${requesterDetails}`,
-            Charset: charset,
-          },
-        },
-      },
-    };
+  const resp = await sesClient.send(command);
 
-    if (process.env.NODE_ENV !== 'development') {
-      const resp = await ses.sendEmail(params).promise();
-      const { error } = resp.$response;
-      return error ?? null;
-    } else {
-      console.log(JSON.stringify(params));
-      return null;
-    }
-  } catch (e) {
-    return e;
-  }
-};
-
-export const validateContactForm = (
-  requesterName: FormDataEntryValue | null,
-  requesterEmail: FormDataEntryValue | null,
-  details: FormDataEntryValue | null
-): null | {
-  name?: string;
-  email?: string;
-  details?: string;
-} => {
-  if (!requesterName || !details || !requesterEmail) {
-    return {
-      ...(requesterName ? {} : { name: 'Required' }),
-      ...(requesterEmail
-        ? validateEmail(requesterEmail)
-          ? {}
-          : { email: 'Invalid ' }
-        : { email: 'Required' }),
-      ...(details ? {} : { details: 'Required' }),
-    };
+  if (process.env.NODE_ENV === 'development') {
+    console.log(JSON.stringify(params));
+    console.log(JSON.stringify(resp));
   }
 
-  return null;
+  return resp;
 };

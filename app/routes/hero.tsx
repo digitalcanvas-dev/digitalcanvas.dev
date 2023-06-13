@@ -1,8 +1,8 @@
 import { IconArrowNarrowRight } from '@tabler/icons-react';
 import { useRefManagerContext } from '~/components/index/RefManagerContext';
 import { IndexSection } from '~/components/index/IndexSection';
-import Splash from './Hero2.webp';
-import LogoDark from './LogoDark.svg';
+import Splash from '~/components/index/hero/Hero2.webp';
+import LogoDark from '~/components/index/hero/LogoDark.svg';
 
 const scrollTo = (targetElement?: HTMLElement | null) => {
   if (!targetElement) {

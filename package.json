@@ -26,6 +26,8 @@
   "dependencies": {
     "@architect/architect": "^10.12.5",
     "@architect/functions": "^5.4.1",
+    "@aws-sdk/client-config-service": "^3.350.0",
+    "@aws-sdk/client-ses": "^3.350.0",
     "@paralleldrive/cuid2": "^2.2.1",
     "@remix-run/architect": "^1.17.0",
     "@remix-run/css-bundle": "^1.17.0",
@@ -33,7 +35,6 @@
     "@remix-run/react": "^1.17.0",
     "@remix-run/server-runtime": "^1.17.0",
     "@tabler/icons-react": "^2.22.0",
-    "aws-sdk": "^2.1393.0",
     "bcryptjs": "2.4.3",
     "isbot": "^3.6.10",
     "node-fetch": "^3.3.1",
