@@ -1,41 +1,9 @@
-import {
-  SendEmailCommand,
-  SendEmailCommandInput,
-  SESClient,
-} from '@aws-sdk/client-ses';
-import { ConfigServiceClient } from '@aws-sdk/client-config-service';
-
-const getAWSCredentials = async (): Promise<{
-  accessKeyId: string;
-  secretAccessKey: string;
-}> => {
-  const configServiceClient = new ConfigServiceClient({
-    region: 'us-east-1',
-  });
-
-  const {
-    config: { credentials },
-  } = configServiceClient;
-
-  const fetchedCredentials = await credentials();
-
-  const { accessKeyId, secretAccessKey } = fetchedCredentials;
-
-  return {
-    accessKeyId,
-    secretAccessKey,
-  };
-};
+import type { SendEmailCommandInput } from '@aws-sdk/client-ses';
+import { SendEmailCommand, SESClient } from '@aws-sdk/client-ses';
 
 export const sendEmail = async (params: SendEmailCommandInput) => {
-  const { accessKeyId, secretAccessKey } = await getAWSCredentials();
-
   const sesClient = new SESClient({
     region: 'us-east-1',
-    credentials: {
-      accessKeyId,
-      secretAccessKey,
-    },
   });
 
   const command = new SendEmailCommand(params);
