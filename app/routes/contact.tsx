@@ -113,7 +113,9 @@ export const Contact = () => {
 
   const navigation = useNavigation();
 
-  const data = useLoaderData<{ ENV: Globals }>();
+  const data = useLoaderData<{
+    ENV: Pick<Globals, 'CAPTCHA_SITE_KEY' | 'NODE_ENV'>;
+  }>();
 
   const skipClientRecaptcha = data.ENV.NODE_ENV === 'development';
 
