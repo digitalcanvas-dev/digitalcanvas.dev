@@ -1,0 +1,8 @@
+HTTP/1.1 403 Forbidden
+Date: Wed, 14 Jun 2023 20:03:54 GMT
+Content-Type: application/json
+Content-Length: 16
+Connection: keep-alive
+x-amzn-RequestId: b6ac3b3b-9c70-491e-92f2-ead178c47940
+x-amzn-ErrorType: AccessDeniedException
+

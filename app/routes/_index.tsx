@@ -68,6 +68,7 @@ const Index = () => {
   );
 };
 export default () => {
+  // TODO: find a better approach
   const mainRef = useRef<HTMLElement>(null);
   const headerRef = useRef<HTMLElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
