@@ -67,9 +67,9 @@ const ServiceBlock = ({
 };
 
 export const Services = () => {
-  const { getHTMLElementRef } = useRefManagerContext();
+  const { getRef } = useRefManagerContext();
 
-  const servicesRef = getHTMLElementRef('services');
+  const servicesRef = getRef('services');
 
   return (
     <IndexSection ref={servicesRef}>

@@ -119,9 +119,9 @@ export const Contact = () => {
 
   const skipClientRecaptcha = data.ENV.NODE_ENV === 'development';
 
-  const { getHTMLElementRef } = useRefManagerContext();
+  const { getRef } = useRefManagerContext();
 
-  const contactRef = getHTMLElementRef('contact');
+  const contactRef = getRef('contact');
 
   const submit = useSubmit();
 
