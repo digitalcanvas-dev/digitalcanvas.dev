@@ -46,14 +46,14 @@ export const action = async ({ request }: ActionArgs) => {
 const HEADER_HEIGHT = '112px';
 
 const Index = () => {
-  const { getHTMLElementRef } = useRefManagerContext();
+  const { getRef } = useRefManagerContext();
 
-  const mainRef = getHTMLElementRef('main');
+  const mainRef = getRef('main');
 
   return (
     <>
       <SiteHeader headerHeight={HEADER_HEIGHT} />
-      <main ref={mainRef} style={{}}>
+      <main ref={mainRef}>
         <Hero />
         <About />
         <Services />
@@ -82,21 +82,15 @@ export default () => {
   return (
     <RefManagerContextProvider
       refs={{
-        HTMLElement: {
-          main: mainRef,
-          header: headerRef,
-          contact: contactRef,
-          services: servicesRef,
-          about: aboutRef,
-          testimonials: testimonialsRef,
-        },
-        HTMLHeadingElement: {
-          title: titleRef,
-          contactTitle: contactTitleRef,
-        },
-        HTMLImgElement: {
-          titleLogo: titleLogoRef,
-        },
+        main: mainRef,
+        header: headerRef,
+        contact: contactRef,
+        services: servicesRef,
+        about: aboutRef,
+        testimonials: testimonialsRef,
+        title: titleRef,
+        contactTitle: contactTitleRef,
+        titleLogo: titleLogoRef,
       }}
     >
       <Index />

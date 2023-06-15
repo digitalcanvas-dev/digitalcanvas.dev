@@ -58,14 +58,14 @@ export const SiteHeader = ({ headerHeight }: SiteHeaderProps) => {
 
   const headerHeightPx = parseInt(headerHeight, 10);
 
-  const { getHTMLElementRef, getHTMLImgElementRef } = useRefManagerContext();
+  const { getRef } = useRefManagerContext();
 
-  const titleLogoRef = getHTMLImgElementRef('titleLogo');
-  const headerRef = getHTMLElementRef('header');
-  const contactRef = getHTMLElementRef('contact');
-  const testimonialsRef = getHTMLElementRef('testimonials');
-  const aboutRef = getHTMLElementRef('about');
-  const servicesRef = getHTMLElementRef('services');
+  const titleLogoRef = getRef('titleLogo');
+  const headerRef = getRef('header');
+  const contactRef = getRef('contact');
+  const testimonialsRef = getRef('testimonials');
+  const aboutRef = getRef('about');
+  const servicesRef = getRef('services');
 
   useEffect(() => {
     if (!window) {
