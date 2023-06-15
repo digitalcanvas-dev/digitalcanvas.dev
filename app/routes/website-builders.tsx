@@ -18,7 +18,7 @@ export const WebsiteBuilders = () => {
             <div className="font-body font-light text-brand text-opacity-80">
               <p>
                 If you prefer a website builder or content management system
-                (CMS) such as WordPress&trade;, SquareSpace&trade;, Wix&trade;
+                (CMS) such as WordPress&trade;, Squarespace&trade;, Wix&trade;
                 or another solution, we can create it, manage it, and keep it up
                 to date for you.
               </p>
