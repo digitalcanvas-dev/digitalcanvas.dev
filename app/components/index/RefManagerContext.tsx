@@ -1,35 +1,42 @@
 import { createContext, useContext, useState } from 'react';
 import type { PropsWithChildren, RefObject } from 'react';
 
-interface AllRefs {
-  HTMLElement: Record<string, RefObject<HTMLElement>>;
-  HTMLImgElement: Record<string, RefObject<HTMLImageElement>>;
-  HTMLHeadingElement: Record<string, RefObject<HTMLHeadingElement>>;
-}
+type HTMLElementNames =
+  | 'main'
+  | 'header'
+  | 'contact'
+  | 'services'
+  | 'about'
+  | 'testimonials';
+type HTMLImageElementNames = 'titleLogo';
+type HTMLHeadingElementNames = 'title' | 'contactTitle';
+
+type HTMLElementRefObject = RefObject<HTMLElement>;
+type HTMLImageElementRefObject = RefObject<HTMLImageElement>;
+type HTMLHeadingElementRefObject = RefObject<HTMLHeadingElement>;
+
+type HTMLElementRefs = Record<HTMLElementNames, HTMLElementRefObject>;
+type HTMLImageElementRefs = Record<
+  HTMLImageElementNames,
+  HTMLImageElementRefObject
+>;
+type HTMLHeadingElementRefs = Record<
+  HTMLHeadingElementNames,
+  HTMLHeadingElementRefObject
+>;
+
+type AllRefs = HTMLElementRefs & HTMLImageElementRefs & HTMLHeadingElementRefs;
 
 interface RefManagerContextValue {
-  registerRefs: (
-    htmlElementRefs: Record<string, RefObject<HTMLElement>>,
-    htmlHeadingElementRefs: Record<string, RefObject<HTMLHeadingElement>>,
-    htmlImgElementRefs: Record<string, RefObject<HTMLImageElement>>
-  ) => void;
-  getHTMLImgElementRef: (key: string) => RefObject<HTMLImageElement> | null;
-  getHTMLElementRef: (key: string) => RefObject<HTMLElement> | null;
-  getHTMLHeadingElementRef: (
-    key: string
-  ) => RefObject<HTMLHeadingElement> | null;
+  registerRefs: (allRefs: AllRefs) => void;
+  getRef: <T extends keyof AllRefs>(key: T) => AllRefs[T] | null;
 }
+
 export const RefManagerContext = createContext<RefManagerContextValue>({
   registerRefs: () => {
     throw new Error('Not implemented.');
   },
-  getHTMLImgElementRef: () => {
-    throw new Error('Not implemented.');
-  },
-  getHTMLElementRef: () => {
-    throw new Error('Not implemented.');
-  },
-  getHTMLHeadingElementRef: () => {
+  getRef: () => {
     throw new Error('Not implemented.');
   },
 });
@@ -40,39 +47,17 @@ export const RefManagerContextProvider = ({
 }: PropsWithChildren<{ refs: AllRefs }>) => {
   const [refs, setRefs] = useState<AllRefs>(refsProp);
 
-  const registerRefs = (
-    htmlElementRefs: Record<string, RefObject<HTMLElement>>,
-    htmlHeadingElementRefs: Record<string, RefObject<HTMLHeadingElement>>,
-    htmlImgElementRefs: Record<string, RefObject<HTMLImageElement>>
-  ) => {
-    setRefs({
-      HTMLElement: htmlElementRefs,
-      HTMLHeadingElement: htmlHeadingElementRefs,
-      HTMLImgElement: htmlImgElementRefs,
-    });
+  const registerRefs = (allRefs: AllRefs) => {
+    setRefs(allRefs);
   };
 
-  const getHTMLElementRef = (key: string): RefObject<HTMLElement> | null => {
-    return refs['HTMLElement']?.[key] ?? null;
-  };
-
-  const getHTMLImgElementRef = (
-    key: string
-  ): RefObject<HTMLImageElement> | null => {
-    return refs['HTMLImgElement']?.[key] ?? null;
-  };
-
-  const getHTMLHeadingElementRef = (
-    key: string
-  ): RefObject<HTMLHeadingElement> | null => {
-    return refs['HTMLHeadingElement']?.[key] ?? null;
+  const getRef = <T extends keyof AllRefs>(key: T): AllRefs[T] | null => {
+    return refs[key] ?? null;
   };
 
   const contextValue: RefManagerContextValue = {
     registerRefs,
-    getHTMLElementRef,
-    getHTMLImgElementRef,
-    getHTMLHeadingElementRef,
+    getRef,
   };
 
   return <RefManagerContext.Provider value={contextValue} {...rest} />;

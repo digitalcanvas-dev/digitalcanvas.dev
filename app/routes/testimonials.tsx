@@ -81,9 +81,9 @@ const TestimonialBox = ({
 
 export const Testimonials = () => {
   const [activeBlockIndex, setActiveBlockIndex] = useState(0);
-  const { getHTMLElementRef } = useRefManagerContext();
+  const { getRef } = useRefManagerContext();
 
-  const testimonialsRef = getHTMLElementRef('testimonials');
+  const testimonialsRef = getRef('testimonials');
 
   const testimonialBlocksWrapper = useRef<HTMLDivElement>(null);
 
