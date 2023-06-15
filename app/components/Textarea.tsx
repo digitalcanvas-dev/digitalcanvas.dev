@@ -4,6 +4,7 @@ export type TextareaProps = HTMLAttributes<HTMLTextAreaElement> & {
   name: string;
   label: string;
   errorFeedback?: string;
+  rows?: number;
 };
 
 const inputStyles =

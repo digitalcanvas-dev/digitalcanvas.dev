@@ -1,6 +1,6 @@
 import { IndexSection } from '~/components/index/IndexSection';
-import StartupOffice from './StartupOffice.webp';
-import OfficeWhiteboard from './OfficeWhiteboard.webp';
+import StartupOffice from '~/components/index/consultation/StartupOffice.webp';
+import OfficeWhiteboard from '~/components/index/consultation/OfficeWhiteboard.webp';
 
 export const Consultation = () => {
   return (

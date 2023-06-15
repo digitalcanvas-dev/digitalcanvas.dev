@@ -1,97 +1,19 @@
-import AWS, { SES } from 'aws-sdk';
-import { validateEmail } from '~/utils';
-const getAWSCredentials = async (): Promise<{
-  accessKeyId: string;
-  secretAccessKey: string;
-  sessionToken: string;
-}> => {
-  return new Promise((resolve, reject) => {
-    AWS.config.getCredentials(function (err) {
-      if (err) {
-        reject(err);
-      } else {
-        resolve({
-          sessionToken: `${AWS.config.credentials?.sessionToken}`,
-          accessKeyId: `${AWS.config.credentials?.accessKeyId}`,
-          secretAccessKey: `${AWS.config.credentials?.secretAccessKey}`,
-        });
-      }
-    });
+import type { SendEmailCommandInput } from '@aws-sdk/client-ses';
+import { SendEmailCommand, SESClient } from '@aws-sdk/client-ses';
+
+export const sendEmail = async (params: SendEmailCommandInput) => {
+  const sesClient = new SESClient({
+    region: 'us-east-1',
   });
-};
 
-export const sendContactEmail = async (
-  requesterName: string,
-  requesterEmail: string,
-  requesterDetails: string
-) => {
-  const { accessKeyId, secretAccessKey, sessionToken } =
-    await getAWSCredentials();
+  const command = new SendEmailCommand(params);
 
-  try {
-    const ses = new SES({
-      region: 'us-east-1',
-      credentials: {
-        accessKeyId,
-        secretAccessKey,
-        sessionToken,
-      },
-    });
+  const resp = await sesClient.send(command);
 
-    const charset = 'utf-8';
-
-    const params = {
-      Source: 'no-reply@digitalcanvas.dev',
-      Destination: {
-        ToAddresses: ['simon@digitalcanvas.dev'],
-      },
-      Message: {
-        Subject: {
-          Data: `Contact form request from ${requesterName}`,
-          Charset: charset,
-        },
-        Body: {
-          Html: {
-            Data: `${requesterName} [${requesterEmail}]<br />${requesterDetails}`,
-            Charset: charset,
-          },
-        },
-      },
-    };
-
-    if (process.env.NODE_ENV !== 'development') {
-      const resp = await ses.sendEmail(params).promise();
-      const { error } = resp.$response;
-      return error ?? null;
-    } else {
-      console.log(JSON.stringify(params));
-      return null;
-    }
-  } catch (e) {
-    return e;
-  }
-};
-
-export const validateContactForm = (
-  requesterName: FormDataEntryValue | null,
-  requesterEmail: FormDataEntryValue | null,
-  details: FormDataEntryValue | null
-): null | {
-  name?: string;
-  email?: string;
-  details?: string;
-} => {
-  if (!requesterName || !details || !requesterEmail) {
-    return {
-      ...(requesterName ? {} : { name: 'Required' }),
-      ...(requesterEmail
-        ? validateEmail(requesterEmail)
-          ? {}
-          : { email: 'Invalid ' }
-        : { email: 'Required' }),
-      ...(details ? {} : { details: 'Required' }),
-    };
+  if (process.env.NODE_ENV === 'development') {
+    console.log(JSON.stringify(params));
+    console.log(JSON.stringify(resp));
   }
 
-  return null;
+  return resp;
 };
