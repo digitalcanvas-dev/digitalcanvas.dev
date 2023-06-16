@@ -5,12 +5,14 @@ export type TextareaProps = HTMLAttributes<HTMLTextAreaElement> & {
   label: string;
   errorFeedback?: string;
   rows?: number;
+  readOnly?: boolean;
 };
 
 const inputStyles =
   'w-full appearance-none border px-3 py-2 leading-tight text-brand focus:outline-none rounded-2xl';
 const focusInputStyles = 'focus:border-brand focus:border-opacity-80';
 const hoverInputStyles = 'hover:border-brand hover:border-opacity-40';
+const readOnlyStyles = 'read-only:opacity-50';
 
 export const Textarea = ({
   label,
@@ -29,7 +31,7 @@ export const Textarea = ({
         className={`${inputStyles} ${
           errorFeedback
             ? 'border-red-500'
-            : `${hoverInputStyles} ${focusInputStyles}`
+            : `${hoverInputStyles} ${focusInputStyles} ${readOnlyStyles}`
         }`}
         {...rest}
       />
