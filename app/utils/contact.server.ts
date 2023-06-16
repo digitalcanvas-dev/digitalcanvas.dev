@@ -1,4 +1,4 @@
-import { validateEmail } from '~/utils';
+import { validateEmail } from '~/utils/utils';
 import { sendEmail } from '~/utils/ses.server';
 export const sendContactEmail = async (
   requesterName: string,
