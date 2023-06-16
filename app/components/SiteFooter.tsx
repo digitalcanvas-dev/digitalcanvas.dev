@@ -37,6 +37,7 @@ export const SiteFooter = () => {
           <li>Browser Extensions</li>
           <li>Remix, Next.JS, Gatsby</li>
           <li>Component Libraries & Design Systems</li>
+          <li>Automated testing with Jest & Cypress</li>
         </ul>
       </div>
     </footer>
