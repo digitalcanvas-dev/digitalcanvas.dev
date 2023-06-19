@@ -1,5 +1,3 @@
-import { faker } from '@faker-js/faker';
-
 describe('smoke tests', () => {
   it('should navigate to contact form when contact buttons are clicked', () => {
     cy.visitAndCheck('/');
