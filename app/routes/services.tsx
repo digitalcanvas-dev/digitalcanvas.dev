@@ -17,7 +17,7 @@ const services = [
   {
     title: 'Site Builder Management',
     content:
-      "We can maintain an existing website on SquareSpace, Wix or any other platform you're already using.",
+      "We can maintain an existing website on Squarespace, Wix or any other platform you're already using.",
     icon: SiteBuilderManagement,
   },
   {

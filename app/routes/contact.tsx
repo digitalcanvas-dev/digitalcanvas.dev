@@ -4,10 +4,8 @@ import {
   useActionData,
   useLoaderData,
   useNavigation,
-  useSubmit,
 } from '@remix-run/react';
-import React, { useRef, useState } from 'react';
-import type { FormEventHandler } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import type { TypedResponse } from '@remix-run/node';
 import { json } from '@remix-run/node';
 
@@ -102,16 +100,11 @@ export const Contact = () => {
   // useEffect with a ref dependency.
   const [recaptchaValue, setRecaptchaValue] = useState<string | null>(null);
   const recaptchaRef = useRef<ReCAPTCHA>(null);
-
-  const actionData = useActionData<
-    | {
-        errors: FormErrors;
-        success: false;
-      }
-    | { success: true; successMessage: string }
-  >();
+  const formRef = useRef<HTMLFormElement>(null);
 
   const navigation = useNavigation();
+
+  const { getRef } = useRefManagerContext();
 
   const data = useLoaderData<{
     ENV: Pick<Globals, 'CAPTCHA_SITE_KEY' | 'NODE_ENV'>;
@@ -119,68 +112,60 @@ export const Contact = () => {
 
   const skipClientRecaptcha = data.ENV.NODE_ENV === 'development';
 
-  const { getRef } = useRefManagerContext();
-
   const contactRef = getRef('contact');
-
-  const submit = useSubmit();
-
-  const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
-    await submit(e.currentTarget);
-    setRecaptchaValue(null);
-    recaptchaRef?.current?.reset();
-    return;
-  };
 
   const handleRecaptchaChange = (value: string | null) => {
     setRecaptchaValue(value);
   };
 
+  const actionData = useActionData<{
+    successMessage?: string;
+    errors?: FormErrors;
+  }>();
+
+  useEffect(() => {
+    if (actionData?.successMessage && !actionData.errors) {
+      formRef.current?.reset();
+    }
+  }, [actionData?.successMessage, actionData?.errors]);
+
+  const isSubmitting = navigation.state === 'submitting';
+
   return (
     <IndexSection ref={contactRef}>
       <h3 className="font-heading text-3xl text-brand">Get in Touch</h3>
 
-      <Form method="POST" onSubmit={onSubmit}>
+      <Form method="POST" ref={formRef}>
         <div className="mt-2.5 grid grid-flow-row auto-rows-auto gap-4 py-4">
           <InputText
             name="name"
             label="Name"
-            errorFeedback={
-              !actionData?.success && actionData?.errors?.name
-                ? actionData?.errors?.name
-                : undefined
-            }
+            readOnly={isSubmitting}
+            errorFeedback={actionData?.errors?.name ?? undefined}
           />
           <InputText
             type="email"
             name="email"
             label="Email"
-            errorFeedback={
-              !actionData?.success && actionData?.errors?.email
-                ? actionData?.errors?.email
-                : undefined
-            }
+            readOnly={isSubmitting}
+            errorFeedback={actionData?.errors?.email}
           />
           <Textarea
             name="details"
             label="Details"
             rows={5}
-            errorFeedback={
-              !actionData?.success && actionData?.errors?.details
-                ? actionData?.errors?.details
-                : undefined
-            }
+            readOnly={isSubmitting}
+            errorFeedback={actionData?.errors?.details}
           />
           {recaptchaValue ? (
             <input type="hidden" name="recaptchaValue" value={recaptchaValue} />
           ) : null}
-          {!actionData?.success &&
-          (actionData?.errors?.form || actionData?.errors?.recaptchaValue) ? (
+          {actionData?.errors?.form || actionData?.errors?.recaptchaValue ? (
             <p className="text-xs italic text-red-500">
               {actionData?.errors?.form || actionData?.errors?.recaptchaValue}
             </p>
           ) : null}
-          {actionData?.success && actionData?.successMessage ? (
+          {actionData?.successMessage ? (
             <p className="text-xs italic text-green-800">
               {actionData?.successMessage}
             </p>
@@ -195,10 +180,7 @@ export const Contact = () => {
           <button
             name="_action"
             value="contact"
-            disabled={
-              navigation.state === 'submitting' ||
-              (!skipClientRecaptcha && !recaptchaValue)
-            }
+            disabled={isSubmitting || (!skipClientRecaptcha && !recaptchaValue)}
             className="justify-self-start rounded-3xl bg-brand px-6 py-3 text-sm text-white transition-transform hover:scale-105 disabled:bg-neutral-400"
             type="submit"
           >

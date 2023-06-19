@@ -18,6 +18,7 @@
   "prettier": {
     "singleQuote": true
   },
+  "license": "MIT",
   "eslintIgnore": [
     "/node_modules",
     "/server/index.js",

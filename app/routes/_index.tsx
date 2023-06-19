@@ -33,7 +33,7 @@ export const loader = async (): Promise<
   });
 };
 
-export const action = async ({ request }: ActionArgs) => {
+export const action = async ({ request, params }: ActionArgs) => {
   const formData = await request.formData();
   const action = formData.get('_action');
   if (action !== 'contact') {
