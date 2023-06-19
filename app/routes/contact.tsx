@@ -126,6 +126,7 @@ export const Contact = () => {
   useEffect(() => {
     if (actionData?.successMessage && !actionData.errors) {
       formRef.current?.reset();
+      recaptchaRef.current?.reset();
     }
   }, [actionData?.successMessage, actionData?.errors]);
 
