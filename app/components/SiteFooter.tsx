@@ -37,7 +37,7 @@ export const SiteFooter = () => {
               <IconBrandInstagram className="text-white" />
             </a>
             <a
-              href="https://facebook.com/digitalcanvas.dev"
+              href="https://facebook.com/digitalcanvasnj"
               target="_blank"
               rel="noreferrer"
             >
@@ -51,6 +51,7 @@ export const SiteFooter = () => {
             <li>React</li>
             <li>TypeScript</li>
             <li>JavaScript</li>
+            <li>Cybersecurity</li>
             <li>Modern HTML/CSS</li>
             <li>Responsive SPAs</li>
             <li>Browser Extensions</li>
