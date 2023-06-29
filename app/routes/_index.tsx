@@ -53,10 +53,9 @@ const Index = () => {
 
   const [urlSearchParams] = useSearchParams();
 
-  const hasContactParam = urlSearchParams.get('contact')?.[0] !== null;
+  const hasContactParam = urlSearchParams.get('contact') !== null;
 
   useEffect(() => {
-    console.log(hasContactParam);
     if (hasContactParam) {
       contactRef?.current?.scrollIntoView();
       setTimeout(() => {
