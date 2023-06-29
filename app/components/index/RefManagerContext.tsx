@@ -9,7 +9,7 @@ type HTMLElementNames =
   | 'about'
   | 'testimonials';
 type HTMLImageElementNames = 'titleLogo';
-type HTMLHeadingElementNames = 'title' | 'contactTitle';
+type HTMLHeadingElementNames = never;
 
 type HTMLElementRefObject = RefObject<HTMLElement>;
 type HTMLImageElementRefObject = RefObject<HTMLImageElement>;
