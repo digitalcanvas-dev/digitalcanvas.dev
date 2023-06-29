@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import type { ActionArgs, TypedResponse } from '@remix-run/node';
 import { json } from '@remix-run/node';
 
@@ -19,6 +19,7 @@ import {
 } from '~/components/index/RefManagerContext';
 import { SiteFooter } from '~/components/SiteFooter';
 import type { Globals } from '~/types';
+import { useSearchParams } from '@remix-run/react';
 
 export const loader = async (): Promise<
   TypedResponse<{ ENV: Pick<Globals, 'CAPTCHA_SITE_KEY' | 'NODE_ENV'> }>
@@ -47,8 +48,22 @@ const HEADER_HEIGHT = '112px';
 
 const Index = () => {
   const { getRef } = useRefManagerContext();
-
   const mainRef = getRef('main');
+  const contactRef = getRef('contact');
+
+  const [urlSearchParams] = useSearchParams();
+
+  const hasContactParam = urlSearchParams.get('contact')?.[0] !== null;
+
+  useEffect(() => {
+    console.log(hasContactParam);
+    if (hasContactParam) {
+      contactRef?.current?.scrollIntoView();
+      setTimeout(() => {
+        window.scrollBy({ top: -parseInt(HEADER_HEIGHT, 10) });
+      }, 0);
+    }
+  }, [contactRef?.current, hasContactParam]);
 
   return (
     <>
