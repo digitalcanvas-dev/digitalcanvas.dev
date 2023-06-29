@@ -68,11 +68,8 @@ const Index = () => {
   );
 };
 export default () => {
-  // TODO: find a better approach
   const mainRef = useRef<HTMLElement>(null);
   const headerRef = useRef<HTMLElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const contactTitleRef = useRef<HTMLHeadingElement>(null);
   const contactRef = useRef<HTMLElement>(null);
   const aboutRef = useRef<HTMLElement>(null);
   const servicesRef = useRef<HTMLElement>(null);
@@ -88,8 +85,6 @@ export default () => {
         services: servicesRef,
         about: aboutRef,
         testimonials: testimonialsRef,
-        title: titleRef,
-        contactTitle: contactTitleRef,
         titleLogo: titleLogoRef,
       }}
     >
