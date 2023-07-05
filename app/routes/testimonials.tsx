@@ -95,7 +95,7 @@ export const Testimonials = () => {
     const activeElementSelector = `#${testimonialContent[activeBlockIndex].id}`;
 
     const activeTestimonialElement: HTMLElement | null = document.querySelector(
-      activeElementSelector
+      activeElementSelector,
     );
 
     if (activeTestimonialElement) {
@@ -167,7 +167,7 @@ export const Testimonials = () => {
                     w="w-72"
                   />
                 );
-              }
+              },
             )}
           </div>
         </div>

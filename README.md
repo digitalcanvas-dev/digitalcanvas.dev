@@ -17,7 +17,6 @@ Built on the Remix Grunge Stack. Learn more about [Remix Stacks](https://remix.r
 - Linting with [ESLint](https://eslint.org)
 - Static Types with [TypeScript](https://typescriptlang.org)
 
-
 ## Custom additions
 
 - Google ReCaptcha

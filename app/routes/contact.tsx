@@ -67,7 +67,7 @@ export async function sendContact(formData: FormData): Promise<
   const validationResult = validateContactForm(
     requesterName,
     requesterEmail,
-    details
+    details,
   );
 
   if (validationResult !== null) {
@@ -77,7 +77,7 @@ export async function sendContact(formData: FormData): Promise<
   const sentError = await sendContactEmail(
     `${requesterName}`,
     `${requesterEmail}`,
-    `${details}`
+    `${details}`,
   );
 
   if (sentError) {
