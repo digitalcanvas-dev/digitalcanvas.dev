@@ -72,7 +72,7 @@ const TestimonialBox = ({
       {placeholder ? null : (
         <span className="grid auto-cols-auto grid-flow-col items-center justify-start gap-4">
           <img src={FancyQuote} alt="" className="text-brand" />
-          <p className="font-heading text-sm font-bold">{name}</p>
+          <span className="font-heading text-sm font-bold">{name}</span>
         </span>
       )}
     </div>
