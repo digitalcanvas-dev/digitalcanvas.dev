@@ -1,6 +1,6 @@
 const ReCaptchaURL = 'https://www.google.com/recaptcha/api/siteverify';
 export const validateCaptcha = async (
-  recaptchaValue: FormDataEntryValue | null
+  recaptchaValue: FormDataEntryValue | null,
 ) => {
   const captchaResponse = await fetch(ReCaptchaURL, {
     method: 'POST',

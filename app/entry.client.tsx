@@ -14,5 +14,5 @@ const root = createRoot(document);
 root.render(
   <StrictMode>
     <RemixBrowser />
-  </StrictMode>
+  </StrictMode>,
 );

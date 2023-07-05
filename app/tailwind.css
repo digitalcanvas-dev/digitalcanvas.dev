@@ -4,8 +4,8 @@
 @tailwind variants;
 
 @layer base {
-    :root {
-        --color-brand: 62 84 98;
-        --color-highlight: 255 94 0;
-    }
+  :root {
+    --color-brand: 62 84 98;
+    --color-highlight: 255 94 0;
+  }
 }

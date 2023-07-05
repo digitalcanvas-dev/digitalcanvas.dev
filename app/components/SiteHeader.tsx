@@ -48,7 +48,7 @@ export const SiteHeader = ({ headerHeight }: SiteHeaderProps) => {
 
       window.scrollBy({ top: top - offsetPx, behavior: 'smooth' });
     },
-    []
+    [],
   );
 
   const [scrolledPx, setScrolledPx] = useState(0);
