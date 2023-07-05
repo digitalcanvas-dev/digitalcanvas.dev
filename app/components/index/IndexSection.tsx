@@ -27,7 +27,7 @@ type PaddingsMargins = {
 
 const getBorderProperties = (
   border?: Y,
-  collapseY?: Y
+  collapseY?: Y,
 ): {
   hasTopBorder: boolean;
   hasBottomBorder: boolean;
@@ -52,7 +52,7 @@ const getBorderProperties = (
 const getContainerBounds = (
   border?: Y,
   collapseY?: Y,
-  collapseX?: X
+  collapseX?: X,
 ): { inner: PaddingsMargins; outer: PaddingsMargins } => {
   const { hasTopBorder, hasBottomBorder, hasTopCollapse, hasBottomCollapse } =
     getBorderProperties(border, collapseY);

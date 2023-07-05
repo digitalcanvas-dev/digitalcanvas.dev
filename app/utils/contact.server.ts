@@ -3,7 +3,7 @@ import { sendEmail } from '~/utils/ses.server';
 export const sendContactEmail = async (
   requesterName: string,
   requesterEmail: string,
-  requesterDetails: string
+  requesterDetails: string,
 ) => {
   const params = {
     Source: 'no-reply@digitalcanvas.dev',
@@ -34,7 +34,7 @@ export const sendContactEmail = async (
 export const validateContactForm = (
   requesterName: FormDataEntryValue | null,
   requesterEmail: FormDataEntryValue | null,
-  details: FormDataEntryValue | null
+  details: FormDataEntryValue | null,
 ): null | {
   name?: string;
   email?: string;

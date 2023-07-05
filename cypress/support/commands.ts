@@ -74,5 +74,5 @@ Cypress.Commands.add('visitAndCheck', visitAndCheck);
 Cypress.Commands.add(
   'isWithinViewport',
   { prevSubject: true },
-  isWithinViewport
+  isWithinViewport,
 );
