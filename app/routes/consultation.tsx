@@ -24,11 +24,9 @@ export const Consultation = () => {
             </p>
             <h4 className="mb-2 font-bold">Consultation</h4>
             <p className="mb-6 text-brand/80">
-              Our frontend consultation service delivers engaging, intuitive web
-              designs using the latest trends and technologies. We offer expert
-              guidance on design, user experience, and performance optimization,
-              aiming to create an interactive digital front that effectively
-              converts visitors into customers.
+              We offer expert guidance on frontend development, user experience,
+              and performance optimization, aiming to create an interactive
+              digital front that effectively converts visitors into customers.
             </p>
             <h4 className="font-bold">Augmentation</h4>
             <p className="mb-2 text-brand/80">
