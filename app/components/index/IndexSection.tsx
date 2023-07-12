@@ -130,17 +130,20 @@ export const IndexSection = forwardRef<
 
   const innerStyles = `${innerMT} ${innerMB} ${innerPT} ${innerPB} ${innerMX} ${innerPX}`;
   const outerStyles = `${outerMT} ${outerMB} ${outerPT} ${outerPB} ${outerMX} ${outerPX} relative`;
+  const borderStyles = border
+    ? border === 'top'
+      ? 'border-t border-t-brand border-opacity-40'
+      : border === 'bottom'
+      ? 'border-b border-b-brand border-opacity-40'
+      : 'border-y border-y-brand border-opacity-40'
+    : '';
 
   return (
     <section ref={ref} className={`${bgColor} ${outerStyles}`}>
       <div
-        className={`${collapseX ? '' : 'max-w-screen-xl'} ${innerStyles} ${
-          border
-            ? border === 'top'
-              ? 'border-t border-t-brand border-opacity-40'
-              : 'border-b border-b-brand border-opacity-40'
-            : ''
-        }`}
+        className={`${
+          collapseX ? '' : 'max-w-screen-xl'
+        } ${innerStyles} ${borderStyles}`}
       >
         {children}
       </div>
