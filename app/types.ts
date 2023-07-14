@@ -5,4 +5,6 @@ export interface Globals {
   CAPTCHA_SECRET: string;
   AWS_SECRET_ACCESS_KEY: string;
   AWS_ACCESS_KEY_ID: string;
+  GOOGLE_ADS_KEY: string;
+  GOOGLE_ANALYTICS_KEY: string;
 }
