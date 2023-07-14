@@ -104,15 +104,15 @@ export const Contact = () => {
 
   const navigation = useNavigation();
 
-  const { getRef } = useRefManagerContext();
+  const {
+    refs: { contact: contactRef },
+  } = useRefManagerContext();
 
   const data = useLoaderData<{
     ENV: Pick<Globals, 'CAPTCHA_SITE_KEY' | 'NODE_ENV'>;
   }>();
 
   const skipClientRecaptcha = data.ENV.NODE_ENV === 'development';
-
-  const contactRef = getRef('contact');
 
   const handleRecaptchaChange = (value: string | null) => {
     setRecaptchaValue(value);
@@ -125,6 +125,11 @@ export const Contact = () => {
 
   useEffect(() => {
     if (actionData?.successMessage && !actionData.errors) {
+      // Event snippet for Contact form submission event
+      // @ts-ignore
+      window.gtag('event', 'conversion', {
+        send_to: 'AW-11254907596/-wJMCKPIhrwYEMyF4fYp',
+      });
       formRef.current?.reset();
       recaptchaRef.current?.reset();
     }

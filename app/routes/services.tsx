@@ -67,14 +67,16 @@ const ServiceBlock = ({
 };
 
 export const Services = () => {
-  const { getRef } = useRefManagerContext();
-
-  const servicesRef = getRef('services');
+  const {
+    refs: { services: servicesRef },
+  } = useRefManagerContext();
 
   return (
     <IndexSection ref={servicesRef}>
       <div className="border-b-1 mb-10 grid w-full grid-flow-row auto-rows-auto items-start justify-stretch gap-14 border-b border-b-brand border-opacity-40 pb-10 text-brand md:grid-cols-indexLeftHeadingMd">
-        <h3 className="font-heading text-3xl">Services</h3>
+        <h3 id="services" className="font-heading text-3xl">
+          Services
+        </h3>
         <div className="self-start justify-self-end font-body font-light">
           <p>
             <strong>Digital Canvas Development</strong> specializes in working
