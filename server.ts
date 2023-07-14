@@ -6,6 +6,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 export const handler = createRequestHandler({
+  // @ts-ignore
   build,
   mode: process.env.NODE_ENV,
 });

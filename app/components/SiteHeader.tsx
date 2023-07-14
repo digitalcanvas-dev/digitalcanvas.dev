@@ -58,14 +58,16 @@ export const SiteHeader = ({ headerHeight }: SiteHeaderProps) => {
 
   const headerHeightPx = parseInt(headerHeight, 10);
 
-  const { getRef } = useRefManagerContext();
-
-  const titleLogoRef = getRef('titleLogo');
-  const headerRef = getRef('header');
-  const contactRef = getRef('contact');
-  const testimonialsRef = getRef('testimonials');
-  const aboutRef = getRef('about');
-  const servicesRef = getRef('services');
+  const {
+    refs: {
+      titleLogo: titleLogoRef,
+      header: headerRef,
+      contact: contactRef,
+      testimonials: testimonialsRef,
+      about: aboutRef,
+      services: servicesRef,
+    },
+  } = useRefManagerContext();
 
   useEffect(() => {
     if (!window) {
