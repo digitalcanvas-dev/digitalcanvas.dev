@@ -67,9 +67,9 @@ const ServiceBlock = ({
 };
 
 export const Services = () => {
-  const { getRef } = useRefManagerContext();
-
-  const servicesRef = getRef('services');
+  const {
+    refs: { services: servicesRef },
+  } = useRefManagerContext();
 
   return (
     <IndexSection ref={servicesRef}>
