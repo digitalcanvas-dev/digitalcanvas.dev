@@ -1,5 +1,9 @@
 import { cssBundleHref } from '@remix-run/css-bundle';
-import type { LinksFunction, V2_MetaFunction } from '@remix-run/node';
+import type {
+  LinksFunction,
+  TypedResponse,
+  V2_MetaFunction,
+} from '@remix-run/node';
 import {
   Links,
   LiveReload,
@@ -7,12 +11,16 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
 } from '@remix-run/react';
 import ReactGA from 'react-ga4';
 
+import React, { useEffect } from 'react';
+import { json } from '@remix-run/node';
+import type { Globals } from '~/types';
+
 import stylesheet from '~/tailwind.css';
 import global from '~/global.css';
-import React from 'react';
 
 export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: stylesheet },
@@ -65,7 +73,46 @@ export const meta: V2_MetaFunction = () => [
   },
 ];
 
+export const loader = async (): Promise<
+  TypedResponse<{
+    ENV: Pick<Globals, 'GOOGLE_ADS_KEY' | 'GOOGLE_ANALYTICS_KEY'>;
+  }>
+> => {
+  return json<{
+    ENV: Pick<Globals, 'GOOGLE_ADS_KEY' | 'GOOGLE_ANALYTICS_KEY'>;
+  }>({
+    ENV: {
+      GOOGLE_ADS_KEY: `${process.env.GOOGLE_ADS_KEY}`,
+      GOOGLE_ANALYTICS_KEY: `${process.env.GOOGLE_ANALYTICS_KEY}`,
+    },
+  });
+};
+
 export default function App() {
+  const data = useLoaderData();
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (!data.ENV.GOOGLE_ADS_KEY) {
+        return;
+      }
+
+      // @ts-ignore
+      window.dataLayer = window.dataLayer || [];
+
+      function gtag(x1: any, x2: any) {
+        // @ts-ignore
+        window.dataLayer.push([x1, x2]);
+      }
+
+      // @ts-ignore
+      window.gtag = gtag;
+
+      gtag('js', new Date());
+      gtag('config', data.ENV.GOOGLE_ADS_KEY);
+    }, 0);
+  }, [data.ENV.GOOGLE_ADS_KEY]);
+
   return (
     <html lang="en">
       <head>
@@ -76,10 +123,16 @@ export default function App() {
         <Outlet />
         <ScrollRestoration />
         <Scripts />
+        {process.env.NODE_ENV !== 'development' ? (
+          <script
+            async
+            src={`https://www.googletagmanager.com/gtag/js?id=${data.ENV.GOOGLE_ADS_KEY}`}
+          />
+        ) : null}
         <LiveReload />
       </body>
       {
-        void ReactGA.initialize('G-3CJL1CV5C5', {
+        void ReactGA.initialize(data.ENV.GOOGLE_ANALYTICS_KEY, {
           testMode: process.env.NODE_ENV === 'development',
         })
       }

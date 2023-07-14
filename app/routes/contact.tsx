@@ -125,6 +125,11 @@ export const Contact = () => {
 
   useEffect(() => {
     if (actionData?.successMessage && !actionData.errors) {
+      // Event snippet for Contact form submission event
+      // @ts-ignore
+      window.gtag('event', 'conversion', {
+        send_to: 'AW-11254907596/-wJMCKPIhrwYEMyF4fYp',
+      });
       formRef.current?.reset();
       recaptchaRef.current?.reset();
     }
