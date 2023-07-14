@@ -1,8 +1,9 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import type { ActionArgs, TypedResponse } from '@remix-run/node';
 import { json } from '@remix-run/node';
 
 import { SiteHeader } from '~/components/SiteHeader';
+import { useLocation } from '@remix-run/react';
 
 import { About } from './about';
 import { Consultation } from './consultation';
@@ -46,23 +47,55 @@ export const action = async ({ request }: ActionArgs) => {
 
 const HEADER_HEIGHT = '112px';
 
+const useScrollToElementOnLoad = () => {
+  const { refs, validateKey } = useRefManagerContext();
+
+  const scrollToElementOnLoad = useCallback(
+    (id: string) => {
+      if (!validateKey(id)) {
+        return;
+      }
+
+      window.setTimeout(() => {
+        const elRef = refs[id];
+
+        if (elRef?.current) {
+          elRef.current?.scrollIntoView();
+          window.scrollBy({ top: -parseInt(HEADER_HEIGHT, 10) });
+        }
+      }, 0);
+    },
+    [refs, validateKey],
+  );
+
+  return {
+    scrollToElementOnLoad,
+  };
+};
+
 const Index = () => {
-  const { getRef } = useRefManagerContext();
-  const mainRef = getRef('main');
-  const contactRef = getRef('contact');
+  const {
+    refs: { main: mainRef },
+  } = useRefManagerContext();
 
   const [urlSearchParams] = useSearchParams();
 
   const hasContactParam = urlSearchParams.get('contact') !== null;
 
+  const { scrollToElementOnLoad } = useScrollToElementOnLoad();
+
+  const { hash } = useLocation();
+
+  useEffect(() => {
+    const id = hash.replace('#', '');
+    scrollToElementOnLoad(id);
+  }, [hash, scrollToElementOnLoad]);
+
   useEffect(() => {
     if (hasContactParam) {
-      contactRef?.current?.scrollIntoView();
-      setTimeout(() => {
-        window.scrollBy({ top: -parseInt(HEADER_HEIGHT, 10) });
-      }, 0);
+      scrollToElementOnLoad('contact');
     }
-  }, [contactRef?.current, hasContactParam]);
+  }, [hasContactParam, scrollToElementOnLoad]);
 
   return (
     <>
