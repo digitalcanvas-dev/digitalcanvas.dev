@@ -2,9 +2,9 @@ import { useRefManagerContext } from '~/components/index/RefManagerContext';
 import { IndexSection } from '~/components/index/IndexSection';
 
 export const About = () => {
-  const { getRef } = useRefManagerContext();
-
-  const aboutRef = getRef('about');
+  const {
+    refs: { about: aboutRef },
+  } = useRefManagerContext();
 
   return (
     <IndexSection ref={aboutRef} bgColor="bg-brand/10" border="top">
