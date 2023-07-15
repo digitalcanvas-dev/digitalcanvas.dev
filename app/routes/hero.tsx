@@ -12,9 +12,9 @@ const scrollTo = (targetElement?: HTMLElement | null) => {
 };
 
 export const Hero = () => {
-  const { getRef } = useRefManagerContext();
-
-  const contactRef = getRef('contact');
+  const {
+    refs: { contact: contactRef },
+  } = useRefManagerContext();
 
   return (
     <IndexSection collapseX="left" collapseY="both">
