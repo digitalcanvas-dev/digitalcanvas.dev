@@ -109,7 +109,7 @@ export const Contact = () => {
   } = useRefManagerContext();
 
   const data = useLoaderData<{
-    ENV: Pick<Globals, 'CAPTCHA_SITE_KEY' | 'NODE_ENV'>;
+    ENV: Pick<Globals, 'CAPTCHA_SITE_KEY' | 'NODE_ENV' | 'GOOGLE_ADS_KEY'>;
   }>();
 
   const skipClientRecaptcha = data.ENV.NODE_ENV === 'development';
@@ -128,7 +128,7 @@ export const Contact = () => {
       // Event snippet for Contact form submission event
       // @ts-ignore
       window.gtag('event', 'conversion', {
-        send_to: 'AW-11254907596/-wJMCKPIhrwYEMyF4fYp',
+        send_to: `${data.ENV.GOOGLE_ADS_KEY}/s3pvCJPflLsYEJT67_Yp`,
       });
       formRef.current?.reset();
       recaptchaRef.current?.reset();
