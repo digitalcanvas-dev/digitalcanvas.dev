@@ -140,11 +140,6 @@ jobs:
 
       - name: 🏗 Build
         run: npm run build
-        env:
-          GOOGLE_ADS_KEY: ${{ vars.GOOGLE_ADS_KEY }}
-          GOOGLE_ANALYTICS_KEY: ${{ vars.GOOGLE_ANALYTICS_KEY }}
-          CAPTCHA_SITE_KEY: ${{ env.CAPTCHA_SITE_KEY }}
-          CAPTCHA_SECRET: ${{ secrets.CAPTCHA_SECRET }}
 
       - name: 🛠 Install Arc
         run: npm i -g @architect/architect
