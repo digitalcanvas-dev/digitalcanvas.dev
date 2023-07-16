@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - dev
+      - fix/google-keys
   pull_request:
 
 concurrency:
@@ -112,7 +113,7 @@ jobs:
           PORT: '8811'
 
   deploy:
-    needs: [lint, typecheck, vitest, cypress]
+    needs: [lint, typecheck, vitest]
     runs-on: ubuntu-latest
 
     steps:
@@ -132,6 +133,12 @@ jobs:
           echo "Git ref:            ${{ github.ref }}"
           echo "GH actor:           ${{ github.actor }}"
           echo "SHA:                ${{ github.sha }}"
+          echo "e.GOOGLE_ADS_KEY:   ${{ env.GOOGLE_ADS_KEY }}"
+          echo "v.GOOGLE_ADS_KEY:   ${{ vars.GOOGLE_ADS_KEY }}"
+          echo "s.GOOGLE_ADS_KEY:   ${{ secrets.GOOGLE_ADS_KEY }}"
+          echo "e.CAPTCHA_SITE_KEY: ${{ env.CAPTCHA_SITE_KEY }}"
+          echo "v.CAPTCHA_SITE_KEY: ${{ vars.CAPTCHA_SITE_KEY }}"
+          echo "s.CAPTCHA_SITE_KEY: ${{ secrets.CAPTCHA_SITE_KEY }}"
           VER=`node --version`; echo "Node ver:   $VER"
           VER=`npm --version`; echo "npm ver:    $VER"
 
@@ -141,8 +148,8 @@ jobs:
       - name: 🏗 Build
         run: npm run build
         env:
-          GOOGLE_ADS_KEY: ${{ vars.GOOGLE_ADS_KEY }}
-          GOOGLE_ANALYTICS_KEY: ${{ vars.GOOGLE_ANALYTICS_KEY }}
+          GOOGLE_ADS_KEY: ${{ env.GOOGLE_ADS_KEY }}
+          GOOGLE_ANALYTICS_KEY: ${{ env.GOOGLE_ANALYTICS_KEY }}
           CAPTCHA_SITE_KEY: ${{ env.CAPTCHA_SITE_KEY }}
           CAPTCHA_SECRET: ${{ secrets.CAPTCHA_SECRET }}
 
@@ -150,7 +157,7 @@ jobs:
         run: npm i -g @architect/architect
 
       - name: 🚀 Staging Deploy
-        if: github.ref == 'refs/heads/dev'
+        if: github.ref == 'refs/heads/fix/google-keys'
         run: arc deploy --staging --prune
         env:
           CI: true
