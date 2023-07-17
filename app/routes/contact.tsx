@@ -36,6 +36,8 @@ type FormErrors = {
   form?: string;
 };
 
+const SUBMIT_EVENT_ID = 's3pvCJPflLsYEJT67_Yp';
+
 export async function sendContact(formData: FormData): Promise<
   TypedResponse<
     | { success: true; successMessage: string }
@@ -128,12 +130,12 @@ export const Contact = () => {
       // Event snippet for Contact form submission event
       // @ts-ignore
       window.gtag('event', 'conversion', {
-        send_to: `${data.ENV.GOOGLE_ADS_KEY}/s3pvCJPflLsYEJT67_Yp`,
+        send_to: `${data.ENV.GOOGLE_ADS_KEY}/${SUBMIT_EVENT_ID}`,
       });
       formRef.current?.reset();
       recaptchaRef.current?.reset();
     }
-  }, [actionData?.successMessage, actionData?.errors]);
+  }, [actionData?.successMessage, actionData?.errors, data.ENV.GOOGLE_ADS_KEY]);
 
   const isSubmitting = navigation.state === 'submitting';
 

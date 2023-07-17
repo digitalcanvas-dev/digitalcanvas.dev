@@ -23,13 +23,16 @@ import type { Globals } from '~/types';
 import { useSearchParams } from '@remix-run/react';
 
 export const loader = async (): Promise<
-  TypedResponse<{ ENV: Pick<Globals, 'CAPTCHA_SITE_KEY' | 'NODE_ENV'> }>
+  TypedResponse<{
+    ENV: Pick<Globals, 'CAPTCHA_SITE_KEY' | 'GOOGLE_ADS_KEY' | 'NODE_ENV'>;
+  }>
 > => {
   return json<{
-    ENV: Pick<Globals, 'CAPTCHA_SITE_KEY' | 'NODE_ENV'>;
+    ENV: Pick<Globals, 'CAPTCHA_SITE_KEY' | 'GOOGLE_ADS_KEY' | 'NODE_ENV'>;
   }>({
     ENV: {
       CAPTCHA_SITE_KEY: `${process.env.CAPTCHA_SITE_KEY}`,
+      GOOGLE_ADS_KEY: `${process.env.GOOGLE_ADS_KEY}`,
       NODE_ENV: process.env.NODE_ENV,
     },
   });
