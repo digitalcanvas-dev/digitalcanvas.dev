@@ -30,11 +30,12 @@ export const links: LinksFunction = () => [
   { rel: 'icon', href: '/_static/favicon.ico' },
 ];
 
+// under ~60 chars
 const META_TITLE =
   'Digital Canvas Development - Custom Web Software and Consultation';
 
-const META_DESCRIPTION =
-  'Custom website development and consultation services for small businesses and startups.';
+// under 65 chars
+const META_DESCRIPTION = `Offering professional services worldwide. Based in Flemington, NJ`;
 
 export const meta: V2_MetaFunction = () => [
   {
