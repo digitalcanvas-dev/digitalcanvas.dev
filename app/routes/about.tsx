@@ -25,8 +25,9 @@ export const About = () => {
             best products and user experiences possible.
           </p>
           <p>
-            <strong>Digital Canvas Development</strong> is based in New Jersey
-            and provides services globally.
+            <strong>Digital Canvas Development</strong> is based in Flemington,
+            New Jersey (between Philadelphia and New York City in Hunterdon
+            County) and provides professional services globally.
           </p>
         </div>
       </div>
