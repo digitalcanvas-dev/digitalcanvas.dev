@@ -100,18 +100,29 @@ export default function App() {
       // @ts-ignore
       window.dataLayer = window.dataLayer || [];
 
-      function gtag(x1: any, x2: any) {
+      // @ts-ignore
+      window.gtag = () => {
         // @ts-ignore
-        window.dataLayer.push([x1, x2]);
-      }
+        window.dataLayer.push(arguments);
+      };
 
       // @ts-ignore
-      window.gtag = gtag;
-
-      gtag('js', new Date());
-      gtag('config', data.ENV.GOOGLE_ADS_KEY);
+      window.gtag('js', new Date());
+      // @ts-ignore
+      window.gtag('config', data.ENV.GOOGLE_ADS_KEY);
     }, 0);
   }, [data.ENV.GOOGLE_ADS_KEY]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (!data.ENV.GOOGLE_ANALYTICS_KEY) {
+        return;
+      }
+      ReactGA.initialize(data.ENV.GOOGLE_ANALYTICS_KEY, {
+        testMode: process.env.NODE_ENV === 'development',
+      });
+    }, 0);
+  }, [data.ENV.GOOGLE_ANALYTICS_KEY]);
 
   return (
     <html lang="en">
@@ -131,11 +142,6 @@ export default function App() {
         ) : null}
         <LiveReload />
       </body>
-      {
-        void ReactGA.initialize(data.ENV.GOOGLE_ANALYTICS_KEY, {
-          testMode: process.env.NODE_ENV === 'development',
-        })
-      }
     </html>
   );
 }
