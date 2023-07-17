@@ -3,6 +3,7 @@ import {
   IconBrandInstagram,
   IconBrandLinkedin,
 } from '@tabler/icons-react';
+import { Link } from '@remix-run/react';
 import LogoLight from '../../public/LogoLight.svg';
 
 export const SiteFooter = () => {
@@ -14,7 +15,16 @@ export const SiteFooter = () => {
           <p>
             This site collects anonymized usage statistics that cannot be used
             to identify anyone, it is only for aggregated data to help my
-            business. Use an ad blocker to opt out.
+            business. Use an ad blocker to opt out. Read our{' '}
+            <Link
+              className="underline"
+              to="/privacy"
+              rel="noopener nofollow"
+              target="_blank"
+            >
+              Privacy Policy
+            </Link>{' '}
+            for complete information.
           </p>
           <p>
             The images "OfficeWhiteboard" and "StartupOffice" and some text were
