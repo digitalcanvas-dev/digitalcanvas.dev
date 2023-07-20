@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
-import { useRefManagerContext } from '~/components/index/RefManagerContext';
 import { useLocation } from '@remix-run/react';
+import { useRefManagerContext } from '~/components/index/RefManagerContext';
 
 export const useScrollToElement = (headerHeight: number) => {
   const { refs, validateKey } = useRefManagerContext();
@@ -28,7 +28,7 @@ export const useScrollToElement = (headerHeight: number) => {
         }
       }, 0);
     },
-    [headerHeight, refs, validateKey],
+    [headerHeight, location, refs, validateKey],
   );
 
   return {
