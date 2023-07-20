@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import type { ActionArgs, TypedResponse } from '@remix-run/node';
 import { json } from '@remix-run/node';
-import { useLocation, useSearchParams } from '@remix-run/react';
+import { useLocation, useNavigation, useSearchParams } from '@remix-run/react';
 
 import { SiteHeader } from '~/components/SiteHeader';
 
@@ -61,14 +61,12 @@ const Index = () => {
 
   const { scrollToElement } = useScrollToElement(parseInt(HEADER_HEIGHT, 10));
 
-  const { hash } = useLocation();
-
   useEffect(() => {
-    const refKey = hash.replace('#', '');
+    const refKey = window.location?.hash?.replace('#', '');
     if (refKey) {
       scrollToElement(refKey);
     }
-  }, [hash, scrollToElement]);
+  }, [scrollToElement]);
 
   useEffect(() => {
     if (hasContactParam) {

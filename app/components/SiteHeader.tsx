@@ -81,7 +81,6 @@ export const SiteHeader = ({ headerHeight }: SiteHeaderProps) => {
 
   const onNavClick = (targetId: string) => {
     nav(`#${targetId}`, { preventScrollReset: true, relative: 'path' });
-    // scrollToElement(targetId);
   };
 
   return (
@@ -101,7 +100,7 @@ export const SiteHeader = ({ headerHeight }: SiteHeaderProps) => {
         }}
         alt="Digital Canvas Development"
         onClick={() => {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
+          nav('/');
         }}
       />
       <div className="hidden items-center justify-between gap-14 md:flex">
