@@ -1,10 +1,8 @@
 import { useCallback } from 'react';
-import { useLocation } from '@remix-run/react';
 import { useRefManagerContext } from '~/components/index/RefManagerContext';
 
 export const useScrollToElement = (headerHeight: number) => {
   const { refs, validateKey } = useRefManagerContext();
-  const location = useLocation();
 
   const scrollToElement = useCallback(
     (refId: string, noScroll: boolean = false) => {
@@ -16,19 +14,19 @@ export const useScrollToElement = (headerHeight: number) => {
       window.setTimeout(() => {
         const elRef = refs[refId];
 
-        if (elRef?.current) {
-          const { top } = elRef?.current?.getBoundingClientRect();
-          window.scrollBy({
-            top: top - headerHeight,
-            behavior: noScroll ? 'auto' : 'smooth',
-          });
-          location.hash = refId;
-          //          elRef.current?.scrollIntoView({ behavior: 'smooth' });
-          // window.scrollBy({ top: -headerHeight, behavior: 'smooth' });
+        if (!elRef?.current) {
+          return;
         }
+
+        const { top } = elRef?.current?.getBoundingClientRect();
+
+        window.scrollBy({
+          top: top - headerHeight,
+          behavior: noScroll ? 'auto' : 'smooth',
+        });
       }, 0);
     },
-    [headerHeight, location, refs, validateKey],
+    [headerHeight, refs, validateKey],
   );
 
   return {
