@@ -17,7 +17,7 @@ export const Consultation = () => {
           <div className="font-body text-brand">
             <p className="mb-6 text-brand/80">
               As your partner in frontend web development consultation and team
-              augmentation, I provide a comprehensive digital solution. I'll
+              augmentation, we provide a comprehensive digital solution. I'll
               guide you in crafting an impactful website and offer my expertise
               to bring your vision to life, ensuring you have a notable web
               presence backed by years of experience.

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import type { ActionArgs, TypedResponse } from '@remix-run/node';
 import { json } from '@remix-run/node';
 
@@ -21,6 +21,7 @@ import {
 import { SiteFooter } from '~/components/SiteFooter';
 import type { Globals } from '~/types';
 import { useSearchParams } from '@remix-run/react';
+import { useScrollToElement } from '~/utils/useScrollToElement';
 
 export const loader = async (): Promise<
   TypedResponse<{
@@ -49,33 +50,6 @@ export const action = async ({ request }: ActionArgs) => {
 };
 
 const HEADER_HEIGHT = '112px';
-
-const useScrollToElementOnLoad = () => {
-  const { refs, validateKey } = useRefManagerContext();
-
-  const scrollToElementOnLoad = useCallback(
-    (id: string) => {
-      if (!validateKey(id)) {
-        return;
-      }
-
-      window.setTimeout(() => {
-        const elRef = refs[id];
-
-        if (elRef?.current) {
-          elRef.current?.scrollIntoView();
-          window.scrollBy({ top: -parseInt(HEADER_HEIGHT, 10) });
-        }
-      }, 0);
-    },
-    [refs, validateKey],
-  );
-
-  return {
-    scrollToElementOnLoad,
-  };
-};
-
 const Index = () => {
   const {
     refs: { main: mainRef },
@@ -83,22 +57,25 @@ const Index = () => {
 
   const [urlSearchParams] = useSearchParams();
 
+  /** @deprecated */
   const hasContactParam = urlSearchParams.get('contact') !== null;
 
-  const { scrollToElementOnLoad } = useScrollToElementOnLoad();
+  const { scrollToElement } = useScrollToElement(parseInt(HEADER_HEIGHT, 10));
 
   const { hash } = useLocation();
 
   useEffect(() => {
-    const id = hash.replace('#', '');
-    scrollToElementOnLoad(id);
-  }, [hash, scrollToElementOnLoad]);
+    const refKey = hash.replace('#', '');
+    if (refKey) {
+      scrollToElement(refKey);
+    }
+  }, [hash, scrollToElement]);
 
   useEffect(() => {
     if (hasContactParam) {
-      scrollToElementOnLoad('contact');
+      scrollToElement('contact');
     }
-  }, [hasContactParam, scrollToElementOnLoad]);
+  }, [hasContactParam, scrollToElement]);
 
   return (
     <>
