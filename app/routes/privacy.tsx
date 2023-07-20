@@ -34,6 +34,7 @@ export default () => {
                 <a
                   href="https://www.termsfeed.com/privacy-policy-generator/"
                   target="_blank"
+                  rel="external nofollow noreferrer"
                 >
                   Privacy Policy Generator
                 </a>
@@ -129,7 +130,7 @@ export default () => {
                     Development, accessible from{' '}
                     <a
                       href="https://digitalcanvas.dev"
-                      rel="external nofollow noopener"
+                      rel="external nofollow noreferrer"
                       target="_blank"
                     >
                       https://digitalcanvas.dev
@@ -227,6 +228,7 @@ export default () => {
                 <a
                   href="https://www.termsfeed.com/blog/cookies/#What_Are_Cookies"
                   target="_blank"
+                  rel="external nofollow noreferrer"
                 >
                   TermsFeed website
                 </a>{' '}
@@ -560,7 +562,7 @@ export default () => {
                   By visiting this page on our website:{' '}
                   <a
                     href="https://digitalcanvas.dev/#contact"
-                    rel="external nofollow noopener"
+                    rel="external nofollow noreferrer"
                     target="_blank"
                   >
                     https://digitalcanvas.dev/#contact
