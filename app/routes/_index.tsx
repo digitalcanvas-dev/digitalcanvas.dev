@@ -1,9 +1,17 @@
 import React, { useEffect, useRef } from 'react';
 import type { ActionArgs, TypedResponse } from '@remix-run/node';
 import { json } from '@remix-run/node';
+import { useLocation, useSearchParams } from '@remix-run/react';
 
 import { SiteHeader } from '~/components/SiteHeader';
-import { useLocation } from '@remix-run/react';
+
+import {
+  RefManagerContextProvider,
+  useRefManagerContext,
+} from '~/components/index/RefManagerContext';
+import { SiteFooter } from '~/components/SiteFooter';
+import type { Globals } from '~/types';
+import { useScrollToElement } from '~/utils/useScrollToElement';
 
 import { About } from './about';
 import { Consultation } from './consultation';
@@ -13,15 +21,6 @@ import { Testimonials } from './testimonials';
 import { WebsiteBuilders } from './website-builders';
 import { Contact, sendContact } from './contact';
 import { Hero } from './hero';
-
-import {
-  RefManagerContextProvider,
-  useRefManagerContext,
-} from '~/components/index/RefManagerContext';
-import { SiteFooter } from '~/components/SiteFooter';
-import type { Globals } from '~/types';
-import { useSearchParams } from '@remix-run/react';
-import { useScrollToElement } from '~/utils/useScrollToElement';
 
 export const loader = async (): Promise<
   TypedResponse<{
