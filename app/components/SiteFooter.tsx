@@ -62,8 +62,8 @@ export const SiteFooter = () => {
             <li>TypeScript</li>
             <li>JavaScript</li>
             <li>Cybersecurity</li>
-            <li>Modern HTML/CSS</li>
             <li>Responsive SPAs</li>
+            <li>Modern HTML/CSS</li>
             <li>Browser Extensions</li>
             <li>Remix, Next.JS, Gatsby</li>
             <li>Component Libraries & Design Systems</li>
