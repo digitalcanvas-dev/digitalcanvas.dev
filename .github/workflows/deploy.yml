@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - dev
   pull_request:
 
 concurrency:
@@ -111,7 +110,7 @@ jobs:
         env:
           PORT: '8811'
 
-  deploy:
+  deploy-staging:
     needs: [lint, typecheck, vitest, cypress]
     runs-on: ubuntu-latest
 
@@ -145,7 +144,7 @@ jobs:
         run: npm i -g @architect/architect
 
       - name: 🚀 Staging Deploy
-        if: github.ref == 'refs/heads/dev'
+        if: github.ref == 'refs/heads/main'
         run: arc deploy --staging --prune
         env:
           CI: true
@@ -153,7 +152,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - name: 🚀 Production Deploy
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main-wip'
         run: arc deploy --production --prune
         env:
           CI: true
