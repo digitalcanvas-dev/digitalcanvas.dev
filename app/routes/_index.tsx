@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import type { ActionArgs, TypedResponse } from '@remix-run/node';
 import { json } from '@remix-run/node';
-import { useLocation, useNavigation, useSearchParams } from '@remix-run/react';
+import { useSearchParams } from '@remix-run/react';
 
 import { SiteHeader } from '~/components/SiteHeader';
 
