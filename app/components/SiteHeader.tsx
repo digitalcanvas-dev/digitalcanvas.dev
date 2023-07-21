@@ -1,73 +1,58 @@
-import type { MouseEvent } from 'react';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRefManagerContext } from '~/components/index/RefManagerContext';
 import LogoDark from '../../public/LogoDark.svg';
 import LogoLight from '../../public/LogoLight.svg';
+import { useNavigate } from '@remix-run/react';
+
+const navItems = [
+  {
+    label: 'About',
+    refId: 'about',
+  },
+  {
+    label: 'Services',
+    refId: 'services',
+  },
+  {
+    label: 'Testimonials',
+    refId: 'testimonials',
+  },
+];
+const NavItem = ({
+  label,
+  refId,
+  scrolledDown,
+  clickHandler,
+}: {
+  label: string;
+  refId: string;
+  scrolledDown: boolean;
+  clickHandler: (targetId: string) => void;
+}) => (
+  <button
+    className={`font-body text-opacity-80 transition-colors hover:text-opacity-100 hover:underline hover:underline-offset-4 ${
+      scrolledDown ? 'text-white' : 'text-brand'
+    }`}
+    onClick={() => clickHandler(refId)}
+  >
+    {label}
+  </button>
+);
 
 interface SiteHeaderProps {
   headerHeight: string;
 }
 
-const NavItem = ({
-  label,
-  target,
-  scrolledDown,
-}: {
-  label: string;
-  target: HTMLElement;
-  scrolledDown: boolean;
-}) => {
-  const scrollToTarget = useCallback(() => {
-    if (!target) {
-      return;
-    }
-    target.scrollIntoView({ behavior: 'smooth' });
-  }, [target]);
-
-  return (
-    <button
-      className={`font-body text-opacity-80 transition-colors hover:text-opacity-100 hover:underline hover:underline-offset-4 ${
-        scrolledDown ? 'text-white' : 'text-brand'
-      }`}
-      onClick={scrollToTarget}
-    >
-      {label}
-    </button>
-  );
-};
-
 export const SiteHeader = ({ headerHeight }: SiteHeaderProps) => {
-  const clickHandler = useCallback(
-    (evt: MouseEvent, offsetPx: number, target?: HTMLElement | null) => {
-      if (!target) {
-        console.error(`missing target: ${target}`);
-        return;
-      }
-
-      const { top } = target.getBoundingClientRect();
-
-      window.scrollBy({ top: top - offsetPx, behavior: 'smooth' });
-    },
-    [],
-  );
-
-  const [scrolledPx, setScrolledPx] = useState(0);
-  const [navItems, setNavItems] = useState<
-    { label: string; target: HTMLElement }[]
-  >([]);
-
   const headerHeightPx = parseInt(headerHeight, 10);
 
+  const [scrolledPx, setScrolledPx] = useState(0);
+
   const {
-    refs: {
-      titleLogo: titleLogoRef,
-      header: headerRef,
-      contact: contactRef,
-      testimonials: testimonialsRef,
-      about: aboutRef,
-      services: servicesRef,
-    },
+    refs: { header: headerRef },
   } = useRefManagerContext();
+
+  const nav = useNavigate();
 
   useEffect(() => {
     if (!window) {
@@ -84,29 +69,19 @@ export const SiteHeader = ({ headerHeight }: SiteHeaderProps) => {
     return () => {
       window.removeEventListener('scroll', handler);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [titleLogoRef?.current]);
+  }, []);
 
   useEffect(() => {
-    if (aboutRef?.current && testimonialsRef?.current && servicesRef?.current) {
-      setNavItems([
-        {
-          label: 'About',
-          target: aboutRef?.current,
-        },
-        {
-          label: 'Services',
-          target: servicesRef?.current,
-        },
-        {
-          label: 'Testimonials',
-          target: testimonialsRef?.current,
-        },
-      ]);
-    }
-  }, [aboutRef, testimonialsRef, servicesRef]);
+    /** initiate correct header styling on load */
+    const { top } = document.body.getBoundingClientRect();
+    setScrolledPx(top);
+  }, []);
 
-  const scrolledDown = scrolledPx < 0;
+  const isScrolledDown = scrolledPx < 0;
+
+  const onNavClick = (targetId: string) => {
+    nav(`#${targetId}`, { preventScrollReset: true, relative: 'path' });
+  };
 
   return (
     <header
@@ -115,27 +90,28 @@ export const SiteHeader = ({ headerHeight }: SiteHeaderProps) => {
         height: headerHeight,
       }}
       className={`sticky top-0 z-20 flex flex-row items-center justify-between px-8 transition-colors ${
-        scrolledDown ? 'bg-brand' : 'bg-white'
+        isScrolledDown ? 'bg-brand' : 'bg-white'
       }`}
     >
       <img
-        src={scrolledDown ? LogoLight : LogoDark}
+        src={isScrolledDown ? LogoLight : LogoDark}
         style={{
           height: `${Math.floor(headerHeightPx * 0.5)}px`,
         }}
         alt="Digital Canvas Development"
         onClick={() => {
-          window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+          nav('/');
         }}
       />
       <div className="hidden items-center justify-between gap-14 md:flex">
-        {navItems.map(({ label, target }) => {
+        {navItems.map(({ label, refId }) => {
           return (
             <NavItem
               key={label}
               label={label}
-              target={target}
-              scrolledDown={scrolledDown}
+              refId={refId}
+              scrolledDown={isScrolledDown}
+              clickHandler={onNavClick}
             />
           );
         })}
@@ -143,11 +119,9 @@ export const SiteHeader = ({ headerHeight }: SiteHeaderProps) => {
       <button
         type="button"
         className={`rounded-3xl px-4 py-2 font-body text-opacity-80 transition-all hover:scale-105 hover:text-opacity-100 md:px-8 md:py-3.5 ${
-          scrolledDown ? 'bg-white text-brand' : 'bg-brand text-white'
+          isScrolledDown ? 'bg-white text-brand' : 'bg-brand text-white'
         }`}
-        onClick={(evt) =>
-          clickHandler(evt, headerHeightPx, contactRef?.current)
-        }
+        onClick={() => onNavClick('contact')}
       >
         Contact Us
       </button>
