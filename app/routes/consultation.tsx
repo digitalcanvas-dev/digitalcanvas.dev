@@ -11,25 +11,25 @@ export const Consultation = () => {
           <img src={StartupOffice} alt="" />
         </div>
         <div className="text-balance">
-          <h3 className="mb-14 font-heading text-3xl text-brand">
+          <h3 className="mb-6 font-heading text-3xl text-brand font-light">
             Startup Consultation and Team Augmentation
           </h3>
           <div className="font-body text-brand">
-            <p className="mb-6 text-brand/80">
+            <p className="mb-6 font-light">
               As your partner in frontend web development consultation and team
               augmentation, we provide a comprehensive digital solution. I'll
               guide you in crafting an impactful website and offer my expertise
               to bring your vision to life, ensuring you have a notable web
               presence backed by years of experience.
             </p>
-            <h4 className="mb-2 font-bold">Consultation</h4>
-            <p className="mb-6 text-brand/80">
+            <h4 className="mb-2 font-medium">Consultation</h4>
+            <p className="mb-6 font-light">
               We offer expert guidance on frontend development, user experience,
               and performance optimization, aiming to create an interactive
               digital front that effectively converts visitors into customers.
             </p>
-            <h4 className="font-bold">Augmentation</h4>
-            <p className="mb-2 text-brand/80">
+            <h4 className="mb-2 font-medium">Augmentation</h4>
+            <p className="mb-6 font-light">
               Our team augmentation service is designed to seamlessly blend with
               your existing setup, providing the additional skills and expertise
               you need to meet project deadlines. Whether you're looking to fill

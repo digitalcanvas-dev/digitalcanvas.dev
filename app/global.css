@@ -7,11 +7,3 @@ body {
 p + p {
   margin-top: 0.5rem;
 }
-
-/*
-Future-proofing with the same class name that will be added here:
-https://github.com/tailwindlabs/tailwindcss/pull/11320
-*/
-.text-balance {
-  text-wrap: balance;
-}

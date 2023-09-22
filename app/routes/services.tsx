@@ -1,6 +1,5 @@
 import { useRefManagerContext } from '~/components/index/RefManagerContext';
 import CustomDevelopment from '~/components/index/services/CustomDevelopment.svg';
-import SiteBuilderManagement from '~/components/index/services/SiteBuilderManagement.svg';
 import TestingDebugging from '~/components/index/services/TestingDebugging.svg';
 import Consulting from '~/components/index/services/Consulting.svg';
 import TeamAugmentation from '~/components/index/services/TeamAugementation.svg';
@@ -13,12 +12,6 @@ const services = [
     content:
       'We can build to exact specifications and will exceed your expectations.',
     icon: CustomDevelopment,
-  },
-  {
-    title: 'Site Builder Management',
-    content:
-      "We can maintain an existing website on Squarespace, Wix or any other platform you're already using.",
-    icon: SiteBuilderManagement,
   },
   {
     title: 'Testing & Debugging',
@@ -56,7 +49,7 @@ const ServiceBlock = ({
   icon?: string;
 }) => {
   return (
-    <div className="grid grid-flow-row auto-rows-auto justify-items-center gap-4 rounded-xl bg-white/50 p-4 md:transition-transform md:hover:scale-110">
+    <div className="grid grid-flow-row auto-rows-auto justify-items-center gap-4 p-4 md:transition-transform md:hover:scale-110 w-1/3">
       {icon ? <img src={icon} alt="" /> : null}
       <h3 className="text-center font-heading text-brand">{title}</h3>
       <p className="text-balance text-center font-body font-light text-brand last-of-type:mb-0">
@@ -87,7 +80,7 @@ export const Services = () => {
           </p>
         </div>
       </div>
-      <div className="mt-2.5 grid grid-cols-2 gap-10 md:grid-cols-3">
+      <div className="mt-2.5 flex flex-row gap-10 w-full flex-wrap items-start justify-center">
         {services.map(({ title, content, icon }) => (
           <ServiceBlock
             key={title}
