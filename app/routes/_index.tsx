@@ -18,7 +18,6 @@ import { Consultation } from './consultation';
 import { CustomDevelopment } from './custom-development';
 import { Services } from './services';
 import { Testimonials } from './testimonials';
-import { WebsiteBuilders } from './website-builders';
 import { Contact, sendContact } from './contact';
 import { Hero } from './hero';
 
@@ -83,7 +82,6 @@ const Index = () => {
         <Services />
         <CustomDevelopment />
         <Consultation />
-        <WebsiteBuilders />
         <Testimonials />
         <Contact />
       </main>
